@@ -2,44 +2,44 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Hugo on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/hugo/</link>
+    <link>https://fivekernels.github.io/tags/hugo/</link>
     <description>Recent content in Hugo on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 25 Jan 2022 19:12:11 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Jan 2022 19:12:11 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/hugo/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Hugo 主题配置——Papermod</title>
-      <link>http://localhost:1313/posts/hugo-configuration-theme-papermod/</link>
+      <link>https://fivekernels.github.io/posts/hugo-configuration-theme-papermod/</link>
       <pubDate>Tue, 25 Jan 2022 19:12:11 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/hugo-configuration-theme-papermod/</guid>
+      <guid>https://fivekernels.github.io/posts/hugo-configuration-theme-papermod/</guid>
       <description>Hugo 主题配置——Papermod 官方链接： github: https://github.com/adityatelange/hugo-PaperMod github wiki:https://github.com/adityatelange/hugo-PaperMod/wiki demo code: https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/ demo: https://adityatelange.github.io/hugo-PaperMod// Papermod 主题默认使用 .yaml 格式作为配置文件，因此新建网站时可以使用 -f 设置 yml 格式： 1 hugo new site &amp;lt;name of</description>
     </item>
     
     <item>
       <title>Hugo 主题配置——loveit</title>
-      <link>http://localhost:1313/posts/hugo-configuration-theme-loveit/</link>
+      <link>https://fivekernels.github.io/posts/hugo-configuration-theme-loveit/</link>
       <pubDate>Tue, 25 Jan 2022 19:06:24 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/hugo-configuration-theme-loveit/</guid>
+      <guid>https://fivekernels.github.io/posts/hugo-configuration-theme-loveit/</guid>
       <description>站点配置 从Hugo主题网站上找一个喜欢的主题，使用git同步到本地代码仓库的themes文件夹。下面挑了两个比较喜欢的： 1 2 git submodule add git@github.com:dillonzq/LoveIt.git themes/LoveIt git submodule add</description>
     </item>
     
     <item>
       <title>Hugo 文件管理与图片存放</title>
-      <link>http://localhost:1313/posts/hugo-content-management/</link>
+      <link>https://fivekernels.github.io/posts/hugo-content-management/</link>
       <pubDate>Thu, 28 Oct 2021 11:10:22 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/hugo-content-management/</guid>
+      <guid>https://fivekernels.github.io/posts/hugo-content-management/</guid>
       <description>hey &amp;hellip;待更新&amp;hellip;</description>
     </item>
     
     <item>
       <title>使用 Hugo 搭建 GitHub Pages</title>
-      <link>http://localhost:1313/posts/deploy-githubpages-by-hugo/</link>
+      <link>https://fivekernels.github.io/posts/deploy-githubpages-by-hugo/</link>
       <pubDate>Sun, 24 Oct 2021 20:15:26 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/deploy-githubpages-by-hugo/</guid>
+      <guid>https://fivekernels.github.io/posts/deploy-githubpages-by-hugo/</guid>
       <description>GitHub Pages GitHub Pages 本质上是一个静态网站托管系统，比较常用的是个人站点，也就是创建名为&amp;quot;&amp;lt;username&amp;gt;.github.io&amp;</description>
     </item>
     

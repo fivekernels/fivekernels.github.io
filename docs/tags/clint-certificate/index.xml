@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>clint certificate on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/clint-certificate/</link>
+    <link>https://fivekernels.github.io/tags/clint-certificate/</link>
     <description>Recent content in clint certificate on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 25 Jan 2022 21:17:27 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/clint-certificate/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 25 Jan 2022 21:17:27 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/clint-certificate/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Nginx 配置变量和表达式</title>
-      <link>http://localhost:1313/posts/nginx-variable-and-expression-configuration/</link>
+      <link>https://fivekernels.github.io/posts/nginx-variable-and-expression-configuration/</link>
       <pubDate>Tue, 25 Jan 2022 21:17:27 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/nginx-variable-and-expression-configuration/</guid>
+      <guid>https://fivekernels.github.io/posts/nginx-variable-and-expression-configuration/</guid>
       <description>Nginx 变量 赋值 变量名以 $ 开头：$hello 变量仅有一种类型：字符串 每行语句以分号结尾 使用 set 指令对变量赋值： 1 set $hello &amp;#34;hello&amp;#34;; 取值 使用变量时将变量写在双引号</description>
     </item>
     

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>GitHub Pages on My New Hugo Site</title>
-    <link>http://localhost:1313/tags/github-pages/</link>
+    <link>https://fivekernels.github.io/tags/github-pages/</link>
     <description>Recent content in GitHub Pages on My New Hugo Site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 24 Oct 2021 20:15:26 +0800</lastBuildDate><atom:link href="http://localhost:1313/tags/github-pages/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Oct 2021 20:15:26 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/github-pages/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>使用 Hugo 搭建 GitHub Pages</title>
-      <link>http://localhost:1313/posts/deploy-githubpages-by-hugo/</link>
+      <link>https://fivekernels.github.io/posts/deploy-githubpages-by-hugo/</link>
       <pubDate>Sun, 24 Oct 2021 20:15:26 +0800</pubDate>
       
-      <guid>http://localhost:1313/posts/deploy-githubpages-by-hugo/</guid>
+      <guid>https://fivekernels.github.io/posts/deploy-githubpages-by-hugo/</guid>
       <description>GitHub Pages GitHub Pages 本质上是一个静态网站托管系统，比较常用的是个人站点，也就是创建名为&amp;quot;&amp;lt;username&amp;gt;.github.io&amp;</description>
     </item>
     
