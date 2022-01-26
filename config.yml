@@ -1,0 +1,120 @@
+baseURL: http://localhost:1313
+languageCode: zh-CN
+title: My New Hugo Site
+
+publishdir: 'docs'
+
+defaultContentLanguage: "zh-cn" # 默认语言[en, zh-cn, fr, ...] 
+hasCJKLanguage: true
+isCJKLanguage: true
+
+theme: "PaperMod"
+paginate: 10
+
+enableInlineShortcodes: true
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+enableEmoji: true
+# googleAnalytics: UA-123-45
+
+minify:
+    disableXML: true
+    # minifyOutput: true
+
+menu:
+    main:
+        - identifier: home
+          name: 首页
+          url: /
+          weight: 10
+        - identifier: archives
+          name: 归档
+          url: /archives/
+          weight: 20
+        - identifier: categories
+          name: 分类
+          url: /categories/
+          weight: 30
+        - identifier: tags
+          name: 标签
+          url: /tags/
+          weight: 40
+        - identifier: about
+          name: 关于
+          url: /about/
+          weight: 50
+        - identifier: search
+          name: 搜索
+          url: /search/
+          weight: 60
+
+outputs:
+    home:
+        - HTML
+        - RSS
+        - JSON # is necessary
+
+params:
+    author: admin
+    # author: ["Me", "You"] # multiple authors
+    defaultTheme: auto # to switch between dark or light according to browser theme /dark/light
+    # ShowShareButtons: true # Displays Share Buttons at Bottom of each post
+    ShowReadingTime: true # Displays Reading Time
+    ShowToc: true
+    TocOpen: true
+    ShowBreadCrumbs: true
+    ShowPostNavLinks: true
+    ShowCodeCopyButtons: true
+
+    # 主页 Profile/Regular/Home-Info Mode
+    profileMode:
+        enabled: false
+        title: PaperMod  # optional default will be site title
+        subtitle: "This is subtitle"
+        # imageUrl: "<image link>" # optional
+        # imageTitle: "<title of image as alt>" # optional
+        # imageWidth: 120 # custom size
+        # imageHeight: 120 # custom size
+        buttons:
+            - name: Archives
+              url: archives
+            - name: Tags
+              url: tags
+    homeInfoParams:
+        Title: "Hey"
+        Content: >
+            Welcome to demo of hugo's theme PaperMod.
+            - **PaperMod** is a simple but fast and responsive theme with useful feature-set that enhances UX.
+            - Do give a 🌟 on Github !
+            - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper).
+    socialIcons:
+        - name: github
+          url: "https://github.com/adityatelange/hugo-PaperMod"
+        - name: KoFi
+          url: "https://ko-fi.com/adityatelange"
+        - name: RsS
+          url: "index.xml"
+
+    # # Customizing Fusejs Options
+    # fuseOpts:
+    #     isCaseSensitive: false
+    #     shouldSort: true
+    #     location: 0
+    #     distance: 1000
+    #     threshold: 0.4
+    #     minMatchCharLength: 0
+    #     keys: ["title", "permalink", "summary", "content"]
+
+
+markup:
+    highlight:
+        anchorLineNos: false
+        codeFences: true
+        lineNos: true
+        guessSyntax: true
+        lineNumbersInTable: true
+        noClasses: true
+        tabWidth: 4
+        # style: monokai
