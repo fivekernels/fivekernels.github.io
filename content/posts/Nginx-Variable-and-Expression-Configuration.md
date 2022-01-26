@@ -1,5 +1,5 @@
 ---
-title: "Nginx 配置变量和表达式"
+title: "Nginx 配置 变量和表达式"
 date: 2022-01-25T21:17:27+08:00
 tags: [ "Nginx", "SSL", "clint certificate"]
 categories: [ "Nginx", "SSL" ]
@@ -48,6 +48,10 @@ set $allUrl "${host}${request_uri}";
 
 ### 内置变量
 
+#### url 相关
+
+- $arg_\<PARAMETER\>: 客户端GET请求中 \<PARAMETER\>字段的值
+
 #### 客户端证书
 
 参考：<https://blog.csdn.net/tuzongxun/article/details/91477954>
@@ -88,13 +92,20 @@ public class CaController {
 
 |  符号  |  说明   |
 | :----: | :----: |
-| = | 等值比较 |
+| = | 相等 （用于比较两个变量是否相同） |
 
 **正则比较:**
 
 |  符号  |  说明   |
 | :----: | :----: |
-| == | 等值比较 |
+| ~ | 匹配，区分大小写 |
+| ~* | 匹配，不区分大小写 |
+| !~ | 不匹配，区分大小写 |
+| !~* | 不匹配，不区分大小写 |
 
-if 和 括号 变量 之间都有空格,相等判断是 = 不是 ==
-if ( $allUrl = "webmail.sina.net/test" )
+&emsp;&emsp;Nginx 在匹配正则时会生成对应表达式中括号被匹配字符的变量，从左至右依次为：$1|$2|$3……可供后续程序中使用匹配内容。例如字符串"ID=user1_acdefg9876543GHI"，使用正则表达式"(ID=([-_a-zA-Z0-9]+))"进行匹配，所生成的变量：
+
+```code
+$1 = ID=user1_acdefg9876543GHI;
+$2 = user1_acdefg9876543GHI;
+```
