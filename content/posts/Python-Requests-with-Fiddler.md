@@ -22,6 +22,8 @@ draft: false
 
 ![format](/Python-Requests-with-Fiddler/export-guide-format.png)
 
+## requests 参数设置
+
 &emsp;&emsp;将得到的 .cer 文件后缀改为 .crt，放到项目文件夹下，在 requests 请求前添加如下配置并添加请求参数即可。
 
 ```py
@@ -31,3 +33,10 @@ r = requests.get("https://exampleurl.example.com", proxies=proxies, verify=certF
 ```
 
 &emsp;&emsp;此后即可用 Fiddler 对 requests 请求于响应进行抓包。
+
+&emsp;&emsp;此外有人说对 requests 和 certifi 版本有要求，可以参考一下。
+
+```bash
+pip install requests==2.19.1
+pip install certifi==2018.8.13
+```
