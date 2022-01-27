@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Fiddler on 胡写乱画</title>
+    <link>https://fivekernels.github.io/tags/fiddler/</link>
+    <description>Recent content in Fiddler on 胡写乱画</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 27 Jan 2022 16:34:28 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/fiddler/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用 Fiddler 对 Python requests 请求进行抓包</title>
+      <link>https://fivekernels.github.io/posts/python-requests-with-fiddler/</link>
+      <pubDate>Thu, 27 Jan 2022 16:34:28 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/python-requests-with-fiddler/</guid>
+      <description>开启 Fiddler 抓包时，python 中的 requests.get()、requests.post() 数据包无法捕获，且在请求 https 时会产生 ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1091) 错</description>
+    </item>
+    
+  </channel>
+</rss>

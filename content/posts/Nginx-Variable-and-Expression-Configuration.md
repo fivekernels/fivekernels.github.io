@@ -1,7 +1,7 @@
 ---
 title: "Nginx 配置 变量和表达式"
 date: 2022-01-25T21:17:27+08:00
-tags: [ "Nginx", "SSL", "clint certificate"]
+tags: [ "Nginx", "SSL", "Clint Certificate"]
 categories: [ "Nginx", "SSL" ]
 draft: true
 ---
@@ -95,7 +95,7 @@ public class CaController {
 |  符号  |  说明   |
 | :----: | :----: |
 | =      | 相等   |
-| ！=    | 不相等  |
+| !=    | 不相等  |
 
 **正则比较:**
 

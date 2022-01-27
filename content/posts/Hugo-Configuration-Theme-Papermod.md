@@ -2,6 +2,7 @@
 title: "Hugo 主题配置——Papermod"
 date: 2022-01-25T19:12:11+08:00
 tags: ["Hugo"]
+categories: [ "Hugo" ]
 draft: true
 ---
 
