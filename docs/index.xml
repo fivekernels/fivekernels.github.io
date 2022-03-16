@@ -6,7 +6,16 @@
     <description>Recent content on 胡写乱画</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 27 Jan 2022 16:34:28 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Jan 2022 20:53:30 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Microsoft365 E5 续订——Github Actions</title>
+      <link>https://fivekernels.github.io/posts/microsoft365-e5-renew-with-github-actions/</link>
+      <pubDate>Thu, 27 Jan 2022 20:53:30 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/microsoft365-e5-renew-with-github-actions/</guid>
+      <description>基于 AutoApi v6.4 fork from https://github.com/Innersider/cactial-AutoAPI.git 基本知识 v6.4 action 添加结束workflow? https://github.com/canmeng99/AutoApi 1 2 3 4 5 6 7 8 9 build: ...... steps: ...... - name: Delete workflow runs uses: GitRML/delete-workflow-runs@main with: retain_days: 1 keep_minimum_runs: 1 添加 workflow 保持action活跃 action keep workflow alive https://github.com/ccknbc-actions/E5-Developer</description>
+    </item>
+    
     <item>
       <title>使用 Fiddler 对 Python requests 请求进行抓包</title>
       <link>https://fivekernels.github.io/posts/python-requests-with-fiddler/</link>
