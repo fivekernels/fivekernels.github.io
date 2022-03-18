@@ -1,22 +1,23 @@
 baseURL: https://fivekernels.github.io
-languageCode: zh-CN
-title: 胡写乱画
+languageCode: zh-CN # 只用于在rss模板中填充<language>标记
+title: 胡写乱画 # 站点名称
 
-publishdir: 'docs'
+publishdir: "docs" # 生成静态网站存放目录，默认public
 
-defaultContentLanguage: "zh-cn" # 默认语言[en, zh-cn, fr, ...] 
+defaultContentLanguage: "zh-cn" # 默认语言[en, zh-cn, fr, ...] content中未明确指示语言的文件将看作该种语言
 hasCJKLanguage: true
-isCJKLanguage: true
 
 theme: "PaperMod"
-paginate: 10 # 首页每页显示的文章数
+paginate: 20 # 首页每页显示的文章数 默认10
 
-enableInlineShortcodes: true
+enableInlineShortcodes: true # 允许内联供hugo执行短代码
+enableEmoji: true
 enableRobotsTXT: true
+
 buildDrafts: false
 buildFuture: false
 buildExpired: false
-enableEmoji: true
+
 # googleAnalytics: UA-123-45
 
 minify:
@@ -26,29 +27,33 @@ minify:
 menu:
     main:
         - identifier: home
-          name: 首页
+          name: 🏠首页
           url: /
           weight: 10
+        - identifier: posts
+          name: 📚文章
+          url: /posts/
+          weight: 20
         - identifier: archives
           name: ⏱时间轴
           url: /archives/
-          weight: 20
-        - identifier: categories
-          name: 分类
-          url: /categories/
           weight: 30
-        - identifier: tags
-          name: 标签
-          url: /tags/
+        - identifier: categories
+          name: 🧩分类
+          url: /categories/
           weight: 40
-        - identifier: about
-          name: 关于
-          url: /about/
+        - identifier: tags
+          name: 🔖标签
+          url: /tags/
           weight: 50
-        - identifier: search
-          name: 搜索
-          url: /search/
+        - identifier: about
+          name: 🥣关于
+          url: /about/
           weight: 60
+        - identifier: search
+          name: 🔍搜索
+          url: /search/
+          weight: 70
 
 outputs:
     home:
@@ -89,8 +94,8 @@ params:
     homeInfoParams:
         Title: "Hey"
         Content: >
-            Welcome to demo of hugo's theme PaperMod.
-            - **PaperMod** is a simple but fast and responsive theme with useful feature-set that enhances UX.
+            Welcome to my pages based on hugo's theme [PaperMod](https://github.com/adityatelange/hugo-PaperMod).
+            - PaperMod is a simple but fast and responsive theme with useful feature-set that enhances UX.
             - Do give a 🌟 on Github !
             - PaperMod is based on theme [Paper](https://github.com/nanxiaobei/hugo-paper).
     socialIcons:
