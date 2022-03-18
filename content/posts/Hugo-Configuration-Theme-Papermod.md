@@ -66,6 +66,12 @@ params:
 lastmod: 2022-03-18T13:59:59+08:00
 ```
 
+此外，可以在archetypes/default.md中添加lastmod字段，之后创建文章时会自动生成该部分内容。
+
+```yml
+lastmod: {{ .Date }}
+```
+
 ## 文章基础配置
 
 &emsp;&emsp;...待更新...
