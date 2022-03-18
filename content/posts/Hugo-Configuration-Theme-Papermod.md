@@ -35,11 +35,38 @@ git submodule update --init --recursive # needed when you reclone your repo (sub
 
 &emsp;&emsp;...待更新...
 
-## 文章基础配置
+## 首页样式配置
 
 &emsp;&emsp;...待更新...
 
-## 首页样式配置
+## 文章顶端信息
+
+### 添加文章修改日期
+
+&emsp;&emsp;将theme目录下的文件：layouts/partials/post_meta.html，复制到layouts对应目录下，并添加以下内容：
+
+```html
+<!-- 更新时间 -->
+{{- if (.Param "ShowLastMod") -}}
+{{- $scratch.Add "meta" (slice (printf "Updated:&nbsp;%s" (.Lastmod.Format (.Site.Params.dateFormat | default "January 2, 2006")))) }}
+{{- end }}
+```
+
+&emsp;&emsp;在Hugo的配置文件config.yml中的params下添加以下内容：
+
+```yml
+params:
+    ...
+    ShowLastMod: true # 显示文章更新时间 配合post_meta.html
+```
+
+文章开头添加相应字段即可：
+
+```yml
+lastmod: 2022-03-18T13:59:59+08:00
+```
+
+## 文章基础配置
 
 &emsp;&emsp;...待更新...
 

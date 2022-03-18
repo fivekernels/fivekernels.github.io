@@ -1,6 +1,7 @@
 ---
 title: "Nginx 语法 变量和表达式"
 date: 2022-01-25T21:17:27+08:00
+lastmod: 2022-03-17T22:00:00+08:00
 tags: [ "Nginx", "SSL", "Clint Certificate"]
 categories: [ "Nginx", "SSL" ]
 draft: true

@@ -9,7 +9,7 @@ hasCJKLanguage: true
 isCJKLanguage: true
 
 theme: "PaperMod"
-paginate: 10
+paginate: 10 # 首页每页显示的文章数
 
 enableInlineShortcodes: true
 enableRobotsTXT: true
@@ -30,7 +30,7 @@ menu:
           url: /
           weight: 10
         - identifier: archives
-          name: 归档
+          name: ⏱时间轴
           url: /archives/
           weight: 20
         - identifier: categories
@@ -62,11 +62,15 @@ params:
     defaultTheme: auto # to switch between dark or light according to browser theme /dark/light
     # ShowShareButtons: true # Displays Share Buttons at Bottom of each post
     ShowReadingTime: true # Displays Reading Time
+    ShowWordCount: true
     ShowToc: true
     TocOpen: true
     ShowBreadCrumbs: true
     ShowPostNavLinks: true
     ShowCodeCopyButtons: true
+    DateFormat: "2006/01/02"
+
+    ShowLastMod: true #显示文章更新时间 配合post_meta.html
 
     # 主页 Profile/Regular/Home-Info Mode
     profileMode:
