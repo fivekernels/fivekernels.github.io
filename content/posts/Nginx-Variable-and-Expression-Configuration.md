@@ -1,5 +1,5 @@
 ---
-title: "Nginx 配置 变量和表达式"
+title: "Nginx 语法 变量和表达式"
 date: 2022-01-25T21:17:27+08:00
 tags: [ "Nginx", "SSL", "Clint Certificate"]
 categories: [ "Nginx", "SSL" ]
@@ -50,13 +50,17 @@ set $allUrl "${host}${request_uri}";
 
 #### url 相关
 
-- $arg_\<PARAMETER\>: 客户端GET请求中 \<PARAMETER\>字段的值
+- $http_host
+- $server_name
+- $request_uri
+- $uri<>
+- $arg_&lt;*PARAMETER*>: 客户端GET请求中 &lt;*PARAMETER*>字段的值
 
 #### 客户端证书
 
-参考：<https://blog.csdn.net/tuzongxun/article/details/91477954>
+参考：[CSDN涂宗勋：nginx获取ca证书信息并传递到java后端使用](https://blog.csdn.net/tuzongxun/article/details/91477954)
 
-nginx内部解析证书后，会把相关信息放到内置的变量中
+&emsp;&emsp;nginx内部解析证书后，会把相关信息放到内置的变量中
 
 - $ssl_client_cert：证书内容
 - $ssl_client_serial：证书序列号
@@ -86,6 +90,24 @@ public class CaController {
 
 ## 表达式
 
+### 正则表达式 regex
+
+| 字符 | 描述 |
+| :----: | :---- |
+| ^ | 匹配输入字符串的起始位置 |
+| $ | 匹配输入字符串的结束位置 |
+| \d | 匹配数字 |
+| \\ | 将后面接着的字符标记为一个特殊字符或一个原义字符或一个向后引用。如"\\n"匹配一个换行符，而"\\$"则匹配"$" |
+| \[c\] | 匹配单个字符c |
+| \[a\-z\] |匹配 a\-z 任意一个小写字母 |
+| \. | 匹配除换行符"\\n"之外的任何单个字符；若要匹配包括"\\n"在内的任意字符，使用如"\[\.\\n\]"等模式。|
+| \{n\} | 重复n次 |
+| \{n,\} | 重复n次或更多次 |
+| ? | 匹配前面的字符0次或1次。如"do\(es\)?"能匹配"do"或者"does"，"?"等价于"\{0,1\}" |
+| \* | 匹配前面的字符0次或多次。如"ol\*"能匹配"o"及"ol"、"oll"|
+| \+ | 匹配前面的字符1次或多次。如"ol\+"能匹配"ol"及"oll"、"oll"，但不能匹配"o"|
+| (pattern) | 匹配括号内pattern并可以在后面获取对应的匹配，常用$0\.\.\.$9属性获取小括号中的匹配内容，要匹配圆括号字符需要Content |
+
 ### 比较
 
 **数值比较:**
@@ -95,7 +117,7 @@ public class CaController {
 |  符号  |  说明   |
 | :----: | :----: |
 | =      | 相等   |
-| !=    | 不相等  |
+| \!=    | 不相等  |
 
 **正则比较:**
 
@@ -104,13 +126,78 @@ public class CaController {
 |  符号  |  说明   |
 | :----: | :----: |
 | ~ | 匹配，区分大小写 |
-| ~* | 匹配，不区分大小写 |
-| !~ | 不匹配，区分大小写 |
-| !~* | 不匹配，不区分大小写 |
+| ~\* | 匹配，不区分大小写 |
+| \!~ | 不匹配，区分大小写 |
+| \!~\* | 不匹配，不区分大小写 |
 
-&emsp;&emsp;Nginx 在匹配正则时会生成对应表达式中括号被匹配字符的变量，从左至右依次为：$1|$2|$3……可供后续程序中使用匹配内容。例如字符串"ID=user1_acdefg9876543GHI"，使用正则表达式"(ID=([-_a-zA-Z0-9]+))"进行匹配，所生成的变量：
+&emsp;&emsp;Nginx 在匹配正则时会生成对应表达式中括号被匹配字符的变量，从左至右依次为：$1|$2|$3……可供后续程序中使用匹配内容。例如字符串"ID=user1_acdefg9876543GHI"，使用正则表达式"\(ID=\(\[\-_a\-zA\-Z0\-9\]\+\)\)"进行匹配，所生成的变量：
 
 ```code
 $1 = ID=user1_acdefg9876543GHI;
 $2 = user1_acdefg9876543GHI;
+```
+
+### rewrite
+
+&emsp;&emsp;将URL重定向。基本过程：（参考：[博客园Dy1an：【04】Nginx：rewrite / if / return / set 和变量](https://www.cnblogs.com/Dy1an/p/11240223.html)）
+
+1. 用户请求到达某个server，如果满足server内rewrite的正则匹配，那么rewrite将会对用户请求URI重写。
+1. 重写完成后直接在该server内部去匹配location。
+1. 当匹配到location后，如果location内部又有rewrite，那执行rewrite；之后再次在这个server内部去匹配location，直到请求返回。
+1. 这个过程不是无限的，nginx对于这样的跳转就支持10次，如果过多甚至死循环，则会报500错误。
+
+&emsp;&emsp;基本语法：
+
+```nginx
+rewrite regex replacement [flag];
+```
+
+## Examples
+
+### Example 1
+
+&emsp;&emsp;在正则比较中使用变量（参考：[腾讯云社区问答：如何在nginx“if”正则表达式中使用变量？](https://cloud.tencent.com/developer/ask/55209)）
+
+以下语句似乎不起作用
+
+```nginx
+set $chk == "need"; 
+set $me "kevin"; 
+if ($uri ~ "by-{$me}") { set $chk ""; }
+if ($chk == "need") { ... }
+```
+
+Solution [*待验证*]
+
+```nginx
+set $chk == "need"; 
+set $me "kevin"; 
+if ($uri ~ /by-([^-]+)/) { set $by $1; }
+if ($by = $me) {set $chk "";}
+if ($chk == "need") { ... }
+```
+
+### Example 2
+
+&emsp;&emsp;去掉指定的url参数（去掉url中的start=...，保留其他参数）：（参考[segmentfault sPeng](https://segmentfault.com/q/1010000005143925)）
+
+Solution1 [*待验证*]
+
+```nginx
+location ~* filename(\d+)\.html$ {
+    root /var/www/html;
+    index index.html;
+    if ($query_string ~ ^(.*)&start=(\d+)&(.*)) {
+        set $a $1;
+        set $b $2;
+        set $c $3;
+        rewrite ^ /filename1?${a}&${c}? break;
+    }
+}
+```
+
+Solution2 [*待验证*]
+
+```nginx
+rewrite ^(.*?)start=\d+\&?(.*)$ $1$2 last;
 ```

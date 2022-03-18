@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Nginx 配置 变量和表达式 | 胡写乱画</title>
+<title>Nginx 语法 变量和表达式 | 胡写乱画</title>
 <meta name="keywords" content="Nginx, SSL, Clint Certificate" />
 <meta name="description" content="Nginx 变量 赋值 变量名以 $ 开头：$hello 变量仅有一种类型：字符串 每行语句以分号结尾 使用 set 指令对变量赋值： 1 set $hello &#34;hello&#34;; 取值 使用变量时将变量写在双引号">
 <meta name="author" content="admin">
@@ -56,7 +56,7 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Nginx 配置 变量和表达式" />
+</noscript><meta property="og:title" content="Nginx 语法 变量和表达式" />
 <meta property="og:description" content="Nginx 变量 赋值 变量名以 $ 开头：$hello 变量仅有一种类型：字符串 每行语句以分号结尾 使用 set 指令对变量赋值： 1 set $hello &#34;hello&#34;; 取值 使用变量时将变量写在双引号" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://fivekernels.github.io/posts/nginx-variable-and-expression-configuration/" /><meta property="article:section" content="posts" />
@@ -64,7 +64,7 @@
 <meta property="article:modified_time" content="2022-01-25T21:17:27&#43;08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Nginx 配置 变量和表达式"/>
+<meta name="twitter:title" content="Nginx 语法 变量和表达式"/>
 <meta name="twitter:description" content="Nginx 变量 赋值 变量名以 $ 开头：$hello 变量仅有一种类型：字符串 每行语句以分号结尾 使用 set 指令对变量赋值： 1 set $hello &#34;hello&#34;; 取值 使用变量时将变量写在双引号"/>
 
 
@@ -82,7 +82,7 @@
     {
       "@type": "ListItem",
       "position":  3 ,
-      "name": "Nginx 配置 变量和表达式",
+      "name": "Nginx 语法 变量和表达式",
       "item": "https://fivekernels.github.io/posts/nginx-variable-and-expression-configuration/"
     }
   ]
@@ -92,14 +92,14 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "Nginx 配置 变量和表达式",
-  "name": "Nginx 配置 变量和表达式",
+  "headline": "Nginx 语法 变量和表达式",
+  "name": "Nginx 语法 变量和表达式",
   "description": "Nginx 变量 赋值 变量名以 $ 开头：$hello 变量仅有一种类型：字符串 每行语句以分号结尾 使用 set 指令对变量赋值： 1 set $hello \u0026#34;hello\u0026#34;; 取值 使用变量时将变量写在双引号",
   "keywords": [
     "Nginx", "SSL", "Clint Certificate"
   ],
-  "articleBody": "Nginx 变量 赋值  变量名以 $ 开头：$hello 变量仅有一种类型：字符串 每行语句以分号结尾 使用 set 指令对变量赋值：  1  set $hello \"hello\";   取值  使用变量时将变量写在双引号内，将会自动将其替换为实际内容 写在单引号内的变量不会被替换  1  print \"this is $hello world.\";    变量后紧跟构成变量名的字符（字母、数字、下划线等），使用大括号消除歧义  1  print \"this is ${hello}world.\";   详细信息：\nhttps://blog.csdn.net/u014296316/article/details/80973530\nhttp://blog.sina.com.cn/s/blog_6d579ff40100wi7p.html\n拼接 1  set $allUrl \"${host}${request_uri}\";   内置变量 url 相关  $arg_: 客户端GET请求中 字段的值  客户端证书 参考：https://blog.csdn.net/tuzongxun/article/details/91477954\nnginx内部解析证书后，会把相关信息放到内置的变量中\n $ssl_client_cert：证书内容 $ssl_client_serial：证书序列号 $ssl_client_s_dn：证书subject   若要将客户端信息传递到后端，可以在 Nginx 配置文件中的 location 内加入 header 配置：\n1 2 3 4 5 6  location / { ...... proxy_set_header X-SSL-Client-Cert $ssl_client_cert; proxy_set_header X-SSL-serial $ssl_client_serial; proxy_set_header cert-subject $ssl_client_s_dn; }   其中，X-SSL-Client-Cert、X-SSL-serial、cert-subject为自定义变量名，供后端代码（java等）获取header值使用。\n1 2 3 4 5 6  public class CaController { @GetMapping(\"/test\") public String caTest(@RequestHeader(\"X-SSL-serial\") String serial, @RequestHeader(\"X-SSL-Client-Cert\") String cert, @RequestHeader(\"cert-subject\") String subject) { return serial + \" \\r\" + cert + \" \\r\" + subject; } }   表达式 比较 数值比较:\n 比较两个变量/变量与字符串是否相等\n   符号 说明     = 相等   != 不相等    正则比较:\n 变量与正则表达式的模式是否匹配\n   符号 说明     ~ 匹配，区分大小写   ~* 匹配，不区分大小写   !~ 不匹配，区分大小写   !~* 不匹配，不区分大小写     Nginx 在匹配正则时会生成对应表达式中括号被匹配字符的变量，从左至右依次为：$1|$2|$3……可供后续程序中使用匹配内容。例如字符串\"ID=user1_acdefg9876543GHI\"，使用正则表达式\"(ID=([-_a-zA-Z0-9]+))“进行匹配，所生成的变量：\n1 2  $1 = ID=user1_acdefg9876543GHI; $2 = user1_acdefg9876543GHI;   ",
-  "wordCount" : "790",
+  "articleBody": "Nginx 变量 赋值  变量名以 $ 开头：$hello 变量仅有一种类型：字符串 每行语句以分号结尾 使用 set 指令对变量赋值：  1  set $hello \"hello\";   取值  使用变量时将变量写在双引号内，将会自动将其替换为实际内容 写在单引号内的变量不会被替换  1  print \"this is $hello world.\";    变量后紧跟构成变量名的字符（字母、数字、下划线等），使用大括号消除歧义  1  print \"this is ${hello}world.\";   详细信息：\nhttps://blog.csdn.net/u014296316/article/details/80973530\nhttp://blog.sina.com.cn/s/blog_6d579ff40100wi7p.html\n拼接 1  set $allUrl \"${host}${request_uri}\";   内置变量 url 相关  $http_host $server_name $request_uri $uri $arg_PARAMETER: 客户端GET请求中 PARAMETER字段的值  客户端证书 参考：CSDN涂宗勋：nginx获取ca证书信息并传递到java后端使用\n nginx内部解析证书后，会把相关信息放到内置的变量中\n $ssl_client_cert：证书内容 $ssl_client_serial：证书序列号 $ssl_client_s_dn：证书subject   若要将客户端信息传递到后端，可以在 Nginx 配置文件中的 location 内加入 header 配置：\n1 2 3 4 5 6  location / { ...... proxy_set_header X-SSL-Client-Cert $ssl_client_cert; proxy_set_header X-SSL-serial $ssl_client_serial; proxy_set_header cert-subject $ssl_client_s_dn; }   其中，X-SSL-Client-Cert、X-SSL-serial、cert-subject为自定义变量名，供后端代码（java等）获取header值使用。\n1 2 3 4 5 6  public class CaController { @GetMapping(\"/test\") public String caTest(@RequestHeader(\"X-SSL-serial\") String serial, @RequestHeader(\"X-SSL-Client-Cert\") String cert, @RequestHeader(\"cert-subject\") String subject) { return serial + \" \\r\" + cert + \" \\r\" + subject; } }   表达式 正则表达式 regex    字符 描述     ^ 匹配输入字符串的起始位置   $ 匹配输入字符串的结束位置   \\d 匹配数字   \\ 将后面接着的字符标记为一个特殊字符或一个原义字符或一个向后引用。如\"\\n\"匹配一个换行符，而\"\\$“则匹配”$\"   [c] 匹配单个字符c   [a-z] 匹配 a-z 任意一个小写字母   . 匹配除换行符\"\\n\"之外的任何单个字符；若要匹配包括\"\\n\"在内的任意字符，使用如\"[.\\n]“等模式。   {n} 重复n次   {n,} 重复n次或更多次   ? 匹配前面的字符0次或1次。如\"do(es)?“能匹配\"do\"或者\"does”，”?“等价于”{0,1}\"   * 匹配前面的字符0次或多次。如\"ol*“能匹配\"o\"及\"ol”、“oll”   + 匹配前面的字符1次或多次。如\"ol+“能匹配\"ol\"及\"oll”、“oll”，但不能匹配\"o\"   (pattern) 匹配括号内pattern并可以在后面获取对应的匹配，常用$0...$9属性获取小括号中的匹配内容，要匹配圆括号字符需要Content    比较 数值比较:\n 比较两个变量/变量与字符串是否相等\n   符号 说明     = 相等   != 不相等    正则比较:\n 变量与正则表达式的模式是否匹配\n   符号 说明     ~ 匹配，区分大小写   ~* 匹配，不区分大小写   !~ 不匹配，区分大小写   !~* 不匹配，不区分大小写     Nginx 在匹配正则时会生成对应表达式中括号被匹配字符的变量，从左至右依次为：$1|$2|$3……可供后续程序中使用匹配内容。例如字符串\"ID=user1_acdefg9876543GHI\"，使用正则表达式\"(ID=([-_a-zA-Z0-9]+))“进行匹配，所生成的变量：\n1 2  $1 = ID=user1_acdefg9876543GHI; $2 = user1_acdefg9876543GHI;   rewrite  将URL重定向。基本过程：（参考：博客园Dy1an：【04】Nginx：rewrite / if / return / set 和变量）\n 用户请求到达某个server，如果满足server内rewrite的正则匹配，那么rewrite将会对用户请求URI重写。 重写完成后直接在该server内部去匹配location。 当匹配到location后，如果location内部又有rewrite，那执行rewrite；之后再次在这个server内部去匹配location，直到请求返回。 这个过程不是无限的，nginx对于这样的跳转就支持10次，如果过多甚至死循环，则会报500错误。   基本语法：\n1  rewrite regex replacement [flag];   Examples Example 1  在正则比较中使用变量（参考：腾讯云社区问答：如何在nginx“if”正则表达式中使用变量？）\n以下语句似乎不起作用\n1 2 3 4  set $chk == \"need\"; set $me \"kevin\"; if ($uri ~ \"by-{$me}\") { set $chk \"\"; } if ($chk == \"need\") { ... }   Solution [待验证]\n1 2 3 4 5  set $chk == \"need\"; set $me \"kevin\"; if ($uri ~ /by-([^-]+)/) { set $by $1; } if ($by = $me) {set $chk \"\";} if ($chk == \"need\") { ... }   Example 2  去掉指定的url参数（去掉url中的start=…，保留其他参数）：（参考segmentfault sPeng）\nSolution1 [待验证]\n1 2 3 4 5 6 7 8 9 10  location ~* filename(\\d+)\\.html$ { root /var/www/html; index index.html; if ($query_string ~ ^(.*)\u0026start=(\\d+)\u0026(.*)) { set $a $1; set $b $2; set $c $3; rewrite ^ /filename1?${a}\u0026${c}? break; } }   Solution2 [待验证]\n1  rewrite ^(.*?)start=\\d+\\\u0026?(.*)$ $1$2 last;   ",
+  "wordCount" : "1906",
   "inLanguage": "zh-cn",
   "datePublished": "2022-01-25T21:17:27+08:00",
   "dateModified": "2022-01-25T21:17:27+08:00",
@@ -202,9 +202,9 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://fivekernels.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">Posts</a></div>
     <h1 class="post-title">
-      Nginx 配置 变量和表达式<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+      Nginx 语法 变量和表达式<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
     </h1>
-    <div class="post-meta"><span title='2022-01-25 21:17:27 +0800 CST'>January 25, 2022</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;admin
+    <div class="post-meta"><span title='2022-01-25 21:17:27 +0800 CST'>January 25, 2022</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;admin
 
 </div>
   </header> 
@@ -238,7 +238,19 @@
                         <a href="#%e8%a1%a8%e8%be%be%e5%bc%8f" aria-label="表达式">表达式</a><ul>
                             
                     <li>
-                        <a href="#%e6%af%94%e8%be%83" aria-label="比较">比较</a>
+                        <a href="#%e6%ad%a3%e5%88%99%e8%a1%a8%e8%be%be%e5%bc%8f-regex" aria-label="正则表达式 regex">正则表达式 regex</a></li>
+                    <li>
+                        <a href="#%e6%af%94%e8%be%83" aria-label="比较">比较</a></li>
+                    <li>
+                        <a href="#rewrite" aria-label="rewrite">rewrite</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#examples" aria-label="Examples">Examples</a><ul>
+                            
+                    <li>
+                        <a href="#example-1" aria-label="Example 1">Example 1</a></li>
+                    <li>
+                        <a href="#example-2" aria-label="Example 2">Example 2</a>
                     </li>
                 </ul>
                 </li>
@@ -362,11 +374,15 @@
 </div><h3 id="内置变量">内置变量<a hidden class="anchor" aria-hidden="true" href="#内置变量">#</a></h3>
 <h4 id="url-相关">url 相关<a hidden class="anchor" aria-hidden="true" href="#url-相关">#</a></h4>
 <ul>
-<li>$arg_&lt;PARAMETER&gt;: 客户端GET请求中 &lt;PARAMETER&gt;字段的值</li>
+<li>$http_host</li>
+<li>$server_name</li>
+<li>$request_uri</li>
+<li>$uri&lt;&gt;</li>
+<li>$arg_&lt;<em>PARAMETER</em>&gt;: 客户端GET请求中 &lt;<em>PARAMETER</em>&gt;字段的值</li>
 </ul>
 <h4 id="客户端证书">客户端证书<a hidden class="anchor" aria-hidden="true" href="#客户端证书">#</a></h4>
-<p>参考：<a href="https://blog.csdn.net/tuzongxun/article/details/91477954">https://blog.csdn.net/tuzongxun/article/details/91477954</a></p>
-<p>nginx内部解析证书后，会把相关信息放到内置的变量中</p>
+<p>参考：<a href="https://blog.csdn.net/tuzongxun/article/details/91477954">CSDN涂宗勋：nginx获取ca证书信息并传递到java后端使用</a></p>
+<p>  nginx内部解析证书后，会把相关信息放到内置的变量中</p>
 <ul>
 <li>$ssl_client_cert：证书内容</li>
 <li>$ssl_client_serial：证书序列号</li>
@@ -411,6 +427,69 @@
 </code></pre></td></tr></table>
 </div>
 </div><h2 id="表达式">表达式<a hidden class="anchor" aria-hidden="true" href="#表达式">#</a></h2>
+<h3 id="正则表达式-regex">正则表达式 regex<a hidden class="anchor" aria-hidden="true" href="#正则表达式-regex">#</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:left">匹配输入字符串的起始位置</td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:left">匹配输入字符串的结束位置</td>
+</tr>
+<tr>
+<td style="text-align:center">\d</td>
+<td style="text-align:left">匹配数字</td>
+</tr>
+<tr>
+<td style="text-align:center">\</td>
+<td style="text-align:left">将后面接着的字符标记为一个特殊字符或一个原义字符或一个向后引用。如&quot;\n&quot;匹配一个换行符，而&quot;\$&ldquo;则匹配&rdquo;$&quot;</td>
+</tr>
+<tr>
+<td style="text-align:center">[c]</td>
+<td style="text-align:left">匹配单个字符c</td>
+</tr>
+<tr>
+<td style="text-align:center">[a-z]</td>
+<td style="text-align:left">匹配 a-z 任意一个小写字母</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:left">匹配除换行符&quot;\n&quot;之外的任何单个字符；若要匹配包括&quot;\n&quot;在内的任意字符，使用如&quot;[.\n]&ldquo;等模式。</td>
+</tr>
+<tr>
+<td style="text-align:center">{n}</td>
+<td style="text-align:left">重复n次</td>
+</tr>
+<tr>
+<td style="text-align:center">{n,}</td>
+<td style="text-align:left">重复n次或更多次</td>
+</tr>
+<tr>
+<td style="text-align:center">?</td>
+<td style="text-align:left">匹配前面的字符0次或1次。如&quot;do(es)?&ldquo;能匹配&quot;do&quot;或者&quot;does&rdquo;，&rdquo;?&ldquo;等价于&rdquo;{0,1}&quot;</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:left">匹配前面的字符0次或多次。如&quot;ol*&ldquo;能匹配&quot;o&quot;及&quot;ol&rdquo;、&ldquo;oll&rdquo;</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:left">匹配前面的字符1次或多次。如&quot;ol+&ldquo;能匹配&quot;ol&quot;及&quot;oll&rdquo;、&ldquo;oll&rdquo;，但不能匹配&quot;o&quot;</td>
+</tr>
+<tr>
+<td style="text-align:center">(pattern)</td>
+<td style="text-align:left">匹配括号内pattern并可以在后面获取对应的匹配，常用$0...$9属性获取小括号中的匹配内容，要匹配圆括号字符需要Content</td>
+</tr>
+</tbody>
+</table>
 <h3 id="比较">比较<a hidden class="anchor" aria-hidden="true" href="#比较">#</a></h3>
 <p><strong>数值比较:</strong></p>
 <p>  比较两个变量/变量与字符串是否相等</p>
@@ -469,6 +548,96 @@
 <td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
 <pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">$1 = ID=user1_acdefg9876543GHI;
 $2 = user1_acdefg9876543GHI;
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="rewrite">rewrite<a hidden class="anchor" aria-hidden="true" href="#rewrite">#</a></h3>
+<p>  将URL重定向。基本过程：（参考：<a href="https://www.cnblogs.com/Dy1an/p/11240223.html">博客园Dy1an：【04】Nginx：rewrite / if / return / set 和变量</a>）</p>
+<ol>
+<li>用户请求到达某个server，如果满足server内rewrite的正则匹配，那么rewrite将会对用户请求URI重写。</li>
+<li>重写完成后直接在该server内部去匹配location。</li>
+<li>当匹配到location后，如果location内部又有rewrite，那执行rewrite；之后再次在这个server内部去匹配location，直到请求返回。</li>
+<li>这个过程不是无限的，nginx对于这样的跳转就支持10次，如果过多甚至死循环，则会报500错误。</li>
+</ol>
+<p>  基本语法：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">rewrite</span> <span style="color:#e6db74">regex</span> <span style="color:#e6db74">replacement</span> <span style="color:#e6db74">[flag]</span>;
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="examples">Examples<a hidden class="anchor" aria-hidden="true" href="#examples">#</a></h2>
+<h3 id="example-1">Example 1<a hidden class="anchor" aria-hidden="true" href="#example-1">#</a></h3>
+<p>  在正则比较中使用变量（参考：<a href="https://cloud.tencent.com/developer/ask/55209">腾讯云社区问答：如何在nginx“if”正则表达式中使用变量？</a>）</p>
+<p>以下语句似乎不起作用</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">set</span> $chk == <span style="color:#e6db74">&#34;need&#34;</span>; 
+<span style="color:#66d9ef">set</span> $me <span style="color:#e6db74">&#34;kevin&#34;</span>; 
+<span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$uri ~ <span style="color:#e6db74">&#34;by-</span>{<span style="color:#f92672">$me}&#34;)</span> { <span style="color:#f92672">set</span> $chk <span style="color:#e6db74">&#34;&#34;</span>; }
+<span style="color:#f92672">if</span> <span style="color:#e6db74">(</span>$chk == <span style="color:#e6db74">&#34;need&#34;)</span> { <span style="color:#f92672">...</span> <span style="color:#960050;background-color:#1e0010">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Solution [<em>待验证</em>]</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">set</span> $chk == <span style="color:#e6db74">&#34;need&#34;</span>; 
+<span style="color:#66d9ef">set</span> $me <span style="color:#e6db74">&#34;kevin&#34;</span>; 
+<span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$uri ~ <span style="color:#e6db74">/by-([^-]+)/)</span> { <span style="color:#f92672">set</span> $by $1; }
+<span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$by = $me<span style="color:#e6db74">)</span> {<span style="color:#f92672">set</span> $chk <span style="color:#e6db74">&#34;&#34;</span>;}
+<span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$chk == <span style="color:#e6db74">&#34;need&#34;)</span> { <span style="color:#f92672">...</span> <span style="color:#960050;background-color:#1e0010">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="example-2">Example 2<a hidden class="anchor" aria-hidden="true" href="#example-2">#</a></h3>
+<p>  去掉指定的url参数（去掉url中的start=&hellip;，保留其他参数）：（参考<a href="https://segmentfault.com/q/1010000005143925">segmentfault sPeng</a>）</p>
+<p>Solution1 [<em>待验证</em>]</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">location</span> ~<span style="color:#e6db74">*</span> <span style="color:#e6db74">filename(\d+)\.html</span>$ {
+    <span style="color:#f92672">root</span> <span style="color:#e6db74">/var/www/html</span>;
+    <span style="color:#f92672">index</span> <span style="color:#e6db74">index.html</span>;
+    <span style="color:#f92672">if</span> <span style="color:#e6db74">(</span>$query_string ~ <span style="color:#e6db74">^(.*)&amp;start=(\d+)&amp;(.*))</span> {
+        <span style="color:#f92672">set</span> $a $1;
+        <span style="color:#f92672">set</span> $b $2;
+        <span style="color:#f92672">set</span> $c $3;
+        <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^</span> <span style="color:#e6db74">/filename1?</span>${a}&amp;${c}? <span style="color:#e6db74">break</span>;
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>Solution2 [<em>待验证</em>]</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-nginx" data-lang="nginx"><span style="color:#66d9ef">rewrite</span> <span style="color:#e6db74">^(.*?)start=\d+\&amp;?(.*)</span>$ $1$2 <span style="color:#e6db74">last</span>;
 </code></pre></td></tr></table>
 </div>
 </div>
