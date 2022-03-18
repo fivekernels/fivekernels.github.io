@@ -1,6 +1,7 @@
 ---
 title: "Hugo 主题配置——Papermod"
 date: 2022-01-25T19:12:11+08:00
+lastmod: 2022-03-18T19:45:00+08:00
 tags: ["Hugo"]
 categories: [ "Hugo" ]
 draft: true
@@ -10,13 +11,10 @@ draft: true
 
 官方链接：
 
-github: <https://github.com/adityatelange/hugo-PaperMod>
-
-github wiki:<https://github.com/adityatelange/hugo-PaperMod/wiki>
-
-demo code: <https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/>
-
-demo: <https://adityatelange.github.io/hugo-PaperMod//>
+- github: <https://github.com/adityatelange/hugo-PaperMod>
+- github wiki:<https://github.com/adityatelange/hugo-PaperMod/wiki>
+- demo code: <https://github.com/adityatelange/hugo-PaperMod/tree/exampleSite/>
+- demo: <https://adityatelange.github.io/hugo-PaperMod//>
 
 &emsp;&emsp;Papermod 主题默认使用 .yaml 格式作为配置文件，因此新建网站时可以使用 -f 设置 yml 格式：
 
@@ -40,6 +38,8 @@ git submodule update --init --recursive # needed when you reclone your repo (sub
 &emsp;&emsp;...待更新...
 
 ## 文章顶端信息
+
+参考：[Sulv's Blog：Hugo博客修改post_meta头部信息](https://www.sulvblog.cn/posts/blog/hugo_postmeta/)
 
 ### 添加文章修改日期
 
@@ -70,6 +70,47 @@ lastmod: 2022-03-18T13:59:59+08:00
 
 ```yml
 lastmod: {{ .Date }}
+```
+
+其他样式也可以酌情进行修改
+
+```html
+{{- $scratch := newScratch }}
+<!-- 创建时间 -->
+{{- if not .Date.IsZero -}}
+{{- $scratch.Add "meta" (slice (printf "创建:&nbsp;<span title='%s'>%s</span>" (.Date) (.Date.Format (default "January 2, 2006" .Site.Params.DateFormat)))) }}
+{{- end }}
+
+<!-- 更新时间 -->
+{{- if (.Param "ShowLastMod") -}}
+{{- $scratch.Add "meta" (slice (printf "更新:&nbsp;%s" (.Lastmod.Format (.Site.Params.dateFormat | default "2006-01-02")))) }}
+{{- end }}
+
+<!-- 统计字数 -->
+{{- if (.Param "ShowWordCounts") -}}
+{{- $scratch.Add "meta" (slice (default (printf "字数:&nbsp;%d字" .WordCount))) }}
+{{- end }}
+
+<!-- 大概需要花费的阅读时间 -->
+{{- if (.Param "ShowReadingTime") -}}
+{{- $scratch.Add "meta" (slice (default (printf "时长: %d分钟" .ReadingTime))) }}
+{{- end }}
+
+<!-- 作者 -->
+{{- with (partial "author.html" .) }}
+{{- $scratch.Add "meta" (slice .) }}
+{{- end }}
+
+<!-- 分隔方式 -->
+{{- with ($scratch.Get "meta") }}
+{{- delimit . "&nbsp;|&nbsp;" -}}
+{{- end -}}
+```
+
+作者的中文显示要找到layouts/partials/author.html，在如下位置加入中文
+
+```html
+作者:&nbsp;{{- $author := (.Params.author | default .Site.Params.author) }}
 ```
 
 ## 文章基础配置
