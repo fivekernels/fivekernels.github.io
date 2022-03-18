@@ -1,9 +1,15 @@
 ---
-title: "My First Post"
-description: "文章的描述信息"
-tags: [ "测试标签1", "测试标签2" ]
-categories: [ "测试分类1", "测试分类2" ]
-keywords: [ "test keyword1", "TestKeyword2" ]
+title: My First Post
+description: 文章的描述信息
+tags:
+- 测试标签1
+- 测试标签2
+categories:
+- 测试分类1
+- 测试分类2
+keywords:
+- test keyword1
+- TestKeyword2
 date: 2021-10-21T20:09:21+08:00
 lastmod: 2021-10-22T19:03:00+08:00
 draft: false

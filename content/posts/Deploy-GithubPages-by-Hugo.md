@@ -1,7 +1,11 @@
 ---
-title: "使用 Hugo 搭建 GitHub Pages"
-tags: [ "GitHub Pages", "Hugo"]
-categories: [ "GitHub Pages", "Hugo" ]
+title: 使用 Hugo 搭建 GitHub Pages
+tags: 
+- GitHub Pages
+- Hugo
+categories:
+- GitHub Pages
+- Hugo
 date: 2021-10-24T20:15:26+08:00
 lastmod: 2021-10-28T11:49:00+08:00
 draft: false

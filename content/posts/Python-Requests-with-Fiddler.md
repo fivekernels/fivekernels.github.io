@@ -1,8 +1,12 @@
 ---
-title: "使用 Fiddler 对 Python requests 请求进行抓包"
+title: 使用 Fiddler 对 Python requests 请求进行抓包
 date: 2022-01-27T16:34:28+08:00
-tags: ["Python", "Fiddler"]
-categories: ["Python", "Fiddler"]
+tags:
+- Python
+- Fiddler
+categories:
+- Python
+- Fiddler
 draft: false
 ---
 

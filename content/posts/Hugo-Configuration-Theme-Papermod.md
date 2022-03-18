@@ -1,9 +1,11 @@
 ---
-title: "Hugo 主题配置——Papermod"
+title: Hugo 主题配置——Papermod
 date: 2022-01-25T19:12:11+08:00
 lastmod: 2022-03-18T19:45:00+08:00
-tags: ["Hugo"]
-categories: [ "Hugo" ]
+tags:
+- Hugo
+categories:
+- Hugo
 draft: true
 ---
 

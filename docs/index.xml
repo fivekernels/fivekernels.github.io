@@ -58,7 +58,7 @@
       <pubDate>Thu, 28 Oct 2021 11:10:22 +0800</pubDate>
       
       <guid>https://fivekernels.github.io/posts/hugo-content-management/</guid>
-      <description>hey Hugo 目录结构 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 .(hugo-root) |-- archetypes/ (内容模板文件) |-- assets/ (not created by default) | |-- css/ (adding custom css to replace css in themes) | | |-- *.* | | `-- *.* | `-- ***/ |-- content/ (存放文章内</description>
+      <description>Hugo 目录结构 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 .(hugo-root) |-- archetypes/ (内容模板文件) |-- assets/ (not created by default) | |-- css/ (adding custom css to replace css in themes) | | |-- *.* | | `-- *.* | `-- ***/ |-- content/ (存放文章内容</description>
     </item>
     
     <item>

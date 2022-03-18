@@ -1,8 +1,10 @@
 ---
-title: "Hugo 主题配置——loveit"
+title: Hugo 主题配置——loveit
 date: 2022-01-25T19:06:24+08:00
-tags: ["Hugo"]
-categories: [ "Hugo" ]
+tags:
+- Hugo
+categories:
+- Hugo
 draft: true
 ---
 

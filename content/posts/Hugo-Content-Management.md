@@ -1,12 +1,13 @@
 ---
-title: "Hugo 文件管理"
-tags: ["Hugo"]
-categories: [ "Hugo" ]
+title: Hugo 文件管理
+tags:
+- Hugo
+categories:
+- Hugo
 date: 2021-10-28T11:10:22+08:00
+lastmod: 2022-03-18T18:00:00+08:00
 draft: true
 ---
-
-&emsp;&emsp;hey
 
 ## Hugo 目录结构
 
