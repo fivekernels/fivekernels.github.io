@@ -54,7 +54,7 @@ git submodule update --init --recursive # needed when you reclone your repo (sub
 
 &emsp;&emsp;在Hugo的配置文件config.yml中的params下添加以下内容：
 
-```yml
+```yml {hl_lines=[3]}
 params:
     ...
     ShowLastMod: true # 显示文章更新时间 配合post_meta.html
@@ -246,7 +246,7 @@ lastmod: {{ .Date }}
 
 &emsp;&emsp;找到主题目录下的layouts/_default/single.html文件，将其复制到根目录下的layouts/_default/single.html中，找到其调用代码
 
-```html
+```html {hl_lines=[2]}
   {{- if (.Param "ShowToc") }}
   {{- partial "toc.html" . }}
   {{- end }}
@@ -254,7 +254,7 @@ lastmod: {{ .Date }}
 
 修改为
 
-```html
+```html {hl_lines=[2,"2-3"]}
   {{- if (.Param "ShowToc") }}
   <!-- {{- partial "toc.html" . }} -->
   {{- partial "toc_side.html" . }}
