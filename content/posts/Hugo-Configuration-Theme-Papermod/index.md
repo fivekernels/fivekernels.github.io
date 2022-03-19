@@ -304,7 +304,7 @@ lastmod: {{ .Date }}
   {{- end }}
 ```
 
-![single_html](/Hugo-Configuration-Theme-Papermod/edit-single_html.png)
+![single_html](./images/edit-single_html.png)
 
 ### 修改css
 

@@ -172,7 +172,7 @@ hugo
 - main 分支下docs目录
 - gh-pages 分支(前提是这个分支存在)
 
-![Github Pages 静态页面设置](/Deploy-GithubPages-by-Hugo/githu-pages-branch.png)
+![Github Pages 静态页面设置](./images/githu-pages-branch.png)
 
 为实现hugo静态页面的发布，可以在config.toml中添加以下配置：
 

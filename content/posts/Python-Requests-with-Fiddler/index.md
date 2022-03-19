@@ -16,15 +16,15 @@ draft: false
 
 &emsp;&emsp;打开 Fiddler，依次选择 Tools-Options...-HTTPS，点击右侧 Actions 中的 Open Windows Certificate Manager。
 
-![fidder-https界面](/Python-Requests-with-Fiddler/fiddler-options-https.png)
+![fidder-https界面](./images/fiddler-options-https.png)
 
 &emsp;&emsp;展开个人-证书，在右侧找到证书“DO_NOT_TRUST_FiddlerRoot”，右键-所有任务-导出。不导出私钥、选择编码方式为 Base64 X.509，得到 .cer 格式的文件。
 
-![certmgr](/Python-Requests-with-Fiddler/certmgr-fidder-cert.png)
+![certmgr](./images/certmgr-fidder-cert.png)
 
-![no-privkey](/Python-Requests-with-Fiddler/expor-guide-privkey.png)
+![no-privkey](./images/expor-guide-privkey.png)
 
-![format](/Python-Requests-with-Fiddler/export-guide-format.png)
+![format](./images/export-guide-format.png)
 
 ## requests 参数设置
 
