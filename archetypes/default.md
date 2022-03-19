@@ -1,9 +1,11 @@
 ---
-title: "{{ replace .Name "-" " " | title }}"
+title: {{ replace .Name "-" " " | title }}
 date: {{ .Date }}
 lastmod: {{ .Date }}
-tags: ["default"]
-categories: [ "default" ]
+tags: 
+- default
+categories: 
+- default
 draft: true
 ---
 
