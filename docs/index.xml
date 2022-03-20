@@ -6,7 +6,16 @@
     <description>Recent content on 胡写乱画</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 27 Jan 2022 20:53:30 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 20 Mar 2022 14:34:46 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git Usage</title>
+      <link>https://fivekernels.github.io/posts/git-usage/</link>
+      <pubDate>Sun, 20 Mar 2022 14:34:46 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/git-usage/</guid>
+      <description>清理提交历史中的敏感信息和大文件 参考： 知乎 [彼得三三]：GitHub清除敏感信息操作 [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感</description>
+    </item>
+    
     <item>
       <title>Microsoft365 E5 续订——Github Actions</title>
       <link>https://fivekernels.github.io/posts/microsoft365-e5-renew-with-github-actions/</link>

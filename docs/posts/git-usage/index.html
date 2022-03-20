@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Git Usage | 胡写乱画</title>
+<meta name="keywords" content="Git" />
+<meta name="description" content="清理提交历史中的敏感信息和大文件 参考： 知乎 [彼得三三]：GitHub清除敏感信息操作 [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感">
+<meta name="author" content="admin">
+<link rel="canonical" href="https://fivekernels.github.io/posts/git-usage/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.df0464c045cf0d374a40bf7c586173ffbb38c33b1ad637ad39b0a3c92260c05c.css" integrity="sha256-3wRkwEXPDTdKQL98WGFz/7s4wzsa1jetObCjySJgwFw=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://fivekernels.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://fivekernels.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://fivekernels.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://fivekernels.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Git Usage" />
+<meta property="og:description" content="清理提交历史中的敏感信息和大文件 参考： 知乎 [彼得三三]：GitHub清除敏感信息操作 [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fivekernels.github.io/posts/git-usage/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-20T14:34:46&#43;08:00" />
+<meta property="article:modified_time" content="2022-03-20T16:17:46&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Git Usage"/>
+<meta name="twitter:description" content="清理提交历史中的敏感信息和大文件 参考： 知乎 [彼得三三]：GitHub清除敏感信息操作 [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📚文章",
+      "item": "https://fivekernels.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Git Usage",
+      "item": "https://fivekernels.github.io/posts/git-usage/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Git Usage",
+  "name": "Git Usage",
+  "description": "清理提交历史中的敏感信息和大文件 参考： 知乎 [彼得三三]：GitHub清除敏感信息操作 [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感",
+  "keywords": [
+    "Git"
+  ],
+  "articleBody": "清理提交历史中的敏感信息和大文件 参考：\n 知乎 [彼得三三]：GitHub清除敏感信息操作\n [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感信息删除大文件一句命令搞定（比官方文档还详细的使用说明）\n 简书 [不忘初心2017]：BFG Repo-Cleaner - 从 Git 历史中真正删除文件\n使用BFG Repo-Cleaner by rtyley，需要java运行环境。\n BFG 默认不会 touch最新的commit，即如果你要删除的文件在最新的 commit 中，则不会删除之。为什么？因为最新的 commit 很可能是已上线在产品中的~ BFG 用的是仓库镜像 git clone –mirror。 如果要删除的文件在受保护的commit中，BFG 不会删，不建议删。至于commit什么情况下会受保护，我还不太清楚。   首先将待清理的仓库克隆到本地，记得clone后备份一份xxx.git到其他位置，以免操作失误。\n1  git clone --mirror git://example.com/xxx.git    将下载的bfg.jar与xxx.git放到同一个同目录。\n清理敏感信息  准备一个文本文件passwords.txt，名称任意，里面包含要要替换的文本：\n1 2 3 4 5  PASSWORD1 # Replace literal string 'PASSWORD1' with '***REMOVED***' (default) PASSWORD2==examplePass # replace with 'examplePass' instead PASSWORD3== # replace with the empty string regex:password=\\w+==password= # Replace, using a regex regex:\\r(\\n)==$1 # Replace Windows newlines with Unix newlines    执行敏感信息替换：\n1  java -jar bfg.jar --replace-text passwords.txt xxx.git    回收已经没有引用的旧提交，这可以减小本地仓库的大小：\n1  git reflog expire --expire=now --all \u0026\u0026 git gc --prune=now --aggressive    推回远端仓库：\n1  git push    更新本地代码推荐删除原有工程，重新clone仓库后配置工程，注意原有工程下.gitignore的重要文件（敏感信息等）。\n清理大文件 1 2 3 4  java -jar bfg.jar --strip-blobs-bigger-than 500M xxx.git # 将仓库历史中大于 500M 的文件都删除掉 java -jar bfg.jar --delete-files walterlv.snk xxx.git # 删除特定文件 walterlv.snk java -jar bfg.jar --delete-files {walterlv,lindexi}.snk xxx.git # 删除 walterlv.snk 或 lindexi.snk 文件 java -jar bfg.jar --delete-folders walterlv xxx.git # 删除名字为 walterlv 的文件夹    回收已经没有引用的旧提交，这可以减小本地仓库的大小：\n1  git reflog expire --expire=now --all \u0026\u0026 git gc --prune=now --aggressive    推回远端仓库：\n1  git push    更新本地代码推荐删除原有工程，重新clone仓库后配置工程，注意原有工程下.gitignore的重要文件（敏感信息等）。\n子模块submodule的使用 参考：\n CSDN [guotianqing]：git中submodule子模块的添加、使用和删除\n 简书 [thinker_g]：[Git] 如何优雅的删除子模块(submodule)或修改Submodule URL\n添加 1 2  git submodule add   git commit # 提交？   其中，url为子模块的路径，path为该子模块存储的目录路径。\n修改模块url  修改'.gitmodules’文件中对应模块的”url“属性; 使用git submodule sync命令，将新的URL更新到文件.git/config； git commit -am “Update submodule url.” # 提交变更  删除 1 2 3 4 5 6 7  git submodule deinit  # 逆初始化模块，其中{MOD_NAME}为模块目录，执行后可发现模块目录被清空 git rm --cached  # 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存） # rm -rf  # 删除子模块目录及源码 # vi .gitmodules # 删除项目目录下.gitmodules文件中子模块相关条目 vi .git/config # 删除配置项中子模块相关条目 # rm .git/module/* # 删除模块下的子模块目录，每个子模块对应一个目录，注意只删除对应的子模块目录即可 git commit -am \"Remove a submodule.\"   ",
+  "wordCount" : "1254",
+  "inLanguage": "zh-cn",
+  "datePublished": "2022-03-20T14:34:46+08:00",
+  "dateModified": "2022-03-20T16:17:46+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://fivekernels.github.io/posts/git-usage/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "胡写乱画",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fivekernels.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://fivekernels.github.io" accesskey="h" title="胡写乱画 (Alt + H)">胡写乱画</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://fivekernels.github.io/" title="🏠首页">
+                    <span>🏠首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/posts/" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/categories/" title="🧩分类">
+                    <span>🧩分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/tags/" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/about/" title="🥣关于">
+                    <span>🥣关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/search/" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://fivekernels.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">📚文章</a></div>
+    <h1 class="post-title">
+      Git Usage<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta">
+
+
+
+<span title='2022-03-20 14:34:46 +0800 CST'>2022/03/20</span>&nbsp;·&nbsp;Updated:&nbsp;2022/03/20&nbsp;·&nbsp;3 min&nbsp;·&nbsp;1254 words&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e6%b8%85%e7%90%86%e6%8f%90%e4%ba%a4%e5%8e%86%e5%8f%b2%e4%b8%ad%e7%9a%84%e6%95%8f%e6%84%9f%e4%bf%a1%e6%81%af%e5%92%8c%e5%a4%a7%e6%96%87%e4%bb%b6" aria-label="清理提交历史中的敏感信息和大文件">清理提交历史中的敏感信息和大文件</a><ul>
+                            
+                    <li>
+                        <a href="#%e6%b8%85%e7%90%86%e6%95%8f%e6%84%9f%e4%bf%a1%e6%81%af" aria-label="清理敏感信息">清理敏感信息</a></li>
+                    <li>
+                        <a href="#%e6%b8%85%e7%90%86%e5%a4%a7%e6%96%87%e4%bb%b6" aria-label="清理大文件">清理大文件</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%ad%90%e6%a8%a1%e5%9d%97submodule%e7%9a%84%e4%bd%bf%e7%94%a8" aria-label="子模块submodule的使用">子模块submodule的使用</a><ul>
+                            
+                    <li>
+                        <a href="#%e6%b7%bb%e5%8a%a0" aria-label="添加">添加</a></li>
+                    <li>
+                        <a href="#%e4%bf%ae%e6%94%b9%e6%a8%a1%e5%9d%97url" aria-label="修改模块url">修改模块url</a></li>
+                    <li>
+                        <a href="#%e5%88%a0%e9%99%a4" aria-label="删除">删除</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="清理提交历史中的敏感信息和大文件">清理提交历史中的敏感信息和大文件<a hidden class="anchor" aria-hidden="true" href="#清理提交历史中的敏感信息和大文件">#</a></h2>
+<p>参考：</p>
+<p>  <a href="https://zhuanlan.zhihu.com/p/297695945">知乎 [彼得三三]：GitHub清除敏感信息操作</a></p>
+<p>  <a href="https://dotnet-campus.github.io/post/clean-up-git-repo-using-bfg.html">[dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感信息删除大文件一句命令搞定（比官方文档还详细的使用说明）</a></p>
+<p>  <a href="https://www.jianshu.com/p/a9caf4b3100e">简书 [不忘初心2017]：BFG Repo-Cleaner - 从 Git 历史中真正删除文件</a></p>
+<p>使用<a href="https://rtyley.github.io/bfg-repo-cleaner/">BFG Repo-Cleaner by rtyley</a>，需要java运行环境。</p>
+<ul>
+<li>BFG 默认不会 touch最新的commit，即如果你要删除的文件在最新的 commit 中，则不会删除之。为什么？因为最新的 commit 很可能是已上线在产品中的~</li>
+<li>BFG 用的是仓库镜像 git clone &ndash;mirror。</li>
+<li>如果要删除的文件在受保护的commit中，BFG 不会删，不建议删。至于commit什么情况下会受保护，我还不太清楚。</li>
+</ul>
+<p>  首先将待清理的仓库克隆到本地，记得clone后备份一份xxx.git到其他位置，以免操作失误。</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git clone --mirror git://example.com/xxx.git
+</code></pre></td></tr></table>
+</div>
+</div><p>  将下载的bfg.jar与xxx.git放到同一个同目录。</p>
+<h3 id="清理敏感信息">清理敏感信息<a hidden class="anchor" aria-hidden="true" href="#清理敏感信息">#</a></h3>
+<p>  准备一个文本文件passwords.txt，名称任意，里面包含要要替换的文本：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-txt" data-lang="txt">PASSWORD1                       # Replace literal string &#39;PASSWORD1&#39; with &#39;***REMOVED***&#39; (default)
+PASSWORD2==&gt;examplePass         # replace with &#39;examplePass&#39; instead
+PASSWORD3==&gt;                    # replace with the empty string
+regex:password=\w+==&gt;password=  # Replace, using a regex
+regex:\r(\n)==&gt;$1               # Replace Windows newlines with Unix newlines
+</code></pre></td></tr></table>
+</div>
+</div><p>  执行敏感信息替换：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">java -jar bfg.jar --replace-text passwords.txt xxx.git
+</code></pre></td></tr></table>
+</div>
+</div><p>  回收已经没有引用的旧提交，这可以减小本地仓库的大小：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git reflog expire --expire<span style="color:#f92672">=</span>now --all <span style="color:#f92672">&amp;&amp;</span> git gc --prune<span style="color:#f92672">=</span>now --aggressive
+</code></pre></td></tr></table>
+</div>
+</div><p>  推回远端仓库：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git push
+</code></pre></td></tr></table>
+</div>
+</div><p>  更新本地代码推荐删除原有工程，重新clone仓库后配置工程，注意原有工程下.gitignore的重要文件（敏感信息等）。</p>
+<h3 id="清理大文件">清理大文件<a hidden class="anchor" aria-hidden="true" href="#清理大文件">#</a></h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">java -jar bfg.jar --strip-blobs-bigger-than 500M xxx.git <span style="color:#75715e"># 将仓库历史中大于 500M 的文件都删除掉</span>
+java -jar bfg.jar --delete-files walterlv.snk xxx.git <span style="color:#75715e"># 删除特定文件 walterlv.snk</span>
+java -jar bfg.jar --delete-files <span style="color:#f92672">{</span>walterlv,lindexi<span style="color:#f92672">}</span>.snk xxx.git <span style="color:#75715e"># 删除 walterlv.snk 或 lindexi.snk 文件</span>
+java -jar bfg.jar --delete-folders walterlv xxx.git <span style="color:#75715e"># 删除名字为 walterlv 的文件夹</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>  回收已经没有引用的旧提交，这可以减小本地仓库的大小：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git reflog expire --expire<span style="color:#f92672">=</span>now --all <span style="color:#f92672">&amp;&amp;</span> git gc --prune<span style="color:#f92672">=</span>now --aggressive
+</code></pre></td></tr></table>
+</div>
+</div><p>  推回远端仓库：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git push
+</code></pre></td></tr></table>
+</div>
+</div><p>  更新本地代码推荐删除原有工程，重新clone仓库后配置工程，注意原有工程下.gitignore的重要文件（敏感信息等）。</p>
+<h2 id="子模块submodule的使用">子模块submodule的使用<a hidden class="anchor" aria-hidden="true" href="#子模块submodule的使用">#</a></h2>
+<p>参考：</p>
+<p>  <a href="https://blog.csdn.net/guotianqing/article/details/82391665">CSDN [guotianqing]：git中submodule子模块的添加、使用和删除</a></p>
+<p>  <a href="https://www.jianshu.com/p/ed0cb6c75e25">简书 [thinker_g]：[Git] 如何优雅的删除子模块(submodule)或修改Submodule URL</a></p>
+<h3 id="添加">添加<a hidden class="anchor" aria-hidden="true" href="#添加">#</a></h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git submodule add &lt;url&gt; &lt;path&gt;
+git commit <span style="color:#75715e"># 提交？</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>其中，url为子模块的路径，path为该子模块存储的目录路径。</p>
+<h3 id="修改模块url">修改模块url<a hidden class="anchor" aria-hidden="true" href="#修改模块url">#</a></h3>
+<ol>
+<li>修改'.gitmodules&rsquo;文件中对应模块的”url“属性;</li>
+<li>使用git submodule sync命令，将新的URL更新到文件.git/config；</li>
+<li>git commit -am &ldquo;Update submodule url.&rdquo; # 提交变更</li>
+</ol>
+<h3 id="删除">删除<a hidden class="anchor" aria-hidden="true" href="#删除">#</a></h3>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">git submodule deinit &lt;MOD_NAME&gt; <span style="color:#75715e"># 逆初始化模块，其中{MOD_NAME}为模块目录，执行后可发现模块目录被清空</span>
+git rm --cached &lt;MOD_NAME&gt; <span style="color:#75715e"># 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）</span>
+<span style="color:#75715e"># rm -rf &lt;子模块目录&gt; # 删除子模块目录及源码</span>
+<span style="color:#75715e"># vi .gitmodules # 删除项目目录下.gitmodules文件中子模块相关条目</span>
+vi .git/config <span style="color:#75715e"># 删除配置项中子模块相关条目</span>
+<span style="color:#75715e"># rm .git/module/* # 删除模块下的子模块目录，每个子模块对应一个目录，注意只删除对应的子模块目录即可</span>
+git commit -am <span style="color:#e6db74">&#34;Remove a submodule.&#34;</span> 
+</code></pre></td></tr></table>
+</div>
+</div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://fivekernels.github.io/tags/git/">Git</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://fivekernels.github.io/posts/microsoft365-e5-renew-with-github-actions/">
+    <span class="title"> »</span>
+    <br>
+    <span>Microsoft365 E5 续订——Github Actions</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://fivekernels.github.io">胡写乱画</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
