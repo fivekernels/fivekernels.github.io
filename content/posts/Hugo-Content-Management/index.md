@@ -5,7 +5,7 @@ tags:
 categories:
 - Hugo
 date: 2021-10-28T11:10:22+08:00
-lastmod: 2022-03-18T18:00:00+08:00
+lastmod: 2022-03-20T10:30:00+08:00
 draft: true
 ---
 
@@ -66,6 +66,18 @@ tree --dirsfirst --charset=ascii /path/to/directory将生成一个很好的ASCII
         `-- windowsclient.mshi
 ```
 
+## 配置文件分离设计
+
+&emsp;&emsp;*...待更新...*
+
 ## 静态资源（图片等）存放方式
 
-...待更新...
+参考：[Hugo官方文档-Oorganization](https://gohugo.io/content-management/organization/)
+
+&emsp;&emsp;&emsp;[Hugo官方文档-Page Bundles](https://gohugo.io/content-management/page-bundles/)
+
+&emsp;&emsp;选择合适的内容组织方式：（参考：[Hugo: Leaf and Branch Bundles](https://scripter.co/hugo-leaf-and-branch-bundles/)）
+
+![Do I need a leaf bundle, or branch bundle, or none?](./images/Do-I-need-a-leaf-bundle-or-branch-bundle-or-none.svg)
+
+*...待更新...*
