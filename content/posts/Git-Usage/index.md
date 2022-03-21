@@ -19,7 +19,7 @@ draft: true
 
 &emsp;&emsp;[简书 [不忘初心2017]：BFG Repo-Cleaner - 从 Git 历史中真正删除文件](https://www.jianshu.com/p/a9caf4b3100e)
 
-使用[BFG Repo-Cleaner by rtyley](https://rtyley.github.io/bfg-repo-cleaner/)，需要java运行环境。
+使用[BFG Repo-Cleaner (by rtyley)](https://rtyley.github.io/bfg-repo-cleaner/)，需要java运行环境。
 
 - BFG 默认不会 touch最新的commit，即如果你要删除的文件在最新的 commit 中，则不会删除之。为什么？因为最新的 commit 很可能是已上线在产品中的~
 - BFG 用的是仓库镜像 git clone --mirror。
@@ -69,9 +69,9 @@ git push
 
 ```bash
 java -jar bfg.jar --strip-blobs-bigger-than 500M xxx.git # 将仓库历史中大于 500M 的文件都删除掉
-java -jar bfg.jar --delete-files walterlv.snk xxx.git # 删除特定文件 walterlv.snk
+java -jar bfg.jar --delete-files walterlv.snk xxx.git    # 删除特定文件 walterlv.snk
 java -jar bfg.jar --delete-files {walterlv,lindexi}.snk xxx.git # 删除 walterlv.snk 或 lindexi.snk 文件
-java -jar bfg.jar --delete-folders walterlv xxx.git # 删除名字为 walterlv 的文件夹
+java -jar bfg.jar --delete-folders walterlv xxx.git      # 删除名字为 walterlv 的文件夹
 ```
 
 &emsp;&emsp;回收已经没有引用的旧提交，这可以减小本地仓库的大小：
@@ -115,7 +115,7 @@ git commit # 提交？
 
 ```bash
 git submodule deinit <MOD_NAME> # 逆初始化模块，其中{MOD_NAME}为模块目录，执行后可发现模块目录被清空
-git rm --cached <MOD_NAME> # 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）
+git rm --cached <MOD_NAME>      # 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）
 # rm -rf <子模块目录> # 删除子模块目录及源码
 # vi .gitmodules # 删除项目目录下.gitmodules文件中子模块相关条目
 vi .git/config # 删除配置项中子模块相关条目
