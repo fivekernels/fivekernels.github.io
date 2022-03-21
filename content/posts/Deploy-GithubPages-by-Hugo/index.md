@@ -155,13 +155,14 @@ draft: true
 
 ```bash
 hugo server -D
-hugo
 ```
 
-&emsp;&emsp;正式构建网页，默认构建在/public目录中。
+&emsp;&emsp;正式构建网页，默认构建在/public目录中。[输入hugo的生成方式只会往public文件夹里添加内容，但是不会删除外部已经不存在而public里面还存在的文件。所以我一般用hugo -F --cleanDestinationDir命令，表示每次生成的public都是全新的，会覆盖原来的。](https://www.sulvblog.cn/posts/blog/build_hugo/)
 
 ```bash
 hugo
+hugo -D
+hugo -F --cleanDestinationDir -D
 ```
 
 ## 将 Hugo 与 GitHub 建立连接
