@@ -6,7 +6,16 @@
     <description>Recent content in Python on 胡写乱画</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 27 Jan 2022 16:34:28 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 21 Mar 2022 20:15:47 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python Usage</title>
+      <link>https://fivekernels.github.io/posts/python-usage/</link>
+      <pubDate>Mon, 21 Mar 2022 20:15:47 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/python-usage/</guid>
+      <description>pip换源 1 2 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ # 清华源 pip config list # 查看当前源 使用virtualenvwrapper创建虚拟环境 参考： virtualenvwrapper</description>
+    </item>
+    
     <item>
       <title>使用 Fiddler 对 Python requests 请求进行抓包</title>
       <link>https://fivekernels.github.io/posts/python-requests-with-fiddler/</link>

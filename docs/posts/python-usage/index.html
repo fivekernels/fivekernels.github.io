@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Python Usage | 胡写乱画</title>
+<meta name="keywords" content="Python, pip" />
+<meta name="description" content="pip换源 1 2 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ # 清华源 pip config list # 查看当前源 使用virtualenvwrapper创建虚拟环境 参考： virtualenvwrapper">
+<meta name="author" content="admin">
+<link rel="canonical" href="https://fivekernels.github.io/posts/python-usage/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.df0464c045cf0d374a40bf7c586173ffbb38c33b1ad637ad39b0a3c92260c05c.css" integrity="sha256-3wRkwEXPDTdKQL98WGFz/7s4wzsa1jetObCjySJgwFw=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://fivekernels.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://fivekernels.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://fivekernels.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://fivekernels.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Python Usage" />
+<meta property="og:description" content="pip换源 1 2 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ # 清华源 pip config list # 查看当前源 使用virtualenvwrapper创建虚拟环境 参考： virtualenvwrapper" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fivekernels.github.io/posts/python-usage/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-21T20:15:47&#43;08:00" />
+<meta property="article:modified_time" content="2022-03-21T20:15:47&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Python Usage"/>
+<meta name="twitter:description" content="pip换源 1 2 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ # 清华源 pip config list # 查看当前源 使用virtualenvwrapper创建虚拟环境 参考： virtualenvwrapper"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📚文章",
+      "item": "https://fivekernels.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Python Usage",
+      "item": "https://fivekernels.github.io/posts/python-usage/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Python Usage",
+  "name": "Python Usage",
+  "description": "pip换源 1 2 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ # 清华源 pip config list # 查看当前源 使用virtualenvwrapper创建虚拟环境 参考： virtualenvwrapper",
+  "keywords": [
+    "Python", "pip"
+  ],
+  "articleBody": "pip换源 1 2  pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ # 清华源 pip config list # 查看当前源   使用virtualenvwrapper创建虚拟环境 参考：\nvirtualenvwrapper官方文档\nCSDN [团子大圆帅]：Python 虚拟环境管理工具介绍（virtualenv、virtualenvwrapper、pipenv）\nCSDN [zhicai_liu]：【virtualenvwrapper】重命名虚拟环境\n1  pip install virtualenvwrapper-win # 安装virtualenvwrapper，会自动安装virtualenv    安装好后默认创建的虚拟环境会位于\"C:\\Users\\envs\\“目录下;可以在环境变量-系统变量中创建WORKON_HOME，并将其值设定为需要存放的路径(如：D:\\envs)以实现修改。\n 常用命令：\n1 2 3 4 5 6 7 8 9 10 11  lsvirtualenv # 查看虚拟环境 workon # 查看虚拟环境 mkvirtualenv  # 创建名为venv_name的虚拟环境，默认python解释器继承当前环境 mkvirtualenv  --python= # 创建名为venv_name的虚拟环境，指定python解释器版本 workon  # 激活虚拟环境 deactivate # 退出当前虚拟环境 rmvirtualenv  # 删除虚拟环境 cdvirtualenv  # 进入虚拟环境所在目录 cpvirtualenv   # 重命名虚拟环境(1/2) rmvirtualenv  # 重命名虚拟环境(2/2)   使用miniconda创建虚拟环境 参考：CSDN [有马白颠]：conda、miniconda 、anaconda、 virtualenv的区别与miniconda的安装配置\n conda虚拟环境是独立于操作系统解释器环境的，即无论操作系统解释器什么版本（哪怕2.7），我也可以指定虚拟环境python版本为3.6，而venv是依赖主环境的。\n安装miniconda时，勾选“为所有用户安装”。\nconda换源 参考：\nCSDN [哈！小白要成长！]：miniconda 换源（添加镜像）\n简书 [谢小帅]：Anaconda 删除自己配置的镜像源\n1 2 3 4 5  conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2/ conda config --set show_channel_urls yes # 设置安装时显示源地址, 方便安装时知道包来自哪个源   查看添加结果：\n1  conda info   删除指定源：\n1  conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/   换回默认源：\n1  conda config --remove-key channels   虚拟环境管理  conda create -n默认将虚拟环境创建在”$HOME/.conda/envs/env_name\"目录下\n1 2 3 4 5 6  conda env list # 列出所有环境 conda create --name  python=3.6 # 创建虚拟环境 conda create -n  python=3.6 # 创建虚拟环境 conda activate  # 激活虚拟环境 conda deactivat # 表示退出当前环境 conda remove -n  --all # 删除虚拟环境   1 2  conda create -n  --clone  # 重命名(1/2) 复制 conda remove -n  --all # 重命名(2/2) 删除旧环境    此外，可以通过-p 或--prefix 的方式在指定路径下创建虚拟环境，但此时不允许使用-n 的方式指定名称：\n1 2 3 4  conda create -p  python=3.6 # 在指定路径下创建虚拟环境 conda create --prefix  python=3.6 # 在指定路径下创建虚拟环境 conda activate  # 激活指定路径下的虚拟环境 conda remove --prefix= --all # 删除指定路径下的虚拟环境    虚拟环境草导出与导入：\n1 2  conda env export  environment.yaml # 生成一个包含环境名称、环境源、环境依赖包、通过pip安装的包的配置文件 conda env create -f environment.yaml # 使用配置文件创建虚拟环境    清理conda缓存：\n1 2 3  conda clean -p # 删除没有用的包 --packages conda clean -t # 删除tar打包 --tarballs conda clean --all # 删除所有的安装包及cache(索引缓存、锁定文件、未使用过的包和tar包)   conda仓库简介 参考：霍小强的博客：conda、miniconda、anaconda、仓库的详解\n repo.anaconda.com/pkgs/是 由Anaconda®公司自己构建的包的公开仓库，您仅仅具有包的使用权。此仓库仅可用于个人、教育机构学习用，如果用于商用需付费购买商业产品。\nmain channel\n大多数由 Anaconda, Inc. 使用新编译器堆栈构建的包都托管在这里。此频道作为最高优先级别频道已包含在 conda 的默认频道中。\nfree channel\n在没有新编译器堆栈的情况下构建的包。这些软件包中的大多数与 pkgs/main 中的软件包兼容。已包含在 conda 的默认频道中。\nr channel\nMicrosoft R Open conda 包和 Anaconda, Inc. 的 R conda 包。已包含在 conda 的默认频道中。\nmro channel\n这是一个空频道。此频道中的软件包已移至 pkgs/mro-archive。新的 MRO 软件包位于 pkgs/r 频道中。\npro channel\n现在已弃用——尽管仍包含在 conda 的默认频道中。最后一个软件包于 2017 年 2 月更新。包括 Anaconda, Inc. 的各个商业软件包，所有这些现在都是开源的。（MKL 优化、IOPro、加速）\narchive channel\n有时，发布到其他频道之一的软件包会出现问题，迫使 Anaconda, Inc. 将其从频道中删除。在这些情况下，程序包会存档到此频道，供任何仍然需要它的人使用。\nmro-archive channel\npkgs/mro 频道的全部内容存档，Microsoft 的 MRO 和 MRAN 的过时版本。\nmsys2 channel\n仅限 Windows。已包含在 conda 的默认频道中。Anaconda, Inc. 的 R conda 软件包以及 pkgs/main 和 pkgs/free 中的其他一些软件包是必需的。它提供了 bash shell、Autotools、修订控制系统等，用于使用 MinGW-w64 工具链构建原生 Windows 应用程序。\npenv pyenv pipenv 好像很厉害，待更新…\n",
+  "wordCount" : "1998",
+  "inLanguage": "zh-cn",
+  "datePublished": "2022-03-21T20:15:47+08:00",
+  "dateModified": "2022-03-21T20:15:47+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://fivekernels.github.io/posts/python-usage/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "胡写乱画",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fivekernels.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://fivekernels.github.io" accesskey="h" title="胡写乱画 (Alt + H)">胡写乱画</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://fivekernels.github.io/" title="🏠首页">
+                    <span>🏠首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/posts/" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/categories/" title="🧩分类">
+                    <span>🧩分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/tags/" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/about/" title="🥣关于">
+                    <span>🥣关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/search/" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://fivekernels.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">📚文章</a></div>
+    <h1 class="post-title">
+      Python Usage
+    </h1>
+    <div class="post-meta">
+
+
+
+<span title='2022-03-21 20:15:47 +0800 CST'>2022/03/21</span>&nbsp;·&nbsp;Updated:&nbsp;2022/03/21&nbsp;·&nbsp;4 min&nbsp;·&nbsp;1998 words&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#pip%e6%8d%a2%e6%ba%90" aria-label="pip换源">pip换源</a></li>
+                    <li>
+                        <a href="#%e4%bd%bf%e7%94%a8virtualenvwrapper%e5%88%9b%e5%bb%ba%e8%99%9a%e6%8b%9f%e7%8e%af%e5%a2%83" aria-label="使用virtualenvwrapper创建虚拟环境">使用virtualenvwrapper创建虚拟环境</a></li>
+                    <li>
+                        <a href="#%e4%bd%bf%e7%94%a8miniconda%e5%88%9b%e5%bb%ba%e8%99%9a%e6%8b%9f%e7%8e%af%e5%a2%83" aria-label="使用miniconda创建虚拟环境">使用miniconda创建虚拟环境</a><ul>
+                            
+                    <li>
+                        <a href="#conda%e6%8d%a2%e6%ba%90" aria-label="conda换源">conda换源</a></li>
+                    <li>
+                        <a href="#%e8%99%9a%e6%8b%9f%e7%8e%af%e5%a2%83%e7%ae%a1%e7%90%86" aria-label="虚拟环境管理">虚拟环境管理</a></li>
+                    <li>
+                        <a href="#conda%e4%bb%93%e5%ba%93%e7%ae%80%e4%bb%8b" aria-label="conda仓库简介">conda仓库简介</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#penv-pyenv-pipenv" aria-label="penv pyenv pipenv">penv pyenv pipenv</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="pip换源">pip换源<a hidden class="anchor" aria-hidden="true" href="#pip换源">#</a></h2>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ <span style="color:#75715e"># 清华源</span>
+pip config list <span style="color:#75715e"># 查看当前源</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="使用virtualenvwrapper创建虚拟环境">使用virtualenvwrapper创建虚拟环境<a hidden class="anchor" aria-hidden="true" href="#使用virtualenvwrapper创建虚拟环境">#</a></h2>
+<p>参考：<br>
+  <a href="https://virtualenvwrapper.readthedocs.io/en/latest/#">virtualenvwrapper官方文档</a><br>
+  <a href="https://blog.csdn.net/jpch89/article/details/89478614">CSDN [团子大圆帅]：Python 虚拟环境管理工具介绍（virtualenv、virtualenvwrapper、pipenv）</a><br>
+  <a href="https://blog.csdn.net/zhicai_liu/article/details/110518521">CSDN [zhicai_liu]：【virtualenvwrapper】重命名虚拟环境</a></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install virtualenvwrapper-win <span style="color:#75715e"># 安装virtualenvwrapper，会自动安装virtualenv</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>  安装好后默认创建的虚拟环境会位于&quot;C:\Users&lt;username&gt;\envs\&ldquo;目录下;可以在环境变量-系统变量中创建WORKON_HOME，并将其值设定为需要存放的路径(如：D:\envs)以实现修改。</p>
+<p>  常用命令：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">lsvirtualenv <span style="color:#75715e"># 查看虚拟环境</span>
+workon       <span style="color:#75715e"># 查看虚拟环境</span>
+mkvirtualenv &lt;venv_name&gt;                      <span style="color:#75715e"># 创建名为venv_name的虚拟环境，默认python解释器继承当前环境</span>
+mkvirtualenv &lt;venv_name&gt; --python<span style="color:#f92672">=</span>&lt;解释器路径&gt; <span style="color:#75715e"># 创建名为venv_name的虚拟环境，指定python解释器版本</span>
+workon &lt;venv_name&gt;       <span style="color:#75715e"># 激活虚拟环境</span>
+deactivate               <span style="color:#75715e"># 退出当前虚拟环境</span>
+rmvirtualenv &lt;venv_name&gt; <span style="color:#75715e"># 删除虚拟环境</span>
+cdvirtualenv &lt;venv_name&gt; <span style="color:#75715e"># 进入虚拟环境所在目录</span>
+
+cpvirtualenv &lt;old_venv_name&gt; &lt;new_env_name&gt; <span style="color:#75715e"># 重命名虚拟环境(1/2)</span>
+rmvirtualenv &lt;old_venv_name&gt;                <span style="color:#75715e"># 重命名虚拟环境(2/2)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="使用miniconda创建虚拟环境">使用miniconda创建虚拟环境<a hidden class="anchor" aria-hidden="true" href="#使用miniconda创建虚拟环境">#</a></h2>
+<p>参考：<a href="https://blog.csdn.net/qq_36782182/article/details/111922349">CSDN [有马白颠]：conda、miniconda 、anaconda、 virtualenv的区别与miniconda的安装配置</a></p>
+<p>  conda虚拟环境是独立于操作系统解释器环境的，即无论操作系统解释器什么版本（哪怕2.7），我也可以指定虚拟环境python版本为3.6，而venv是依赖主环境的。<br>
+  安装miniconda时，勾选“为所有用户安装”。</p>
+<h3 id="conda换源">conda换源<a hidden class="anchor" aria-hidden="true" href="#conda换源">#</a></h3>
+<p>参考：<br>
+  <a href="https://blog.csdn.net/qq_41956139/article/details/122748299">CSDN [哈！小白要成长！]：miniconda 换源（添加镜像）</a><br>
+  <a href="https://www.jianshu.com/p/39819bcb889f">简书 [谢小帅]：Anaconda 删除自己配置的镜像源</a></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2/
+conda config --set show_channel_urls yes <span style="color:#75715e"># 设置安装时显示源地址, 方便安装时知道包来自哪个源</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>查看添加结果：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda info
+</code></pre></td></tr></table>
+</div>
+</div><p>删除指定源：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+</code></pre></td></tr></table>
+</div>
+</div><p>换回默认源：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda config --remove-key channels
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="虚拟环境管理">虚拟环境管理<a hidden class="anchor" aria-hidden="true" href="#虚拟环境管理">#</a></h3>
+<p>  conda create -n默认将虚拟环境创建在&rdquo;$HOME/.conda/envs/env_name&quot;目录下</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda env list                            <span style="color:#75715e"># 列出所有环境</span>
+conda create --name &lt;env_name&gt; python<span style="color:#f92672">=</span>3.6 <span style="color:#75715e"># 创建虚拟环境</span>
+conda create -n &lt;env_name&gt; python<span style="color:#f92672">=</span>3.6     <span style="color:#75715e"># 创建虚拟环境</span>
+conda activate &lt;env_name&gt;                 <span style="color:#75715e"># 激活虚拟环境</span>
+conda deactivat                           <span style="color:#75715e"># 表示退出当前环境</span>
+conda remove -n &lt;env_name&gt; --all          <span style="color:#75715e"># 删除虚拟环境</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda create -n &lt;new_env_name&gt; --clone &lt;old_env_name&gt; <span style="color:#75715e"># 重命名(1/2) 复制</span>
+conda remove -n &lt;old_env_name&gt; --all                  <span style="color:#75715e"># 重命名(2/2) 删除旧环境</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>  此外，可以通过-p &lt;path&gt;或--prefix &lt;path&gt;的方式在指定路径下创建虚拟环境，但此时不允许使用-n &lt;env_name&gt;的方式指定名称：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda create  -p &lt;/path/to/environment_dir&gt; python<span style="color:#f92672">=</span>3.6       <span style="color:#75715e"># 在指定路径下创建虚拟环境</span>
+conda create  --prefix &lt;/path/to/environment_dir&gt; python<span style="color:#f92672">=</span>3.6 <span style="color:#75715e"># 在指定路径下创建虚拟环境</span>
+conda activate &lt;/path/to/environment-dir&gt;                    <span style="color:#75715e"># 激活指定路径下的虚拟环境</span>
+conda remove --prefix<span style="color:#f92672">=</span>&lt;/path/to/environment_dir&gt; --all       <span style="color:#75715e"># 删除指定路径下的虚拟环境</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>  虚拟环境草导出与导入：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda env export &gt; environment.yaml  <span style="color:#75715e"># 生成一个包含环境名称、环境源、环境依赖包、通过pip安装的包的配置文件</span>
+conda env create -f environment.yaml <span style="color:#75715e"># 使用配置文件创建虚拟环境</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>  清理conda缓存：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda clean -p    <span style="color:#75715e"># 删除没有用的包 --packages</span>
+conda clean -t    <span style="color:#75715e"># 删除tar打包 --tarballs</span>
+conda clean --all <span style="color:#75715e"># 删除所有的安装包及cache(索引缓存、锁定文件、未使用过的包和tar包)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="conda仓库简介">conda仓库简介<a hidden class="anchor" aria-hidden="true" href="#conda仓库简介">#</a></h3>
+<p>参考：<a href="https://www.huoxiaoqiang.com/experience/pythone/6033.html">霍小强的博客：conda、miniconda、anaconda、仓库的详解</a></p>
+<p>  repo.anaconda.com/pkgs/是 由Anaconda®公司自己构建的包的公开仓库，您仅仅具有包的使用权。此仓库仅可用于个人、教育机构学习用，如果用于商用需付费购买商业产品。</p>
+<p><strong>main channel</strong><br>
+  大多数由 Anaconda, Inc. 使用新编译器堆栈构建的包都托管在这里。此频道作为最高优先级别频道已包含在 conda 的默认频道中。</p>
+<p><strong>free channel</strong><br>
+  在没有新编译器堆栈的情况下构建的包。这些软件包中的大多数与 pkgs/main 中的软件包兼容。已包含在 conda 的默认频道中。</p>
+<p><strong>r channel</strong><br>
+  Microsoft R Open conda 包和 Anaconda, Inc. 的 R conda 包。已包含在 conda 的默认频道中。</p>
+<p><strong>mro channel</strong><br>
+  这是一个空频道。此频道中的软件包已移至 pkgs/mro-archive。新的 MRO 软件包位于 pkgs/r 频道中。</p>
+<p><strong>pro channel</strong><br>
+  现在已弃用——尽管仍包含在 conda 的默认频道中。最后一个软件包于 2017 年 2 月更新。包括 Anaconda, Inc. 的各个商业软件包，所有这些现在都是开源的。（MKL 优化、IOPro、加速）</p>
+<p><strong>archive channel</strong><br>
+  有时，发布到其他频道之一的软件包会出现问题，迫使 Anaconda, Inc. 将其从频道中删除。在这些情况下，程序包会存档到此频道，供任何仍然需要它的人使用。</p>
+<p><strong>mro-archive channel</strong><br>
+  pkgs/mro 频道的全部内容存档，Microsoft 的 MRO 和 MRAN 的过时版本。</p>
+<p><strong>msys2 channel</strong><br>
+  仅限 Windows。已包含在 conda 的默认频道中。Anaconda, Inc. 的 R conda 软件包以及 pkgs/main 和 pkgs/free 中的其他一些软件包是必需的。它提供了 bash shell、Autotools、修订控制系统等，用于使用 MinGW-w64 工具链构建原生 Windows 应用程序。</p>
+<h2 id="penv-pyenv-pipenv">penv pyenv pipenv<a hidden class="anchor" aria-hidden="true" href="#penv-pyenv-pipenv">#</a></h2>
+<p><em>好像很厉害，待更新&hellip;</em></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://fivekernels.github.io/tags/python/">Python</a></li>
+      <li><a href="https://fivekernels.github.io/tags/pip/">pip</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://fivekernels.github.io/posts/git-usage/">
+    <span class="title"> »</span>
+    <br>
+    <span>Git Usage</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://fivekernels.github.io">胡写乱画</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
