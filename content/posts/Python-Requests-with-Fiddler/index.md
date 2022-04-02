@@ -12,6 +12,13 @@ draft: false
 
 &emsp;&emsp;开启 Fiddler 抓包时，python 中的 requests.get()、requests.post() 数据包无法捕获，且在请求 https 时会产生 ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1091) 错误。因此对于其请求应当做一定的修改。
 
+&emsp;&emsp;该方法对 requests 的版本有要求，certifi 目前使用最新版（2021.10.8）没有问题。
+
+```bash
+pip install requests==2.19.1
+pip install certifi==2018.8.13
+```
+
 ## Fiddler 证书导出
 
 &emsp;&emsp;打开 Fiddler，依次选择 Tools-Options...-HTTPS，点击右侧 Actions 中的 Open Windows Certificate Manager。
@@ -38,9 +45,3 @@ r = requests.get("https://exampleurl.example.com", proxies=proxies, verify=certF
 
 &emsp;&emsp;此后即可用 Fiddler 对 requests 请求于响应进行抓包。
 
-&emsp;&emsp;此外有人说对 requests 和 certifi 版本有要求，可以参考一下。
-
-```bash
-pip install requests==2.19.1
-pip install certifi==2018.8.13
-```
