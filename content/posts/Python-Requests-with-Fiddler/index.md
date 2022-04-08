@@ -1,6 +1,7 @@
 ---
 title: 使用 Fiddler 对 Python requests 请求进行抓包
 date: 2022-01-27T16:34:28+08:00
+lastmod: 2022-04-2T20:20:00+08:00
 tags:
 - Python
 - Fiddler
@@ -44,4 +45,3 @@ r = requests.get("https://exampleurl.example.com", proxies=proxies, verify=certF
 ```
 
 &emsp;&emsp;此后即可用 Fiddler 对 requests 请求于响应进行抓包。
-
