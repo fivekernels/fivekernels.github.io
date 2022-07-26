@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Eclipse (Nios II) 颜色和主题自定义 | 胡写乱画</title>
+<meta name="keywords" content="Nios II, Eclipse" />
+<meta name="description" content="基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制离线插件到程序目录下的plug">
+<meta name="author" content="admin">
+<link rel="canonical" href="https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.df0464c045cf0d374a40bf7c586173ffbb38c33b1ad637ad39b0a3c92260c05c.css" integrity="sha256-3wRkwEXPDTdKQL98WGFz/7s4wzsa1jetObCjySJgwFw=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://fivekernels.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://fivekernels.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://fivekernels.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://fivekernels.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Eclipse (Nios II) 颜色和主题自定义" />
+<meta property="og:description" content="基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制离线插件到程序目录下的plug" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-08T14:55:40&#43;08:00" />
+<meta property="article:modified_time" content="2022-04-08T14:55:40&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Eclipse (Nios II) 颜色和主题自定义"/>
+<meta name="twitter:description" content="基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制离线插件到程序目录下的plug"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📚文章",
+      "item": "https://fivekernels.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "Eclipse (Nios II) 颜色和主题自定义",
+      "item": "https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Eclipse (Nios II) 颜色和主题自定义",
+  "name": "Eclipse (Nios II) 颜色和主题自定义",
+  "description": "基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制离线插件到程序目录下的plug",
+  "keywords": [
+    "Nios II", "Eclipse"
+  ],
+  "articleBody": " 基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制离线插件到程序目录下的plugins文件夹（参考：https://blog.csdn.net/zbctop/article/details/90741420）会导致程序崩溃从而无法启动，因此将采用手动下载.epf文件的方式，使用Import-Preference实现配色的修改。\nEclipse在线主题网站：http://www.eclipsecolorthemes.org/\n修改代码字体和字号  依次点击：window– preference–General– Appearence– Colors and Fonts– Basic– Text Font,点击Edit选择喜欢的字体和大小，最后点击OK。\n常用颜色修改位置 光标处相同代码高亮 Window - preferences - General - Editors - Text Editors - Annotations:\n C/C++ Occurrences 相同位置高亮颜色 C/C++ Write Occurrences 赋值语句高亮颜色  特定语法高亮 Window - preferences - C/C++ - Editors - Syntax Coloring - (Elements):\n Preprocessor - Directives 宏定义#include #define等 Preprocessor - Headers 头文件 “main.h\"等 Code - Typedefs 通过typedef关键字定义的内容 uint等 Code - Macro definitions 宏定义内容 #define后的内容 PI等 Code - Macro references 宏定义的引用 代码中出现的部分PI等  修改左右侧资源管理器背景颜色  找到\\plugins\\org.eclipse.platform_x.x.x.vxxxxxxxx-xxxx\\css文件夹，用文本编辑器打开e4_default_win7.css（对应Theme中的Windows选项），在文件末尾添加如下内容：\n1 2 3 4 5 6 7 8  #org-eclipse-jdt-ui-PackageExplorer Tree, #org-eclipse-ui-navigator-ProjectExplorer Tree, #org-eclipse-ui-views-ContentOutline Tree, #PerspectiveSwitcher ToolBar { font-family: courier new; /* default window font */ font-size: 10px; /* default window font size*/ background-color: #FFFAE8; }   保存后重启Eclipse即可看到效果。\n 此时console背景仍为默认的白色，因此可以修改在window– preference– Run/Debug– Console下修改Background color。\n配色方案导出 参考：CSDN[秋之菌]：eclipse配置文件导出问题\n 修改Eclipse的如字体、背景、快捷键及一些template等之后，新建工作空间时eclipse仍会使用默认配置因此可以将相关配置导出后导入新的工作空间。\n 使用eclipse的导出功能（不推荐，很多配置不能导出）:工作目录中右键选择Export-General-Preference，这样可以导出epf文件，新的工作空间中可以用Import导入该配置文件，这个方法的确可以导入绝大多数的配置，但是并不全，导入后会丢失很多配置。 方法二：将/.metadata/.plugins/org.eclipse.core.runtime中的.settings文件夹拷贝出来，里面就是所有的配置文件，新建工作空间的时候将该.settings文件夹替换掉新工作空间中的.settings文件夹即可。（有网友是将.plugings文件夹替换，但是.plugings文件夹太大了，实际上就是替换.settings文件夹，.settings只有几百k。）   另外若需要导出界面上的工具栏对话框布局等：将该文件夹/.metadata.plugins\\org.eclipse.e4.workbench 保存起来即可。（eclipse有不少工具，我们安排好在界面上要使用的常用工具，不希望每个工作空间都要重新将这些工具重新弄出来排版好）\n",
+  "wordCount" : "1392",
+  "inLanguage": "zh-cn",
+  "datePublished": "2022-04-08T14:55:40+08:00",
+  "dateModified": "2022-04-08T14:55:40+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "胡写乱画",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fivekernels.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://fivekernels.github.io" accesskey="h" title="胡写乱画 (Alt + H)">胡写乱画</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://fivekernels.github.io/" title="🏠首页">
+                    <span>🏠首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/posts/" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/categories/" title="🧩分类">
+                    <span>🧩分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/tags/" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/about/" title="🥣关于">
+                    <span>🥣关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/search/" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://fivekernels.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">📚文章</a></div>
+    <h1 class="post-title">
+      Eclipse (Nios II) 颜色和主题自定义<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta">
+
+
+
+<span title='2022-04-08 14:55:40 +0800 CST'>2022/04/08</span>&nbsp;·&nbsp;Updated:&nbsp;2022/04/08&nbsp;·&nbsp;3 min&nbsp;·&nbsp;1392 words&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e4%bf%ae%e6%94%b9%e4%bb%a3%e7%a0%81%e5%ad%97%e4%bd%93%e5%92%8c%e5%ad%97%e5%8f%b7" aria-label="修改代码字体和字号">修改代码字体和字号</a></li>
+                    <li>
+                        <a href="#%e5%b8%b8%e7%94%a8%e9%a2%9c%e8%89%b2%e4%bf%ae%e6%94%b9%e4%bd%8d%e7%bd%ae" aria-label="常用颜色修改位置">常用颜色修改位置</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%85%89%e6%a0%87%e5%a4%84%e7%9b%b8%e5%90%8c%e4%bb%a3%e7%a0%81%e9%ab%98%e4%ba%ae" aria-label="光标处相同代码高亮">光标处相同代码高亮</a></li>
+                    <li>
+                        <a href="#%e7%89%b9%e5%ae%9a%e8%af%ad%e6%b3%95%e9%ab%98%e4%ba%ae" aria-label="特定语法高亮">特定语法高亮</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%bf%ae%e6%94%b9%e5%b7%a6%e5%8f%b3%e4%be%a7%e8%b5%84%e6%ba%90%e7%ae%a1%e7%90%86%e5%99%a8%e8%83%8c%e6%99%af%e9%a2%9c%e8%89%b2" aria-label="修改左右侧资源管理器背景颜色">修改左右侧资源管理器背景颜色</a></li>
+                    <li>
+                        <a href="#%e9%85%8d%e8%89%b2%e6%96%b9%e6%a1%88%e5%af%bc%e5%87%ba" aria-label="配色方案导出">配色方案导出</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><p>  基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制<a href="http://eclipse-color-theme.github.com/update">离线插件</a>到程序目录下的plugins文件夹（参考：<a href="https://blog.csdn.net/zbctop/article/details/90741420">https://blog.csdn.net/zbctop/article/details/90741420</a>）会导致程序崩溃从而无法启动，因此将采用手动下载.epf文件的方式，使用Import-Preference实现配色的修改。</p>
+<p>Eclipse在线主题网站：<a href="http://www.eclipsecolorthemes.org/">http://www.eclipsecolorthemes.org/</a></p>
+<h2 id="修改代码字体和字号">修改代码字体和字号<a hidden class="anchor" aria-hidden="true" href="#修改代码字体和字号">#</a></h2>
+<p>  依次点击：window&ndash;&gt; preference&ndash;&gt;General&ndash;&gt; Appearence&ndash;&gt; Colors and Fonts&ndash;&gt; Basic&ndash;&gt; Text Font,点击Edit选择喜欢的字体和大小，最后点击OK。</p>
+<p><img loading="lazy" src="./images/Window-Preference-General-Appearance-Color_and_Fonts-Basic_Text_Font.png" alt="Text_Font"  />
+</p>
+<h2 id="常用颜色修改位置">常用颜色修改位置<a hidden class="anchor" aria-hidden="true" href="#常用颜色修改位置">#</a></h2>
+<h3 id="光标处相同代码高亮">光标处相同代码高亮<a hidden class="anchor" aria-hidden="true" href="#光标处相同代码高亮">#</a></h3>
+<p>Window -&gt; preferences -&gt; General -&gt; Editors -&gt; Text Editors -&gt; Annotations:</p>
+<ul>
+<li>C/C++ Occurrences       相同位置高亮颜色</li>
+<li>C/C++ Write Occurrences 赋值语句高亮颜色</li>
+</ul>
+<h3 id="特定语法高亮">特定语法高亮<a hidden class="anchor" aria-hidden="true" href="#特定语法高亮">#</a></h3>
+<p>Window -&gt; preferences -&gt; C/C++ -&gt; Editors -&gt; Syntax Coloring -&gt; (Elements):</p>
+<ul>
+<li>Preprocessor -&gt; Directives 宏定义#include #define等</li>
+<li>Preprocessor -&gt; Headers    头文件 &ldquo;main.h&quot;等</li>
+<li>Code -&gt; Typedefs           通过typedef关键字定义的内容 uint等</li>
+<li>Code -&gt; Macro definitions  宏定义内容 #define后的内容 PI等</li>
+<li>Code -&gt; Macro references   宏定义的引用 代码中出现的部分PI等</li>
+</ul>
+<h2 id="修改左右侧资源管理器背景颜色">修改左右侧资源管理器背景颜色<a hidden class="anchor" aria-hidden="true" href="#修改左右侧资源管理器背景颜色">#</a></h2>
+<p>  找到&lt;安装目录&gt;\plugins\org.eclipse.platform_x.x.x.vxxxxxxxx-xxxx\css文件夹，用文本编辑器打开e4_default_win7.css（对应Theme中的Windows选项），在文件末尾添加如下内容：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-css" data-lang="css">#org-eclipse-jdt-ui-PackageExplorer <span style="color:#f92672">Tree</span><span style="color:#f92672">,</span>
+#org-eclipse-ui-navigator-ProjectExplorer <span style="color:#f92672">Tree</span><span style="color:#f92672">,</span>
+#org-eclipse-ui-views-ContentOutline <span style="color:#f92672">Tree</span><span style="color:#f92672">,</span>
+#PerspectiveSwitcher <span style="color:#f92672">ToolBar</span> {
+    <span style="color:#66d9ef">font-family</span>: courier new; <span style="color:#75715e">/* default window font */</span>
+    <span style="color:#66d9ef">font-size</span>: <span style="color:#ae81ff">10</span><span style="color:#66d9ef">px</span>; <span style="color:#75715e">/* default window font size*/</span>
+    <span style="color:#66d9ef">background-color</span>: <span style="color:#ae81ff">#FFFAE8</span>;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>保存后重启Eclipse即可看到效果。</p>
+<p><img loading="lazy" src="./images/Eclipse-Background.png" alt="Eclipse-Background"  />
+</p>
+<p>  此时console背景仍为默认的白色，因此可以修改在window&ndash;&gt; preference&ndash;&gt; <strong>Run/Debug</strong>&ndash;&gt; Console下修改Background color。</p>
+<h2 id="配色方案导出">配色方案导出<a hidden class="anchor" aria-hidden="true" href="#配色方案导出">#</a></h2>
+<p>参考：<a href="https://blog.csdn.net/huanghui167/article/details/8115847">CSDN[秋之菌]：eclipse配置文件导出问题</a></p>
+<p>  修改Eclipse的如字体、背景、快捷键及一些template等之后，新建工作空间时eclipse仍会使用默认配置因此可以将相关配置导出后导入新的工作空间。</p>
+<ul>
+<li>使用eclipse的导出功能（不推荐，很多配置不能导出）:工作目录中右键选择Export-&gt;General-&gt;Preference，这样可以导出epf文件，新的工作空间中可以用Import导入该配置文件，这个方法的确可以导入绝大多数的配置，但是并不全，导入后会丢失很多配置。</li>
+<li>方法二：将&lt;workspace&gt;/.metadata/.plugins/org.eclipse.core.runtime中的.settings文件夹拷贝出来，里面就是所有的配置文件，新建工作空间的时候将该.settings文件夹替换掉新工作空间中的.settings文件夹即可。（有网友是将.plugings文件夹替换，但是.plugings文件夹太大了，实际上就是替换.settings文件夹，.settings只有几百k。）</li>
+</ul>
+<p>  另外若需要导出界面上的工具栏对话框布局等：将该文件夹&lt;workspace&gt;/.metadata.plugins\org.eclipse.e4.workbench 保存起来即可。（eclipse有不少工具，我们安排好在界面上要使用的常用工具，不希望每个工作空间都要重新将这些工具重新弄出来排版好）</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://fivekernels.github.io/tags/nios-ii/">Nios II</a></li>
+      <li><a href="https://fivekernels.github.io/tags/eclipse/">Eclipse</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://fivekernels.github.io/posts/stm32-systick-ll/">
+    <span class="title">« </span>
+    <br>
+    <span>STM32 SysTick LL</span>
+  </a>
+  <a class="next" href="https://fivekernels.github.io/posts/python-usage/">
+    <span class="title"> »</span>
+    <br>
+    <span>Python Usage</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://fivekernels.github.io">胡写乱画</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

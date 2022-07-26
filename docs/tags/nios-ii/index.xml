@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Nios II on 胡写乱画</title>
+    <link>https://fivekernels.github.io/tags/nios-ii/</link>
+    <description>Recent content in Nios II on 胡写乱画</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 08 Apr 2022 14:55:40 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/nios-ii/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Eclipse (Nios II) 颜色和主题自定义</title>
+      <link>https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/</link>
+      <pubDate>Fri, 08 Apr 2022 14:55:40 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/</guid>
+      <description>基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制离线插件到程序目录下的plug</description>
+    </item>
+    
+  </channel>
+</rss>

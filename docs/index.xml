@@ -6,7 +6,25 @@
     <description>Recent content on 胡写乱画</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 21 Mar 2022 20:15:47 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 24 Jul 2022 13:03:43 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>STM32 SysTick LL</title>
+      <link>https://fivekernels.github.io/posts/stm32-systick-ll/</link>
+      <pubDate>Sun, 24 Jul 2022 13:03:43 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/stm32-systick-ll/</guid>
+      <description>STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]</description>
+    </item>
+    
+    <item>
+      <title>Eclipse (Nios II) 颜色和主题自定义</title>
+      <link>https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/</link>
+      <pubDate>Fri, 08 Apr 2022 14:55:40 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/</guid>
+      <description>基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制离线插件到程序目录下的plug</description>
+    </item>
+    
     <item>
       <title>Python Usage</title>
       <link>https://fivekernels.github.io/posts/python-usage/</link>

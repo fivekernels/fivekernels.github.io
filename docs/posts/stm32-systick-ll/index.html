@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>STM32 SysTick LL | 胡写乱画</title>
+<meta name="keywords" content="STM32, CubeMX, SysTick, L4" />
+<meta name="description" content="STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]">
+<meta name="author" content="admin">
+<link rel="canonical" href="https://fivekernels.github.io/posts/stm32-systick-ll/" />
+<link crossorigin="anonymous" href="/assets/css/stylesheet.min.df0464c045cf0d374a40bf7c586173ffbb38c33b1ad637ad39b0a3c92260c05c.css" integrity="sha256-3wRkwEXPDTdKQL98WGFz/7s4wzsa1jetObCjySJgwFw=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://fivekernels.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://fivekernels.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://fivekernels.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://fivekernels.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="STM32 SysTick LL" />
+<meta property="og:description" content="STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fivekernels.github.io/posts/stm32-systick-ll/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-07-24T13:03:43&#43;08:00" />
+<meta property="article:modified_time" content="2022-07-24T13:03:43&#43;08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="STM32 SysTick LL"/>
+<meta name="twitter:description" content="STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "📚文章",
+      "item": "https://fivekernels.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  3 ,
+      "name": "STM32 SysTick LL",
+      "item": "https://fivekernels.github.io/posts/stm32-systick-ll/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "STM32 SysTick LL",
+  "name": "STM32 SysTick LL",
+  "description": "STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]",
+  "keywords": [
+    "STM32", "CubeMX", "SysTick", "L4"
+  ],
+  "articleBody": "STM32 SysTick LL库 参考：\n《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923\ncnblogs[王健]-STM32 的系统滴答定时器( Systick) 彻底研究解读\nST community[Bogdan Golab]-LL_Init1msTick disables SysTick interrupt\nCSDN[Brendon_Tan]-STM32CubeMX 实战教程：SysTick 实验（LL 库）\nSysTick 介绍  Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在使用操作系统时通常用作周期性中断来定期触发OS内核，用于处理任务管理和上下文切换等；当不使用操作系统时，SysTick可以当作简单定时器外设来使用（《ARM Cortex-M3与Cortex-M4权威指南（第3版）》，p215）。下图为SysTick定时器的简单框图\n SysTick定时器中存在4个寄存器，CMSIS-Core头文件中定义了一个名为SysTick的结构体，例如在STM32L4的库函数中core_cm4.h定义了如下结构体\nCubeMX配置   点击 SYS，将 Timebase Source 选择为 SysTick（项目默认为 SysTick）   点击NVIC，配置Time base的中断优先级   在Project Manager–Advanced Setting中选择LL库   点击Generate Code生成代码\n  代码编写与测试  在main()函数中调用的函数SystemClock_Config()中对SysTick进行初始化：\n1 2 3 4 5 6 7 8 9  ... LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1); LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1); LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1); LL_Init1msTick(80000000);  LL_SetSystemCoreClock(80000000); ...   其默认提供1ms的时基：\n1 2 3 4 5  void LL_Init1msTick(uint32_t HCLKFrequency) { /* Use frequency provided in argument */ LL_InitTick(HCLKFrequency, 1000U); }    但LL库的初始化过程默认并不会开启SysTick-VAL向下计数器溢出中断（SysTick_Handler）：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16  /** * @brief This function configures the Cortex-M SysTick source of the time base. * @param HCLKFrequency HCLK frequency in Hz (can be calculated thanks to RCC helper macro) * @note When a RTOS is used, it is recommended to avoid changing the SysTick * configuration by calling this function, for a delay use rather osDelay RTOS service. * @param Ticks Number of ticks * @retval None */ __STATIC_INLINE void LL_InitTick(uint32_t HCLKFrequency, uint32_t Ticks) { /* Configure the SysTick to have interrupt in 1ms time base */ SysTick-LOAD = (uint32_t)((HCLKFrequency / Ticks) - 1UL); /* set reload register */ SysTick-VAL = 0UL; /* Load the SysTick Counter Value */ SysTick-CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; /* Enable the Systick Timer */ }   所以若要在中断函数SysTick_Handler()中进行程序处理，需要手动在main()函数内初始化代码后添加相关代码（Ref：You need LL_SYSTICK_EnableIT();because for LL the IT is not enabled (HAL enables it automatically)）：\n1 2 3  /* USER CODE BEGIN SysInit */ LL_SYSTICK_EnableIT(); /* USER CODE END SysInit */   之后便可在计数器减至0时进入中断函数：\n微秒级精确延时  未验证，仅思路展示，需要重写考虑恢复原有延时\n1 2 3 4 5 6 7  void Delay_us(uint32_t n) //延时多少微秒，n 就输入多少 { SysTick-LOAD = 72 * n; //装载计数值，因为时钟 72M，72 次在 1μs  SysTick-CTRL = 0x00000005; //时钟来源设为为 HCLK(72M)，打开定时器  while((SysTick-CTRL \u0026 0x00010000) != 0); //等待计数到 0  SysTick-CTRL = 0x00000004; //关闭定时器 }   其他问题（未验证）  生成代码中默认是以 HCLK 时钟 为 SysTick 时钟源\n",
+  "wordCount" : "1100",
+  "inLanguage": "zh-cn",
+  "datePublished": "2022-07-24T13:03:43+08:00",
+  "dateModified": "2022-07-24T13:03:43+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "admin"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://fivekernels.github.io/posts/stm32-systick-ll/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "胡写乱画",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fivekernels.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://fivekernels.github.io" accesskey="h" title="胡写乱画 (Alt + H)">胡写乱画</a>
+            <span class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://fivekernels.github.io/" title="🏠首页">
+                    <span>🏠首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/posts/" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/categories/" title="🧩分类">
+                    <span>🧩分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/tags/" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/about/" title="🥣关于">
+                    <span>🥣关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/search/" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://fivekernels.github.io">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">📚文章</a></div>
+    <h1 class="post-title">
+      STM32 SysTick LL<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta">
+
+
+
+<span title='2022-07-24 13:03:43 +0800 CST'>2022/07/24</span>&nbsp;·&nbsp;Updated:&nbsp;2022/07/24&nbsp;·&nbsp;3 min&nbsp;·&nbsp;1100 words&nbsp;·&nbsp;admin
+
+</div>
+  </header> 
+  <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#stm32-systick-ll%e5%ba%93" aria-label="STM32 SysTick LL库">STM32 SysTick LL库</a><ul>
+                            
+                    <li>
+                        <a href="#systick-%e4%bb%8b%e7%bb%8d" aria-label="SysTick 介绍">SysTick 介绍</a></li>
+                    <li>
+                        <a href="#cubemx%e9%85%8d%e7%bd%ae" aria-label="CubeMX配置">CubeMX配置</a></li>
+                    <li>
+                        <a href="#%e4%bb%a3%e7%a0%81%e7%bc%96%e5%86%99%e4%b8%8e%e6%b5%8b%e8%af%95" aria-label="代码编写与测试">代码编写与测试</a></li>
+                    <li>
+                        <a href="#%e5%be%ae%e7%a7%92%e7%ba%a7%e7%b2%be%e7%a1%ae%e5%bb%b6%e6%97%b6" aria-label="微秒级精确延时">微秒级精确延时</a></li>
+                    <li>
+                        <a href="#%e5%85%b6%e4%bb%96%e9%97%ae%e9%a2%98%e6%9c%aa%e9%aa%8c%e8%af%81" aria-label="其他问题（未验证）">其他问题（未验证）</a>
+                    </li>
+                </ul>
+                </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="stm32-systick-ll库">STM32 SysTick LL库<a hidden class="anchor" aria-hidden="true" href="#stm32-systick-ll库">#</a></h2>
+<p>参考：<br>
+  <a href="http://www.tup.tsinghua.edu.cn/booksCenter/book_05443401.html">《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923</a><br>
+  <a href="https://www.cnblogs.com/nevel/p/6357349.html">cnblogs[王健]-STM32 的系统滴答定时器( Systick) 彻底研究解读</a><br>
+  <a href="https://st.force.com/community/s/question/0D50X00009XkfuLSAR/llinit1mstick-disables-systick-interrupt">ST community[Bogdan Golab]-LL_Init1msTick disables SysTick interrupt</a><br>
+  <a href="https://blog.csdn.net/Brendon_Tan/article/details/108102254">CSDN[Brendon_Tan]-STM32CubeMX 实战教程：SysTick 实验（LL 库）</a></p>
+<h3 id="systick-介绍">SysTick 介绍<a hidden class="anchor" aria-hidden="true" href="#systick-介绍">#</a></h3>
+<p>  Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在使用操作系统时通常用作周期性中断来定期触发OS内核，用于处理任务管理和上下文切换等；当不使用操作系统时，SysTick可以当作简单定时器外设来使用（《ARM Cortex-M3与Cortex-M4权威指南（第3版）》，p215）。下图为SysTick定时器的简单框图<br>
+<img loading="lazy" src="./images/A-simplified-block-diagram-of-SysTick-timer.png" alt="SysTick定时器简单框图"  />
+</p>
+<p>  SysTick定时器中存在4个寄存器，CMSIS-Core头文件中定义了一个名为SysTick的结构体，例如在STM32L4的库函数中core_cm4.h定义了如下结构体<br>
+<img loading="lazy" src="./images/SysTick_Type.png" alt="SysTick结构体"  />
+</p>
+<h3 id="cubemx配置">CubeMX配置<a hidden class="anchor" aria-hidden="true" href="#cubemx配置">#</a></h3>
+<ol>
+<li>
+<p>点击 SYS，将 Timebase Source 选择为 SysTick（项目默认为 SysTick）
+<img loading="lazy" src="./images/SYS-Timebase-Source.png" alt="SYS-Timebase-Source"  />
+</p>
+</li>
+<li>
+<p>点击NVIC，配置Time base的中断优先级
+<img loading="lazy" src="./images/NVIC-Time-base.png" alt="NVIC-Time-base"  />
+</p>
+</li>
+<li>
+<p>在Project Manager&ndash;&gt;Advanced Setting中选择LL库
+<img loading="lazy" src="./images/Driver-Selector.png" alt="Driver-Selector"  />
+</p>
+</li>
+<li>
+<p>点击Generate Code生成代码</p>
+</li>
+</ol>
+<h3 id="代码编写与测试">代码编写与测试<a hidden class="anchor" aria-hidden="true" href="#代码编写与测试">#</a></h3>
+<p>  在main()函数中调用的函数SystemClock_Config()中对SysTick进行初始化：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">...
+LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1);
+LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1);
+LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1);
+
+<span style="display:block;width:100%;background-color:#3c3d38">LL_Init1msTick(<span style="color:#ae81ff">80000000</span>);
+</span>
+LL_SetSystemCoreClock(<span style="color:#ae81ff">80000000</span>);
+...
+</code></pre></td></tr></table>
+</div>
+</div><p>其默认提供1ms的时基：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">LL_Init1msTick</span>(<span style="color:#66d9ef">uint32_t</span> HCLKFrequency)
+{
+  <span style="color:#75715e">/* Use frequency provided in argument */</span>
+  LL_InitTick(HCLKFrequency, <span style="color:#ae81ff">1000U</span>);
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>  但LL库的初始化过程默认并不会开启SysTick-&gt;VAL向下计数器溢出中断（SysTick_Handler）：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/**
+</span><span style="color:#75715e">  * @brief  This function configures the Cortex-M SysTick source of the time base.
+</span><span style="color:#75715e">  * @param  HCLKFrequency HCLK frequency in Hz (can be calculated thanks to RCC helper macro)
+</span><span style="color:#75715e">  * @note   When a RTOS is used, it is recommended to avoid changing the SysTick
+</span><span style="color:#75715e">  *         configuration by calling this function, for a delay use rather osDelay RTOS service.
+</span><span style="color:#75715e">  * @param  Ticks Number of ticks
+</span><span style="color:#75715e">  * @retval None
+</span><span style="color:#75715e">  */</span>
+__STATIC_INLINE <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">LL_InitTick</span>(<span style="color:#66d9ef">uint32_t</span> HCLKFrequency, <span style="color:#66d9ef">uint32_t</span> Ticks)
+{
+  <span style="color:#75715e">/* Configure the SysTick to have interrupt in 1ms time base */</span>
+  SysTick<span style="color:#f92672">-&gt;</span>LOAD  <span style="color:#f92672">=</span> (<span style="color:#66d9ef">uint32_t</span>)((HCLKFrequency <span style="color:#f92672">/</span> Ticks) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1UL</span>);  <span style="color:#75715e">/* set reload register */</span>
+  SysTick<span style="color:#f92672">-&gt;</span>VAL   <span style="color:#f92672">=</span> <span style="color:#ae81ff">0UL</span>;                                       <span style="color:#75715e">/* Load the SysTick Counter Value */</span>
+<span style="display:block;width:100%;background-color:#3c3d38">  SysTick<span style="color:#f92672">-&gt;</span>CTRL  <span style="color:#f92672">=</span> SysTick_CTRL_CLKSOURCE_Msk <span style="color:#f92672">|</span>
+</span><span style="display:block;width:100%;background-color:#3c3d38">                   SysTick_CTRL_ENABLE_Msk;                   <span style="color:#75715e">/* Enable the Systick Timer */</span>
+</span>}
+</code></pre></td></tr></table>
+</div>
+</div><p>所以若要在中断函数SysTick_Handler()中进行程序处理，需要手动在main()函数内初始化代码后添加相关代码（<a href="https://st.force.com/community/s/question/0D50X00009XkfuLSAR/llinit1mstick-disables-systick-interrupt">Ref：You need LL_SYSTICK_EnableIT();because for LL the IT is not enabled (HAL enables it automatically)</a>）：</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="display:block;width:100%;background-color:#3c3d38"><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">/* USER CODE BEGIN SysInit */</span>
+<span style="display:block;width:100%;background-color:#3c3d38">LL_SYSTICK_EnableIT();
+</span><span style="color:#75715e">/* USER CODE END SysInit */</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>之后便可在计数器减至0时进入中断函数：<br>
+<img loading="lazy" src="./images/SysTick_Handler.png" alt="IAR进入SysTick_Handler()"  />
+</p>
+<h3 id="微秒级精确延时">微秒级精确延时<a hidden class="anchor" aria-hidden="true" href="#微秒级精确延时">#</a></h3>
+<p>  未验证，仅思路展示，需要重写考虑恢复原有延时</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Delay_us</span>(<span style="color:#66d9ef">uint32_t</span> n) <span style="color:#75715e">//延时多少微秒，n 就输入多少
+</span><span style="color:#75715e"></span>{
+    SysTick<span style="color:#f92672">-&gt;</span>LOAD <span style="color:#f92672">=</span> <span style="color:#ae81ff">72</span> <span style="color:#f92672">*</span> n;                   <span style="color:#75715e">//装载计数值，因为时钟 72M，72 次在 1μs
+</span><span style="color:#75715e"></span>    SysTick<span style="color:#f92672">-&gt;</span>CTRL <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00000005</span>;               <span style="color:#75715e">//时钟来源设为为 HCLK(72M)，打开定时器
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span>((SysTick<span style="color:#f92672">-&gt;</span>CTRL <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0x00010000</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>); <span style="color:#75715e">//等待计数到 0
+</span><span style="color:#75715e"></span>    SysTick<span style="color:#f92672">-&gt;</span>CTRL <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x00000004</span>;               <span style="color:#75715e">//关闭定时器
+</span><span style="color:#75715e"></span>}
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="其他问题未验证">其他问题（未验证）<a hidden class="anchor" aria-hidden="true" href="#其他问题未验证">#</a></h3>
+<p>  <a href="https://blog.csdn.net/Brendon_Tan/article/details/108102254">生成代码中默认是以 HCLK 时钟 为 SysTick 时钟源</a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://fivekernels.github.io/tags/stm32/">STM32</a></li>
+      <li><a href="https://fivekernels.github.io/tags/cubemx/">CubeMX</a></li>
+      <li><a href="https://fivekernels.github.io/tags/systick/">SysTick</a></li>
+      <li><a href="https://fivekernels.github.io/tags/l4/">L4</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://fivekernels.github.io/posts/eclipse-nios-ii-color-and-theme/">
+    <span class="title"> »</span>
+    <br>
+    <span>Eclipse (Nios II) 颜色和主题自定义</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://fivekernels.github.io">胡写乱画</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerText = 'copy';
+
+        function copyingDone() {
+            copybutton.innerText = 'copied!';
+            setTimeout(() => {
+                copybutton.innerText = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>
