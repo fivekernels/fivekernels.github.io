@@ -7,7 +7,7 @@ tags:
 - Eclipse
 categories: 
 - FPGA
-draft: true
+draft: false
 ---
 
 &emsp;&emsp;基于Eclipse定制的Nios II应用程序没有集成marketplace，因此无法在线安装插件，同时手动复制[离线插件](http://eclipse-color-theme.github.com/update)到程序目录下的plugins文件夹（参考：<https://blog.csdn.net/zbctop/article/details/90741420>）会导致程序崩溃从而无法启动，因此将采用手动下载.epf文件的方式，使用Import-Preference实现配色的修改。
