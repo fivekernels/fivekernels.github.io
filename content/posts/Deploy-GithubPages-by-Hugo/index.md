@@ -7,7 +7,7 @@ categories:
 - GitHub Pages
 - Hugo
 date: 2021-10-24T20:15:26+08:00
-lastmod: 2021-10-28T11:49:00+08:00
+lastmod: 2022-12-23T19:17:42+08:00
 draft: false
 ---
 
@@ -230,6 +230,22 @@ git push origin gh-pages
 
 &emsp;&emsp;最后将main分支中的源文档和gh-pages分支h中的网页文档分别push到Github仓库中，进入settings将source选定gh-pages即可。
 
-## 添加个人域名
+## 部署到 Github Pages 后无法正常显示样式
 
-*CloudFlare https ...待补充...<https://zhuanlan.zhihu.com/p/37752930>*
+&emsp;&emsp;有些时候，hugo在本地预览没有问题，但当部署到github pages后样式无法正常显示，浏览器console报错：*Failed to find a valid digest in the 'integrity' attribute for resource...The resource has been blocked*。这是由于在Windows下拉取的仓库默认会被git转换成CRLF换行符，而推到github上时代码被转换成了LF；这就导致了hugo生成代码时计算的校验和和推送后的代码校验和不一致，因此浏览器无法加载。
+
+&emsp;&emsp;可以禁止Windows下的git在拉取代码时的自动转换行为，以解决该问题：
+
+```bash
+git config --global core.autocrlf input # 提交时转换为LF，拉取时不转换
+```
+
+&emsp;&emsp;此外，还可以通过使用.gitattributes文件对换行符进行说明，让git对于css文件强制以crlf签出：
+
+```text
+*.css text eol=crlf
+```
+
+Reference:  
+<https://github.com/lxndrblz/anatole/issues/114#issuecomment-1079609969>  
+<https://github.com/adityatelange/hugo-PaperMod/issues/89>
