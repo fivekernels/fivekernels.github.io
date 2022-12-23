@@ -166,7 +166,7 @@ MARIADB_AUTO_UPGRADE=1
 
 - MARIADB_DATABASE: This variable allows you to specify the name of a database to be created on image startup.
 - MARIADB_USER: These are used in conjunction to create a new user and to set that user's password. This user will be granted all access (corresponding to GRANT ALL) to the MARIADB_DATABASE database.
-- MARIADB_PASSWORD: Both user and password variables are required for a user to be created. 
+- MARIADB_PASSWORD: Both user and password variables are required for a user to be created.
 - MARIADB_PASSWORD_HASH: See MARIADB_ROOT_PASSWORD_HASH above for how to get a password hash for MARIADB_PASSWORD_HASH.
 - MARIADB_AUTO_UPGRADE: Set MARIADB_AUTO_UPGRADE to a non-empty value to have the entrypoint check whether mysql_upgrade/mariadb-upgrade needs to run, and if so, run the upgrade before starting the MariaDB server.
 - MARIADB_DISABLE_UPGRADE_BACKUP: Before the upgrade, a backup of the system database is created in the top of the datadir with the name system_mysql_backup_*.sql.zst. This backup process can be disabled with by setting MARIADB_DISABLE_UPGRADE_BACKUP to a non-empty value.
