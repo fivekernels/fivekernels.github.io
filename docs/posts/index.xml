@@ -6,7 +6,16 @@
     <description>Recent content in 📚文章 on 胡写乱画</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 24 Jul 2022 13:03:43 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 20 Dec 2022 11:05:07 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nextcloud With Docker</title>
+      <link>https://fivekernels.github.io/posts/nextcloud-with-docker/</link>
+      <pubDate>Tue, 20 Dec 2022 11:05:07 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/nextcloud-with-docker/</guid>
+      <description>本文介绍了在树莓派(aarch64)上使用docker的方式配置nextcloud:fpm、mariadb、nginx、redis以及onl</description>
+    </item>
+    
     <item>
       <title>STM32 SysTick LL</title>
       <link>https://fivekernels.github.io/posts/stm32-systick-ll/</link>

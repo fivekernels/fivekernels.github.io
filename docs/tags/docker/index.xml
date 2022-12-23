@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>docker on 胡写乱画</title>
+    <link>https://fivekernels.github.io/tags/docker/</link>
+    <description>Recent content in docker on 胡写乱画</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 20 Dec 2022 11:05:07 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nextcloud With Docker</title>
+      <link>https://fivekernels.github.io/posts/nextcloud-with-docker/</link>
+      <pubDate>Tue, 20 Dec 2022 11:05:07 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/nextcloud-with-docker/</guid>
+      <description>本文介绍了在树莓派(aarch64)上使用docker的方式配置nextcloud:fpm、mariadb、nginx、redis以及onl</description>
+    </item>
+    
+  </channel>
+</rss>

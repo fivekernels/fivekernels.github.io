@@ -6,12 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
 <title>Git Usage | 胡写乱画</title>
-<meta name="keywords" content="Git" />
+<meta name="keywords" content="Git">
 <meta name="description" content="清理提交历史中的敏感信息和大文件 参考： 知乎 [彼得三三]：GitHub清除敏感信息操作 [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感">
 <meta name="author" content="admin">
-<link rel="canonical" href="https://fivekernels.github.io/posts/git-usage/" />
-<link crossorigin="anonymous" href="/assets/css/stylesheet.min.df0464c045cf0d374a40bf7c586173ffbb38c33b1ad637ad39b0a3c92260c05c.css" integrity="sha256-3wRkwEXPDTdKQL98WGFz/7s4wzsa1jetObCjySJgwFw=" rel="preload stylesheet" as="style">
-<script defer crossorigin="anonymous" src="/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js" integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5&#43;kdJvBz5iKbt6B5PJI="
+<link rel="canonical" href="https://fivekernels.github.io/posts/git-usage/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.48143524f6b1c46d7f5b6c3a41ac1b03e87e60ab212cf6c950165c08a1ce50e3.css" integrity="sha256-SBQ1JPaxxG1/W2w6QawbA&#43;h&#43;YKshLPbJUBZcCKHOUOM=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
     onload="hljs.initHighlightingOnLoad();"></script>
 <link rel="icon" href="https://fivekernels.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
@@ -60,8 +60,8 @@
 <meta property="og:description" content="清理提交历史中的敏感信息和大文件 参考： 知乎 [彼得三三]：GitHub清除敏感信息操作 [dotnet 职业技术学院]：清理 git 仓库太繁琐？试试 bfg！删除敏感" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://fivekernels.github.io/posts/git-usage/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2022-03-20T14:34:46&#43;08:00" />
-<meta property="article:modified_time" content="2022-03-20T16:17:46&#43;08:00" />
+<meta property="article:published_time" content="2022-03-20T14:34:46+08:00" />
+<meta property="article:modified_time" content="2022-03-20T16:17:46+08:00" />
 
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Git Usage"/>
@@ -139,14 +139,14 @@
     <nav class="nav">
         <div class="logo">
             <a href="https://fivekernels.github.io" accesskey="h" title="胡写乱画 (Alt + H)">胡写乱画</a>
-            <span class="logo-switches">
+            <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
-                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
-                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -160,7 +160,7 @@
                         <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
                     </svg>
                 </button>
-            </span>
+            </div>
         </div>
         <ul id="menu">
             <li>
@@ -484,7 +484,7 @@ git commit -am <span style="color:#e6db74">&#34;Remove a submodule.&#34;</span>
     <span>
         Powered by
         <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
-        <a href="https://git.io/hugopapermod" rel="noopener" target="_blank">PaperMod</a>
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
     </span>
 </footer>
 <a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
@@ -553,12 +553,12 @@ git commit -am <span style="color:#e6db74">&#34;Remove a submodule.&#34;</span>
 
         const copybutton = document.createElement('button');
         copybutton.classList.add('copy-code');
-        copybutton.innerText = 'copy';
+        copybutton.innerHTML = 'copy';
 
         function copyingDone() {
-            copybutton.innerText = 'copied!';
+            copybutton.innerHTML = 'copied!';
             setTimeout(() => {
-                copybutton.innerText = 'copy';
+                copybutton.innerHTML = 'copy';
             }, 2000);
         }
 
