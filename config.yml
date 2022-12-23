@@ -62,7 +62,7 @@ outputs:
         - JSON # is necessary
 
 params:
-    author: admin
+    author: hey
     # author: ["Me", "You"] # multiple authors
     defaultTheme: auto # to switch between dark or light according to browser theme /dark/light
     # ShowShareButtons: true # Displays Share Buttons at Bottom of each post
