@@ -1,4 +1,4 @@
-baseURL: https://fivekernels.github.io
+baseURL: https://fivekernels.github.io/
 languageCode: zh-CN # 只用于在rss模板中填充<language>标记
 title: 胡写乱画 # 站点名称
 
