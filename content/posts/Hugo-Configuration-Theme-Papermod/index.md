@@ -390,3 +390,49 @@ lastmod: {{ .Date }}
 ```
 
 &emsp;&emsp;重新生成站点即可预览效果。
+
+## 代码样式设置
+
+&emsp;&emsp;Hugo 默认支持 Chroma，但可选的高亮主题不多，[点击查看主题列表](https://xyproto.github.io/splash/docs/all.html)。  
+&emsp;&emsp;在配置文件中禁用 highlight.js，然后使用自带的高亮主题；如果不设置 disableHLJS: true，highlight.js 会覆盖 Chroma 主题。  
+
+```yml
+params:
+  assets:
+    disableHLJS: true
+
+# ...
+
+markup:
+    highlight:
+        codeFences: true
+        guessSyntax: true
+        lineNos: true
+        anchorLineNos: false # 行号锚点（特别丑！）
+        # lineNumbersInTable: true
+        noClasses: false
+        tabWidth: 4
+        style: dracula
+```
+
+&emsp;&emsp;但是如果对于代码块中启用了高亮某些行时，行号大于10的时候将会显示不正常，此时只能配置 noClasses: false 并手动使用hugo生成css文件：
+
+```bash
+hugo gen chromastyles --style dracula > assets/css/extended/dracula.css
+```
+
+&emsp;&emsp;代码块中的背景色默认是不随亮暗主题改变的，可以在 assets/css/extended/blank.css 中添加以下内容调整不同的背景色：
+
+```css
+:root {
+    --hljs-bg: #282C34;
+}
+.dark {
+    --hljs-bg: #1c1c1c;
+}
+```
+
+Reference
+<https://github.com/adityatelange/hugo-PaperMod/issues/923>  
+<https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma>  
+<https://dvel.me/posts/hugo-papermod-config/#%E4%BB%A3%E7%A0%81%E9%AB%98%E4%BA%AE>

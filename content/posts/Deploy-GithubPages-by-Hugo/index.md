@@ -232,21 +232,29 @@ git push origin gh-pages
 
 ## 部署到 Github Pages 后无法正常显示样式
 
-&emsp;&emsp;有些时候，hugo在本地预览没有问题，但当部署到github pages后样式无法正常显示，浏览器console报错：*Failed to find a valid digest in the 'integrity' attribute for resource...The resource has been blocked*。这是由于在Windows下拉取的仓库默认会被git转换成CRLF换行符，而推到github上时代码被转换成了LF；这就导致了hugo生成代码时计算的校验和和推送后的代码校验和不一致，因此浏览器无法加载。
+&emsp;&emsp;有些时候，hugo在本地预览没有问题，但当部署到github pages后样式无法正常显示，出现SRI（完整性检查）的问题，浏览器console报错：*Failed to find a valid digest in the 'integrity' attribute for resource...The resource has been blocked*。这是由于在Windows下拉取的仓库默认会被git转换成CRLF换行符，而推到github上时代码被转换成了LF；这就导致了hugo生成代码时计算的校验和和推送后的代码校验和不一致，因此浏览器无法加载。可以选择下列的几种方式解决：
 
-&emsp;&emsp;可以禁止Windows下的git在拉取代码时的自动转换行为，以解决该问题：
+- 禁止Windows下的git在拉取代码时的自动转换行为：
 
 ```bash
 git config --global core.autocrlf input # 提交时转换为LF，拉取时不转换
 ```
 
-&emsp;&emsp;此外，还可以通过使用.gitattributes文件对换行符进行说明，让git对于css文件强制以crlf签出：
+- 通过使用.gitattributes文件对换行符进行说明，让git对于css文件强制以crlf签出：
 
 ```text
 *.css text eol=crlf
 ```
 
-&emsp;&emsp;或者，可以禁用签名；将 themes\PaperMod\layouts\partials\ 下的 head.html 中的 integrity="{{ $stylesheet.Data.Integrity }}" 改为 integrity=""，并重新生成。
+- 在hugo中关闭SRI：
+
+```yml
+params:
+  assets:
+    disableFingerprinting: true
+```
+
+- （不推荐）禁用签名；将 themes\PaperMod\layouts\partials\ 下的 head.html 中的 integrity="{{ $stylesheet.Data.Integrity }}" 改为 integrity=""，并重新生成。
 
 Reference:  
 <https://github.com/lxndrblz/anatole/issues/114#issuecomment-1079609969>  
