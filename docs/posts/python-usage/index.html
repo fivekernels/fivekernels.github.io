@@ -308,14 +308,14 @@
 </script>
 
   <div class="post-content"><h2 id="pip换源">pip换源<a hidden class="anchor" aria-hidden="true" href="#pip换源">#</a></h2>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ <span style="color:#75715e"># 清华源</span>
-</span></span><span style="display:flex;"><span>pip config list <span style="color:#75715e"># 查看当前源</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip config <span class="nb">set</span> global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/ <span class="c1"># 清华源</span>
+</span></span><span class="line"><span class="cl">pip config list <span class="c1"># 查看当前源</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="使用virtualenvwrapper创建虚拟环境">使用virtualenvwrapper创建虚拟环境<a hidden class="anchor" aria-hidden="true" href="#使用virtualenvwrapper创建虚拟环境">#</a></h2>
@@ -323,42 +323,42 @@
   <a href="https://virtualenvwrapper.readthedocs.io/en/latest/#">virtualenvwrapper官方文档</a><br>
   <a href="https://blog.csdn.net/jpch89/article/details/89478614">CSDN [团子大圆帅]：Python 虚拟环境管理工具介绍（virtualenv、virtualenvwrapper、pipenv）</a><br>
   <a href="https://blog.csdn.net/zhicai_liu/article/details/110518521">CSDN [zhicai_liu]：【virtualenvwrapper】重命名虚拟环境</a></p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install virtualenvwrapper-win <span style="color:#75715e"># 安装virtualenvwrapper，会自动安装virtualenv</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install virtualenvwrapper-win <span class="c1"># 安装virtualenvwrapper，会自动安装virtualenv</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  安装好后默认创建的虚拟环境会位于&quot;C:\Users&lt;username&gt;\envs\&ldquo;目录下;可以在环境变量-系统变量中创建WORKON_HOME，并将其值设定为需要存放的路径(如：D:\envs)以实现修改。</p>
 <p>  常用命令：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsvirtualenv <span style="color:#75715e"># 查看虚拟环境</span>
-</span></span><span style="display:flex;"><span>workon       <span style="color:#75715e"># 查看虚拟环境</span>
-</span></span><span style="display:flex;"><span>mkvirtualenv &lt;venv_name&gt;                      <span style="color:#75715e"># 创建名为venv_name的虚拟环境，默认python解释器继承当前环境</span>
-</span></span><span style="display:flex;"><span>mkvirtualenv &lt;venv_name&gt; --python<span style="color:#f92672">=</span>&lt;解释器路径&gt; <span style="color:#75715e"># 创建名为venv_name的虚拟环境，指定python解释器版本</span>
-</span></span><span style="display:flex;"><span>workon &lt;venv_name&gt;       <span style="color:#75715e"># 激活虚拟环境</span>
-</span></span><span style="display:flex;"><span>deactivate               <span style="color:#75715e"># 退出当前虚拟环境</span>
-</span></span><span style="display:flex;"><span>rmvirtualenv &lt;venv_name&gt; <span style="color:#75715e"># 删除虚拟环境</span>
-</span></span><span style="display:flex;"><span>cdvirtualenv &lt;venv_name&gt; <span style="color:#75715e"># 进入虚拟环境所在目录</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cpvirtualenv &lt;old_venv_name&gt; &lt;new_env_name&gt; <span style="color:#75715e"># 重命名虚拟环境(1/2)</span>
-</span></span><span style="display:flex;"><span>rmvirtualenv &lt;old_venv_name&gt;                <span style="color:#75715e"># 重命名虚拟环境(2/2)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">lsvirtualenv <span class="c1"># 查看虚拟环境</span>
+</span></span><span class="line"><span class="cl">workon       <span class="c1"># 查看虚拟环境</span>
+</span></span><span class="line"><span class="cl">mkvirtualenv &lt;venv_name&gt;                      <span class="c1"># 创建名为venv_name的虚拟环境，默认python解释器继承当前环境</span>
+</span></span><span class="line"><span class="cl">mkvirtualenv &lt;venv_name&gt; --python<span class="o">=</span>&lt;解释器路径&gt; <span class="c1"># 创建名为venv_name的虚拟环境，指定python解释器版本</span>
+</span></span><span class="line"><span class="cl">workon &lt;venv_name&gt;       <span class="c1"># 激活虚拟环境</span>
+</span></span><span class="line"><span class="cl">deactivate               <span class="c1"># 退出当前虚拟环境</span>
+</span></span><span class="line"><span class="cl">rmvirtualenv &lt;venv_name&gt; <span class="c1"># 删除虚拟环境</span>
+</span></span><span class="line"><span class="cl">cdvirtualenv &lt;venv_name&gt; <span class="c1"># 进入虚拟环境所在目录</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">cpvirtualenv &lt;old_venv_name&gt; &lt;new_env_name&gt; <span class="c1"># 重命名虚拟环境(1/2)</span>
+</span></span><span class="line"><span class="cl">rmvirtualenv &lt;old_venv_name&gt;                <span class="c1"># 重命名虚拟环境(2/2)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="使用miniconda创建虚拟环境">使用miniconda创建虚拟环境<a hidden class="anchor" aria-hidden="true" href="#使用miniconda创建虚拟环境">#</a></h2>
@@ -369,116 +369,116 @@
 <p>参考：<br>
   <a href="https://blog.csdn.net/qq_41956139/article/details/122748299">CSDN [哈！小白要成长！]：miniconda 换源（添加镜像）</a><br>
   <a href="https://www.jianshu.com/p/39819bcb889f">简书 [谢小帅]：Anaconda 删除自己配置的镜像源</a></p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-</span></span><span style="display:flex;"><span>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-</span></span><span style="display:flex;"><span>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/
-</span></span><span style="display:flex;"><span>conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2/
-</span></span><span style="display:flex;"><span>conda config --set show_channel_urls yes <span style="color:#75715e"># 设置安装时显示源地址, 方便安装时知道包来自哪个源</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+</span></span><span class="line"><span class="cl">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+</span></span><span class="line"><span class="cl">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r/
+</span></span><span class="line"><span class="cl">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2/
+</span></span><span class="line"><span class="cl">conda config --set show_channel_urls yes <span class="c1"># 设置安装时显示源地址, 方便安装时知道包来自哪个源</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>查看添加结果：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda info
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda info
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>删除指定源：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>换回默认源：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda config --remove-key channels
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda config --remove-key channels
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="虚拟环境管理">虚拟环境管理<a hidden class="anchor" aria-hidden="true" href="#虚拟环境管理">#</a></h3>
 <p>  conda create -n默认将虚拟环境创建在&rdquo;$HOME/.conda/envs/env_name&quot;目录下</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda env list                            <span style="color:#75715e"># 列出所有环境</span>
-</span></span><span style="display:flex;"><span>conda create --name &lt;env_name&gt; python<span style="color:#f92672">=</span>3.6 <span style="color:#75715e"># 创建虚拟环境</span>
-</span></span><span style="display:flex;"><span>conda create -n &lt;env_name&gt; python<span style="color:#f92672">=</span>3.6     <span style="color:#75715e"># 创建虚拟环境</span>
-</span></span><span style="display:flex;"><span>conda activate &lt;env_name&gt;                 <span style="color:#75715e"># 激活虚拟环境</span>
-</span></span><span style="display:flex;"><span>conda deactivat                           <span style="color:#75715e"># 表示退出当前环境</span>
-</span></span><span style="display:flex;"><span>conda remove -n &lt;env_name&gt; --all          <span style="color:#75715e"># 删除虚拟环境</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda env list                            <span class="c1"># 列出所有环境</span>
+</span></span><span class="line"><span class="cl">conda create --name &lt;env_name&gt; <span class="nv">python</span><span class="o">=</span>3.6 <span class="c1"># 创建虚拟环境</span>
+</span></span><span class="line"><span class="cl">conda create -n &lt;env_name&gt; <span class="nv">python</span><span class="o">=</span>3.6     <span class="c1"># 创建虚拟环境</span>
+</span></span><span class="line"><span class="cl">conda activate &lt;env_name&gt;                 <span class="c1"># 激活虚拟环境</span>
+</span></span><span class="line"><span class="cl">conda deactivat                           <span class="c1"># 表示退出当前环境</span>
+</span></span><span class="line"><span class="cl">conda remove -n &lt;env_name&gt; --all          <span class="c1"># 删除虚拟环境</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda create -n &lt;new_env_name&gt; --clone &lt;old_env_name&gt; <span style="color:#75715e"># 重命名(1/2) 复制</span>
-</span></span><span style="display:flex;"><span>conda remove -n &lt;old_env_name&gt; --all                  <span style="color:#75715e"># 重命名(2/2) 删除旧环境</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda create -n &lt;new_env_name&gt; --clone &lt;old_env_name&gt; <span class="c1"># 重命名(1/2) 复制</span>
+</span></span><span class="line"><span class="cl">conda remove -n &lt;old_env_name&gt; --all                  <span class="c1"># 重命名(2/2) 删除旧环境</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  此外，可以通过-p &lt;path&gt;或--prefix &lt;path&gt;的方式在指定路径下创建虚拟环境，但此时不允许使用-n &lt;env_name&gt;的方式指定名称：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda create  -p &lt;/path/to/environment_dir&gt; python<span style="color:#f92672">=</span>3.6       <span style="color:#75715e"># 在指定路径下创建虚拟环境</span>
-</span></span><span style="display:flex;"><span>conda create  --prefix &lt;/path/to/environment_dir&gt; python<span style="color:#f92672">=</span>3.6 <span style="color:#75715e"># 在指定路径下创建虚拟环境</span>
-</span></span><span style="display:flex;"><span>conda activate &lt;/path/to/environment-dir&gt;                    <span style="color:#75715e"># 激活指定路径下的虚拟环境</span>
-</span></span><span style="display:flex;"><span>conda remove --prefix<span style="color:#f92672">=</span>&lt;/path/to/environment_dir&gt; --all       <span style="color:#75715e"># 删除指定路径下的虚拟环境</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda create  -p &lt;/path/to/environment_dir&gt; <span class="nv">python</span><span class="o">=</span>3.6       <span class="c1"># 在指定路径下创建虚拟环境</span>
+</span></span><span class="line"><span class="cl">conda create  --prefix &lt;/path/to/environment_dir&gt; <span class="nv">python</span><span class="o">=</span>3.6 <span class="c1"># 在指定路径下创建虚拟环境</span>
+</span></span><span class="line"><span class="cl">conda activate &lt;/path/to/environment-dir&gt;                    <span class="c1"># 激活指定路径下的虚拟环境</span>
+</span></span><span class="line"><span class="cl">conda remove --prefix<span class="o">=</span>&lt;/path/to/environment_dir&gt; --all       <span class="c1"># 删除指定路径下的虚拟环境</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  虚拟环境草导出与导入：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda env export &gt; environment.yaml  <span style="color:#75715e"># 生成一个包含环境名称、环境源、环境依赖包、通过pip安装的包的配置文件</span>
-</span></span><span style="display:flex;"><span>conda env create -f environment.yaml <span style="color:#75715e"># 使用配置文件创建虚拟环境</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda env <span class="nb">export</span> &gt; environment.yaml  <span class="c1"># 生成一个包含环境名称、环境源、环境依赖包、通过pip安装的包的配置文件</span>
+</span></span><span class="line"><span class="cl">conda env create -f environment.yaml <span class="c1"># 使用配置文件创建虚拟环境</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  清理conda缓存：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda clean -p    <span style="color:#75715e"># 删除没有用的包 --packages</span>
-</span></span><span style="display:flex;"><span>conda clean -t    <span style="color:#75715e"># 删除tar打包 --tarballs</span>
-</span></span><span style="display:flex;"><span>conda clean --all <span style="color:#75715e"># 删除所有的安装包及cache(索引缓存、锁定文件、未使用过的包和tar包)</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">conda clean -p    <span class="c1"># 删除没有用的包 --packages</span>
+</span></span><span class="line"><span class="cl">conda clean -t    <span class="c1"># 删除tar打包 --tarballs</span>
+</span></span><span class="line"><span class="cl">conda clean --all <span class="c1"># 删除所有的安装包及cache(索引缓存、锁定文件、未使用过的包和tar包)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="conda仓库简介">conda仓库简介<a hidden class="anchor" aria-hidden="true" href="#conda仓库简介">#</a></h3>

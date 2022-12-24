@@ -246,6 +246,9 @@ git config --global core.autocrlf input # 提交时转换为LF，拉取时不转
 *.css text eol=crlf
 ```
 
+&emsp;&emsp;或者，可以禁用签名；将 themes\PaperMod\layouts\partials\ 下的 head.html 中的 integrity="{{ $stylesheet.Data.Integrity }}" 改为 integrity=""，并重新生成。
+
 Reference:  
 <https://github.com/lxndrblz/anatole/issues/114#issuecomment-1079609969>  
-<https://github.com/adityatelange/hugo-PaperMod/issues/89>
+<https://github.com/adityatelange/hugo-PaperMod/issues/89>  
+<https://smc.im/post/resolve-integrity-error-in-hugo/>

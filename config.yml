@@ -124,6 +124,6 @@ markup:
         lineNos: true
         guessSyntax: true
         lineNumbersInTable: true
-        noClasses: true
+        noClasses: false
         tabWidth: 4
         # style: monokai

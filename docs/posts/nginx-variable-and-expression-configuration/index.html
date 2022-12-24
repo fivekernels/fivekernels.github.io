@@ -336,12 +336,12 @@
 <li>每行语句以分号结尾</li>
 <li>使用 set 指令对变量赋值：</li>
 </ul>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">set</span> $hello <span style="color:#e6db74">&#34;hello&#34;</span>;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">$hello</span> <span class="s">&#34;hello&#34;</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="取值">取值<a hidden class="anchor" aria-hidden="true" href="#取值">#</a></h3>
@@ -349,35 +349,35 @@
 <li>使用变量时将变量写在双引号内，将会自动将其替换为实际内容</li>
 <li>写在单引号内的变量不会被替换</li>
 </ul>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;this</span> <span style="color:#e6db74">is</span> $hello <span style="color:#e6db74">world.&#34;</span>;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">print</span> <span class="s">&#34;this</span> <span class="s">is</span> <span class="nv">$hello</span> <span class="s">world.&#34;</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><ul>
 <li>变量后紧跟构成变量名的字符（字母、数字、下划线等），使用大括号消除歧义</li>
 </ul>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">print</span> <span style="color:#e6db74">&#34;this</span> <span style="color:#e6db74">is</span> ${hello}world.&#34;;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">print</span> <span class="s">&#34;this</span> <span class="s">is</span> <span class="nv">${hello}world.&#34;</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>详细信息：</p>
 <p><a href="https://blog.csdn.net/u014296316/article/details/80973530">https://blog.csdn.net/u014296316/article/details/80973530</a></p>
 <p><a href="http://blog.sina.com.cn/s/blog_6d579ff40100wi7p.html">http://blog.sina.com.cn/s/blog_6d579ff40100wi7p.html</a></p>
 <h3 id="拼接">拼接<a hidden class="anchor" aria-hidden="true" href="#拼接">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">set</span> $allUrl <span style="color:#e6db74">&#34;</span>${host}${request_uri}&#34;;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">$allUrl</span> <span class="s">&#34;</span><span class="nv">${host}${request_uri}&#34;</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="内置变量">内置变量<a hidden class="anchor" aria-hidden="true" href="#内置变量">#</a></h3>
@@ -398,41 +398,41 @@
 <li>$ssl_client_s_dn：证书subject</li>
 </ul>
 <p>  若要将客户端信息传递到后端，可以在 Nginx 配置文件中的 location 内加入 header 配置：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">location</span> <span style="color:#e6db74">/</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">......</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">proxy_set_header</span> <span style="color:#e6db74">X-SSL-Client-Cert</span> $ssl_client_cert;
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">X-SSL-serial</span> $ssl_client_serial;
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">proxy_set_header</span> <span style="color:#e6db74">cert-subject</span>  $ssl_client_s_dn;
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="s">/</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">......</span>
+</span></span><span class="line"><span class="cl">    <span class="s">proxy_set_header</span> <span class="s">X-SSL-Client-Cert</span> <span class="nv">$ssl_client_cert</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_set_header</span> <span class="s">X-SSL-serial</span> <span class="nv">$ssl_client_serial</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">proxy_set_header</span> <span class="s">cert-subject</span>  <span class="nv">$ssl_client_s_dn</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>其中，X-SSL-Client-Cert、X-SSL-serial、cert-subject为自定义变量名，供后端代码（java等）获取header值使用。</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CaController</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;/test&#34;</span><span style="color:#f92672">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">caTest</span><span style="color:#f92672">(</span><span style="color:#a6e22e">@RequestHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;X-SSL-serial&#34;</span><span style="color:#f92672">)</span> String serial<span style="color:#f92672">,</span> <span style="color:#a6e22e">@RequestHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;X-SSL-Client-Cert&#34;</span><span style="color:#f92672">)</span> String cert<span style="color:#f92672">,</span> <span style="color:#a6e22e">@RequestHeader</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cert-subject&#34;</span><span style="color:#f92672">)</span> String subject<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> serial <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; \r&#34;</span> <span style="color:#f92672">+</span> cert <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; \r&#34;</span> <span style="color:#f92672">+</span> subject<span style="color:#f92672">;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">CaController</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">&#34;/test&#34;</span><span class="o">)</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">public</span> <span class="n">String</span> <span class="nf">caTest</span><span class="o">(</span><span class="nd">@RequestHeader</span><span class="o">(</span><span class="s">&#34;X-SSL-serial&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">serial</span><span class="o">,</span> <span class="nd">@RequestHeader</span><span class="o">(</span><span class="s">&#34;X-SSL-Client-Cert&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">cert</span><span class="o">,</span> <span class="nd">@RequestHeader</span><span class="o">(</span><span class="s">&#34;cert-subject&#34;</span><span class="o">)</span> <span class="n">String</span> <span class="n">subject</span><span class="o">)</span> <span class="o">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">serial</span> <span class="o">+</span> <span class="s">&#34; \r&#34;</span> <span class="o">+</span> <span class="n">cert</span> <span class="o">+</span> <span class="s">&#34; \r&#34;</span> <span class="o">+</span> <span class="n">subject</span><span class="o">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">}</span>
+</span></span><span class="line"><span class="cl"><span class="o">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="表达式">表达式<a hidden class="anchor" aria-hidden="true" href="#表达式">#</a></h2>
@@ -549,14 +549,14 @@
 </tbody>
 </table>
 <p>  Nginx 在匹配正则时会生成对应表达式中括号被匹配字符的变量，从左至右依次为：$1|$2|$3……可供后续程序中使用匹配内容。例如字符串&quot;ID=user1_acdefg9876543GHI&quot;，使用正则表达式&quot;(ID=([-_a-zA-Z0-9]+))&ldquo;进行匹配，所生成的变量：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-fallback" data-lang="fallback"><span style="display:flex;"><span>$1 = ID=user1_acdefg9876543GHI;
-</span></span><span style="display:flex;"><span>$2 = user1_acdefg9876543GHI;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">$1 = ID=user1_acdefg9876543GHI;
+</span></span><span class="line"><span class="cl">$2 = user1_acdefg9876543GHI;
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="rewrite">rewrite<a hidden class="anchor" aria-hidden="true" href="#rewrite">#</a></h3>
@@ -568,85 +568,85 @@
 <li>这个过程不是无限的，nginx对于这样的跳转就支持10次，如果过多甚至死循环，则会报500错误。</li>
 </ol>
 <p>  基本语法：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">rewrite</span> <span style="color:#e6db74">regex</span> <span style="color:#e6db74">replacement</span> <span style="color:#e6db74">[flag]</span>;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">rewrite</span> <span class="s">regex</span> <span class="s">replacement</span> <span class="s">[flag]</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="examples">Examples<a hidden class="anchor" aria-hidden="true" href="#examples">#</a></h2>
 <h3 id="example-1">Example 1<a hidden class="anchor" aria-hidden="true" href="#example-1">#</a></h3>
 <p>  在正则比较中使用变量（参考：<a href="https://cloud.tencent.com/developer/ask/55209">腾讯云社区问答：如何在nginx“if”正则表达式中使用变量？</a>）</p>
 <p>以下语句似乎不起作用</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">set</span> $chk == <span style="color:#e6db74">&#34;need&#34;</span>; 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> $me <span style="color:#e6db74">&#34;kevin&#34;</span>; 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$uri ~ <span style="color:#e6db74">&#34;by-</span>{<span style="color:#f92672">$me}&#34;)</span> { <span style="color:#f92672">set</span> $chk <span style="color:#e6db74">&#34;&#34;</span>; }
-</span></span><span style="display:flex;"><span><span style="color:#f92672">if</span> <span style="color:#e6db74">(</span>$chk == <span style="color:#e6db74">&#34;need&#34;)</span> { <span style="color:#f92672">...</span> <span style="color:#960050;background-color:#1e0010">}</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">$chk</span> <span class="p">==</span> <span class="s">&#34;need&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">$me</span> <span class="s">&#34;kevin&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="s">(</span><span class="nv">$uri</span> <span class="p">~</span> <span class="sr">&#34;by-</span><span class="p">{</span><span class="kn">$me}&#34;)</span> <span class="p">{</span> <span class="kn">set</span> <span class="nv">$chk</span> <span class="s">&#34;&#34;</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kn">if</span> <span class="s">(</span><span class="nv">$chk</span> <span class="p">==</span> <span class="s">&#34;need&#34;)</span> <span class="p">{</span> <span class="kn">...</span> <span class="err">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Solution [<em>待验证</em>]</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">set</span> $chk == <span style="color:#e6db74">&#34;need&#34;</span>; 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">set</span> $me <span style="color:#e6db74">&#34;kevin&#34;</span>; 
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$uri ~ <span style="color:#e6db74">/by-([^-]+)/)</span> { <span style="color:#f92672">set</span> $by $1; }
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$by = $me<span style="color:#e6db74">)</span> {<span style="color:#f92672">set</span> $chk <span style="color:#e6db74">&#34;&#34;</span>;}
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#e6db74">(</span>$chk == <span style="color:#e6db74">&#34;need&#34;)</span> { <span style="color:#f92672">...</span> <span style="color:#960050;background-color:#1e0010">}</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">$chk</span> <span class="p">==</span> <span class="s">&#34;need&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="k">set</span> <span class="nv">$me</span> <span class="s">&#34;kevin&#34;</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="s">(</span><span class="nv">$uri</span> <span class="p">~</span> <span class="sr">/by-([^-]+)/)</span> <span class="p">{</span> <span class="kn">set</span> <span class="nv">$by</span> <span class="nv">$1</span><span class="p">;</span> <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="s">(</span><span class="nv">$by</span> <span class="p">=</span> <span class="nv">$me</span><span class="s">)</span> <span class="p">{</span><span class="kn">set</span> <span class="nv">$chk</span> <span class="s">&#34;&#34;</span><span class="p">;}</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="s">(</span><span class="nv">$chk</span> <span class="p">==</span> <span class="s">&#34;need&#34;)</span> <span class="p">{</span> <span class="kn">...</span> <span class="err">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="example-2">Example 2<a hidden class="anchor" aria-hidden="true" href="#example-2">#</a></h3>
 <p>  去掉指定的url参数（去掉url中的start=&hellip;，保留其他参数）：（参考<a href="https://segmentfault.com/q/1010000005143925">segmentfault sPeng</a>）</p>
 <p>Solution1 [<em>待验证</em>]</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">location</span> ~<span style="color:#e6db74">*</span> <span style="color:#e6db74">filename(\d+)\.html</span>$ {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">root</span> <span style="color:#e6db74">/var/www/html</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">index</span> <span style="color:#e6db74">index.html</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">if</span> <span style="color:#e6db74">(</span>$query_string ~ <span style="color:#e6db74">^(.*)&amp;start=(\d+)&amp;(.*))</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">set</span> $a $1;
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">set</span> $b $2;
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">set</span> $c $3;
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">rewrite</span> <span style="color:#e6db74">^</span> <span style="color:#e6db74">/filename1?</span>${a}&amp;${c}? <span style="color:#e6db74">break</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">location</span> <span class="p">~</span><span class="sr">*</span> <span class="s">filename(\d+)\.html</span>$ <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">root</span> <span class="s">/var/www/html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">index</span> <span class="s">index.html</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">if</span> <span class="s">(</span><span class="nv">$query_string</span> <span class="p">~</span> <span class="sr">^(.*)&amp;start=(\d+)&amp;(.*))</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">set</span> <span class="nv">$a</span> <span class="nv">$1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">set</span> <span class="nv">$b</span> <span class="nv">$2</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">set</span> <span class="nv">$c</span> <span class="nv">$3</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="kn">rewrite</span> <span class="s">^</span> <span class="s">/filename1?</span><span class="nv">${a}&amp;${c}?</span> <span class="s">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>Solution2 [<em>待验证</em>]</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nginx" data-lang="nginx"><span style="display:flex;"><span><span style="color:#66d9ef">rewrite</span> <span style="color:#e6db74">^(.*?)start=\d+\&amp;?(.*)</span>$ $1$2 <span style="color:#e6db74">last</span>;
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-nginx" data-lang="nginx"><span class="line"><span class="cl"><span class="k">rewrite</span> <span class="s">^(.*?)start=\d+\&amp;?(.*)</span>$ <span class="nv">$1$2</span> <span class="s">last</span><span class="p">;</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div>

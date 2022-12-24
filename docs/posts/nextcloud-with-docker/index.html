@@ -339,172 +339,172 @@
 </ul>
 <h2 id="docker-compose">docker-compose<a hidden class="anchor" aria-hidden="true" href="#docker-compose">#</a></h2>
 <h3 id="docker-composeyml">docker-compose.yml<a hidden class="anchor" aria-hidden="true" href="#docker-composeyml">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">54
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">55
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">56
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">57
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">58
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="hl"><span class="lnt">35
+</span></span><span class="hl"><span class="lnt">36
+</span></span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-yml" data-lang="yml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">nextcloud</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">hostname</span>: <span style="color:#ae81ff">nextcloud</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nextcloud:fpm</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_nextcloud</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumes</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">./PersistentData/nextcloud:/var/www/html</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env_file</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">./nextcloud.env</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">depends_on</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">mariadb</span>
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">redis</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">mariadb</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">hostname</span>: <span style="color:#ae81ff">mariadb</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mariadb</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_mariadb</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">command</span>: --<span style="color:#ae81ff">character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --transaction-isolation=READ-COMMITTED --binlog-format=ROW  --innodb_read_only_compressed=OFF</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumes</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">./PersistentData/mariadb:/var/lib/mysql</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">env_file</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">./mariadb.env</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">nginx</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">hostname</span>: <span style="color:#ae81ff">nginx</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nginx</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_nginx</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumes</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro</span>
-</span></span><span style="display:flex; background-color:#3c3d38"><span>            - <span style="color:#ae81ff">./config/ssl/&lt;example.domain&gt;/fullchain.pem:/etc/ssl/nginx/fullchain.pem</span>
-</span></span><span style="display:flex; background-color:#3c3d38"><span>            - <span style="color:#ae81ff">./config/ssl/&lt;example.domain&gt;/privkey.pem:/etc/ssl/nginx/privkey.pem</span>
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">./PersistentData/nextcloud:/usr/share/nginx/html/nextcloud:ro</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">ports</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;80:80&#34;</span>
-</span></span><span style="display:flex;"><span>            - <span style="color:#e6db74">&#34;443:443&#34;</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">depends_on</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">nextcloud</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">redis</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">redis</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_redis</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">cron</span>:
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">image</span>: <span style="color:#ae81ff">nextcloud:fpm</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">container_name</span>: <span style="color:#ae81ff">nextcloud_cron</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">unless-stopped</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">volumes</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">./PersistentData/nextcloud:/var/www/html</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">entrypoint</span>: <span style="color:#ae81ff">/cron.sh</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">depends_on</span>:
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">mariadb</span>
-</span></span><span style="display:flex;"><span>            - <span style="color:#ae81ff">redis</span>
-</span></span></code></pre></td></tr></table>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-yml" data-lang="yml"><span class="line"><span class="cl"><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s1">&#39;3&#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="nt">services</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nextcloud</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud:fpm</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud_nextcloud</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">./PersistentData/nextcloud:/var/www/html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">env_file</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">./nextcloud.env</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">mariadb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">redis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">mariadb</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l">mariadb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">mariadb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud_mariadb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span>--<span class="l">character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --transaction-isolation=READ-COMMITTED --binlog-format=ROW  --innodb_read_only_compressed=OFF</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">./PersistentData/mariadb:/var/lib/mysql</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">env_file</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">./mariadb.env</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">nginx</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud_nginx</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">./config/nginx/nginx.conf:/etc/nginx/nginx.conf:ro</span><span class="w">
+</span></span></span><span class="line hl"><span class="cl"><span class="w">            </span>- <span class="l">./config/ssl/&lt;example.domain&gt;/fullchain.pem:/etc/ssl/nginx/fullchain.pem</span><span class="w">
+</span></span></span><span class="line hl"><span class="cl"><span class="w">            </span>- <span class="l">./config/ssl/&lt;example.domain&gt;/privkey.pem:/etc/ssl/nginx/privkey.pem</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">./PersistentData/nextcloud:/usr/share/nginx/html/nextcloud:ro</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">ports</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="s2">&#34;80:80&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="s2">&#34;443:443&#34;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">nextcloud</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">redis</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">redis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud_redis</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nt">cron</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud:fpm</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">container_name</span><span class="p">:</span><span class="w"> </span><span class="l">nextcloud_cron</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">restart</span><span class="p">:</span><span class="w"> </span><span class="l">unless-stopped</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">volumes</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">./PersistentData/nextcloud:/var/www/html</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">entrypoint</span><span class="p">:</span><span class="w"> </span><span class="l">/cron.sh</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nt">depends_on</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">mariadb</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span>- <span class="l">redis</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="nextcloudenv">nextcloud.env<a hidden class="anchor" aria-hidden="true" href="#nextcloudenv">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="hl"><span class="lnt"> 1
+</span></span><span class="hl"><span class="lnt"> 2
+</span></span><span class="hl"><span class="lnt"> 3
+</span></span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="hl"><span class="lnt"> 6
+</span></span><span class="hl"><span class="lnt"> 7
+</span></span><span class="hl"><span class="lnt"> 8
+</span></span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-txt" data-lang="txt"><span style="display:flex; background-color:#3c3d38"><span>NEXTCLOUD_ADMIN_USER=&lt;nextcloud_admin_user_to_be_created&gt;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>NEXTCLOUD_ADMIN_PASSWORD=&lt;nextcloud_admin_user_password_to_be_created&gt;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>NEXTCLOUD_TRUSTED_DOMAINS=&lt;example.domain&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>MYSQL_HOST=mariadb
-</span></span><span style="display:flex; background-color:#3c3d38"><span>MYSQL_DATABASE=&lt;nextcloud_database_to_be_used&gt;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>MYSQL_USER=&lt;nextcloud_database_user_to_be_used&gt;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>MYSQL_PASSWORD=&lt;nextcloud_database_user_password_to_be_used&gt;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>REDIS_HOST=redis
-</span></span><span style="display:flex;"><span>REDIS_HOST_PORT=6379
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line hl"><span class="cl">NEXTCLOUD_ADMIN_USER=&lt;nextcloud_admin_user_to_be_created&gt;
+</span></span><span class="line hl"><span class="cl">NEXTCLOUD_ADMIN_PASSWORD=&lt;nextcloud_admin_user_password_to_be_created&gt;
+</span></span><span class="line hl"><span class="cl">NEXTCLOUD_TRUSTED_DOMAINS=&lt;example.domain&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">MYSQL_HOST=mariadb
+</span></span><span class="line hl"><span class="cl">MYSQL_DATABASE=&lt;nextcloud_database_to_be_used&gt;
+</span></span><span class="line hl"><span class="cl">MYSQL_USER=&lt;nextcloud_database_user_to_be_used&gt;
+</span></span><span class="line hl"><span class="cl">MYSQL_PASSWORD=&lt;nextcloud_database_user_password_to_be_used&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">REDIS_HOST=redis
+</span></span><span class="line"><span class="cl">REDIS_HOST_PORT=6379
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="mariadbenv">mariadb.env<a hidden class="anchor" aria-hidden="true" href="#mariadbenv">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="hl"><span class="lnt">1
+</span></span><span class="hl"><span class="lnt">2
+</span></span><span class="hl"><span class="lnt">3
+</span></span><span class="hl"><span class="lnt">4
+</span></span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-txt" data-lang="txt"><span style="display:flex; background-color:#3c3d38"><span>MARIADB_ROOT_PASSWORD=&lt;root_password&gt;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>MARIADB_DATABASE=&lt;nextcloud_database_to_be_created&gt;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>MARIADB_USER=&lt;nextcloud_database_user_to_be_created&gt;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>MARIADB_PASSWORD=&lt;nextcloud_database_user_password_to_be_created&gt;
-</span></span><span style="display:flex;"><span>MARIADB_AUTO_UPGRADE=1
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line hl"><span class="cl">MARIADB_ROOT_PASSWORD=&lt;root_password&gt;
+</span></span><span class="line hl"><span class="cl">MARIADB_DATABASE=&lt;nextcloud_database_to_be_created&gt;
+</span></span><span class="line hl"><span class="cl">MARIADB_USER=&lt;nextcloud_database_user_to_be_created&gt;
+</span></span><span class="line hl"><span class="cl">MARIADB_PASSWORD=&lt;nextcloud_database_user_password_to_be_created&gt;
+</span></span><span class="line"><span class="cl">MARIADB_AUTO_UPGRADE=1
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="docker-compose文件解析">docker-compose文件解析<a hidden class="anchor" aria-hidden="true" href="#docker-compose文件解析">#</a></h2>
@@ -567,35 +567,35 @@
 <p>  此外，还可以使用主机的cron并搭配docker exec命令实现定时的后台任务。</p>
 <h2 id="更新nextcloud版本">更新nextcloud版本<a hidden class="anchor" aria-hidden="true" href="#更新nextcloud版本">#</a></h2>
 <p>  当使用 docker-compose 时，更新容器的新版本只需要运行:</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker-compose pull
-</span></span><span style="display:flex;"><span>docker-compose up -d
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker-compose pull
+</span></span><span class="line"><span class="cl">docker-compose up -d
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  但是不能跨越多个大版本升级，此时需要修改nextcloud:&lt;version&gt;-fpm指定大版本号进行以此升级。</p>
 <h2 id="nextcloud-配置文件">nextcloud 配置文件<a hidden class="anchor" aria-hidden="true" href="#nextcloud-配置文件">#</a></h2>
 <p>  nextcloud 支持使用多个config.php配置文件；可以在/var/www/html/config/路径下放置*.config.php文件实现对nextcloud的配置，且这些文件中配置的参数优先级高于config.php中的设定。</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-</span></span><span style="display:flex;"><span>$CONFIG <span style="color:#f92672">=</span> <span style="color:#66d9ef">array</span> (
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;remember_login_cookie_lifetime&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;default_phone_region&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;CN&#39;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#39;defaultapp&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;calendar,files,dashboard&#39;</span>,
-</span></span><span style="display:flex;"><span>);
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span>
+</span></span><span class="line"><span class="cl"><span class="nv">$CONFIG</span> <span class="o">=</span> <span class="k">array</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;remember_login_cookie_lifetime&#39;</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;default_phone_region&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;CN&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="s1">&#39;defaultapp&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;calendar,files,dashboard&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">);</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  <em><strong>remember_login_cookie_lifetime</strong></em> 记住登录 cookie 的生命周期，为0则关闭浏览器后cookie立即失效。<br>
@@ -603,393 +603,393 @@
   <em><strong>defaultapp</strong></em> 设置用户登录后首先进入的应用；参数为在点击Nextcloud顶部的“应用程序”菜单后，对应的URL名称，如 documents，calendar，gallery等。可以使用&quot;,&ldquo;分隔应用列表。设置多个应用名称时，如果用户没有进入列表中的第一个应用程序（如列表中的第一个应用没启用），则 Nextcloud 将尝试使用户进入第二个应用程序，依此类推。如果 Nextcloud 没有找到已启用的应用程序，则默认为仪表板应用程序。</p>
 <h2 id="nginx-配置文件">nginx 配置文件<a hidden class="anchor" aria-hidden="true" href="#nginx-配置文件">#</a></h2>
 <h3 id="nginxconf">nginx.conf<a hidden class="anchor" aria-hidden="true" href="#nginxconf">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">101
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">102
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">103
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">104
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">105
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">106
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">107
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">108
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">109
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">110
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">111
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">112
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">113
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">114
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">115
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">116
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">117
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">118
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">119
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">120
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">121
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">122
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">123
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">124
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">125
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">126
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">127
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">128
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">129
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">130
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">131
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">132
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">133
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">134
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">135
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">136
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">137
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">138
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">139
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">140
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">141
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">142
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">143
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">144
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">145
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">146
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">147
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">148
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">149
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">150
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">151
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">152
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">153
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">154
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">155
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">156
-</span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">157
-</span></span><span style="background-color:#3c3d38"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">158
-</span></span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">159
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">160
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">161
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">162
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">163
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">164
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">165
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">166
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">167
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">168
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">169
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">170
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">171
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">172
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">173
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">174
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">175
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">176
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">177
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">178
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">179
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">180
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">181
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">182
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">183
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">184
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">185
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">186
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">187
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">188
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">189
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">190
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">191
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="hl"><span class="lnt"> 35
+</span></span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="hl"><span class="lnt"> 44
+</span></span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="hl"><span class="lnt"> 96
+</span></span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="hl"><span class="lnt">157
+</span></span><span class="hl"><span class="lnt">158
+</span></span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;display:grid;"><code class="language-mysql" data-lang="mysql"><span style="display:flex;"><span>worker_processes  auto;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>error_log  <span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>nginx<span style="color:#f92672">/</span>error.log warn;
-</span></span><span style="display:flex;"><span>pid        <span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>run<span style="color:#f92672">/</span>nginx.pid;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>events <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>    worker_connections  <span style="color:#ae81ff">1024</span>;
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>http <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>    include       <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span>nginx<span style="color:#f92672">/</span>mime.types;
-</span></span><span style="display:flex;"><span>    default_type  application<span style="color:#f92672">/</span>octet<span style="color:#f92672">-</span>stream;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    log_format  main  <span style="color:#e6db74">&#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39;</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39;</span>
-</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    access_log  <span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>nginx<span style="color:#f92672">/</span>access.log  main;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    sendfile        <span style="color:#66d9ef">on</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#tcp_nopush     on;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    keepalive_timeout  <span style="color:#ae81ff">65</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#gzip  on;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>    upstream php<span style="color:#f92672">-</span>handler <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>        server nextcloud:<span style="color:#ae81ff">9000</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    server <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>        listen <span style="color:#ae81ff">80</span>;
-</span></span><span style="display:flex;"><span>        listen [::]:<span style="color:#ae81ff">80</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#server_name nextcloud.example.com;
-</span></span></span><span style="display:flex; background-color:#3c3d38"><span><span style="color:#75715e"></span>        server_name <span style="color:#f92672">&lt;</span>example.domain<span style="color:#f92672">&gt;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> https:<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">$</span>server_name<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    server <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>        listen <span style="color:#ae81ff">443</span> <span style="color:#66d9ef">ssl</span> http2;
-</span></span><span style="display:flex;"><span>        listen [::]:<span style="color:#ae81ff">443</span> <span style="color:#66d9ef">ssl</span> http2;
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e">#server_name nextcloud.example.com;
-</span></span></span><span style="display:flex; background-color:#3c3d38"><span><span style="color:#75715e"></span>        server_name <span style="color:#f92672">&lt;</span>example.domain<span style="color:#f92672">&gt;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        error_page <span style="color:#ae81ff">497</span> <span style="color:#f92672">=</span><span style="color:#ae81ff">301</span> https:<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">$</span>http_host<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        ssl_certificate     <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span><span style="color:#66d9ef">ssl</span><span style="color:#f92672">/</span>nginx<span style="color:#f92672">/</span>fullchain.pem;
-</span></span><span style="display:flex;"><span>        ssl_certificate_key <span style="color:#f92672">/</span>etc<span style="color:#f92672">/</span><span style="color:#66d9ef">ssl</span><span style="color:#f92672">/</span>nginx<span style="color:#f92672">/</span>privkey.pem;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        ssl_protocols             TLSv1 TLSv1.<span style="color:#ae81ff">1</span> TLSv1.<span style="color:#ae81ff">2</span> TLSv1.<span style="color:#ae81ff">3</span>;
-</span></span><span style="display:flex;"><span>        ssl_ciphers               ECDHE<span style="color:#f92672">-</span>RSA<span style="color:#f92672">-</span>AES128<span style="color:#f92672">-</span>GCM<span style="color:#f92672">-</span>SHA256:ECDHE<span style="color:#f92672">-</span>ECDSA<span style="color:#f92672">-</span>AES128<span style="color:#f92672">-</span>GCM<span style="color:#f92672">-</span>SHA256;
-</span></span><span style="display:flex;"><span>        ssl_prefer_server_ciphers <span style="color:#66d9ef">on</span>;
-</span></span><span style="display:flex;"><span>        ssl_ecdh_curve            secp384r1;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># HSTS settings
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># WARNING: Only add the preload option once you read about
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># the consequences in https://hstspreload.org/. This option
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># will add the domain to a hardcoded list that is shipped
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># in all major browsers and getting removed from this list
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># could take several months.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        add_header Strict<span style="color:#f92672">-</span>Transport<span style="color:#f92672">-</span>Security <span style="color:#e6db74">&#34;max-age=15768000; includeSubDomains; preload;&#34;</span> always;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># set max upload size
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        client_max_body_size <span style="color:#ae81ff">100</span>G;
-</span></span><span style="display:flex;"><span>        fastcgi_buffers <span style="color:#ae81ff">64</span> <span style="color:#ae81ff">4</span>K;
-</span></span><span style="display:flex;"><span>                
-</span></span><span style="display:flex;"><span>        fastcgi_send_timeout <span style="color:#ae81ff">300</span>s;
-</span></span><span style="display:flex;"><span>        fastcgi_read_timeout <span style="color:#ae81ff">300</span>s; 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Enable gzip but do not remove ETag headers
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        gzip <span style="color:#66d9ef">on</span>;
-</span></span><span style="display:flex;"><span>        gzip_vary <span style="color:#66d9ef">on</span>;
-</span></span><span style="display:flex;"><span>        gzip_comp_level <span style="color:#ae81ff">4</span>;
-</span></span><span style="display:flex;"><span>        gzip_min_length <span style="color:#ae81ff">256</span>;
-</span></span><span style="display:flex;"><span>        gzip_proxied expired no<span style="color:#f92672">-</span>cache no<span style="color:#f92672">-</span>store private no_last_modified no_etag auth;
-</span></span><span style="display:flex;"><span>        gzip_types application<span style="color:#f92672">/</span>atom<span style="color:#f92672">+</span>xml application<span style="color:#f92672">/</span>javascript application<span style="color:#f92672">/</span>json application<span style="color:#f92672">/</span>ld<span style="color:#f92672">+</span>json application<span style="color:#f92672">/</span>manifest<span style="color:#f92672">+</span>json application<span style="color:#f92672">/</span>rss<span style="color:#f92672">+</span>xml application<span style="color:#f92672">/</span>vnd.geo<span style="color:#f92672">+</span>json application<span style="color:#f92672">/</span>vnd.ms<span style="color:#f92672">-</span>fontobject application<span style="color:#f92672">/</span>x<span style="color:#f92672">-</span>font<span style="color:#f92672">-</span>ttf application<span style="color:#f92672">/</span>x<span style="color:#f92672">-</span>web<span style="color:#f92672">-</span>app<span style="color:#f92672">-</span>manifest<span style="color:#f92672">+</span>json application<span style="color:#f92672">/</span>xhtml<span style="color:#f92672">+</span>xml application<span style="color:#f92672">/</span>xml font<span style="color:#f92672">/</span>opentype image<span style="color:#f92672">/</span>bmp image<span style="color:#f92672">/</span>svg<span style="color:#f92672">+</span>xml image<span style="color:#f92672">/</span>x<span style="color:#f92672">-</span>icon <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>cache<span style="color:#f92672">-</span>manifest <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>css <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>plain <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>vcard <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>vnd.rim.location.xloc <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>vtt <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>x<span style="color:#f92672">-</span>component <span style="color:#66d9ef">text</span><span style="color:#f92672">/</span>x<span style="color:#f92672">-</span><span style="color:#66d9ef">cross</span><span style="color:#f92672">-</span>domain<span style="color:#f92672">-</span>policy;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Pagespeed is not supported by Nextcloud, so if your server is built
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># with the `ngx_pagespeed` module, uncomment this line to disable it.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">#pagespeed off;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># HTTP response headers borrowed from Nextcloud `.htaccess`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        add_header Referrer<span style="color:#f92672">-</span>Policy                      <span style="color:#e6db74">&#34;no-referrer&#34;</span>   always;
-</span></span><span style="display:flex;"><span>        add_header X<span style="color:#f92672">-</span>Content<span style="color:#f92672">-</span>Type<span style="color:#f92672">-</span>Options               <span style="color:#e6db74">&#34;nosniff&#34;</span>       always;
-</span></span><span style="display:flex;"><span>        add_header X<span style="color:#f92672">-</span>Download<span style="color:#f92672">-</span>Options                   <span style="color:#e6db74">&#34;noopen&#34;</span>        always;
-</span></span><span style="display:flex;"><span>        add_header X<span style="color:#f92672">-</span>Frame<span style="color:#f92672">-</span>Options                      <span style="color:#e6db74">&#34;SAMEORIGIN&#34;</span>    always;
-</span></span><span style="display:flex;"><span>        add_header X<span style="color:#f92672">-</span>Permitted<span style="color:#f92672">-</span><span style="color:#66d9ef">Cross</span><span style="color:#f92672">-</span>Domain<span style="color:#f92672">-</span>Policies    <span style="color:#e6db74">&#34;none&#34;</span>          always;
-</span></span><span style="display:flex;"><span>        add_header X<span style="color:#f92672">-</span>Robots<span style="color:#f92672">-</span>Tag                         <span style="color:#e6db74">&#34;none&#34;</span>          always;
-</span></span><span style="display:flex;"><span>        add_header X<span style="color:#f92672">-</span>XSS<span style="color:#f92672">-</span>Protection                     <span style="color:#e6db74">&#34;1; mode=block&#34;</span> always;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Remove X-Powered-By, which is an information leak
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        fastcgi_hide_header X<span style="color:#f92672">-</span>Powered<span style="color:#f92672">-</span><span style="color:#66d9ef">By</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Path to the root of your installation
-</span></span></span><span style="display:flex; background-color:#3c3d38"><span><span style="color:#75715e"></span>        root <span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>share<span style="color:#f92672">/</span>nginx<span style="color:#f92672">/</span>html<span style="color:#f92672">/</span>nextcloud;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Specify how to handle directories -- specifying `/index.php$request_uri`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># here as the fallback means that Nginx always exhibits the desired behaviour
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># when a client requests a path that corresponds to a directory that exists
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># on the server. In particular, if that directory contains an index.php file,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># that file is correctly served; if it doesn&#39;t, then the request is passed to
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># the front-end controller. This consistent behaviour means that we don&#39;t need
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># to specify custom rules for certain paths (e.g. images and other assets,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># `/updater`, `/ocm-provider`, `/ocs-provider`), and thus
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># `try_files $uri $uri/ /index.php$request_uri`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># always provides the desired behaviour.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">index</span> <span style="color:#66d9ef">index</span>.php <span style="color:#66d9ef">index</span>.html <span style="color:#f92672">/</span><span style="color:#66d9ef">index</span>.php<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Rule borrowed from `.htaccess` to handle Microsoft DAV clients
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        location <span style="color:#f92672">=</span> <span style="color:#f92672">/</span> <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> ( <span style="color:#960050;background-color:#1e0010">$</span>http_user_agent <span style="color:#f92672">~</span> <span style="color:#f92672">^</span>DavClnt ) <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">302</span> <span style="color:#f92672">/</span>remote.php<span style="color:#f92672">/</span>webdav<span style="color:#f92672">/</span><span style="color:#960050;background-color:#1e0010">$</span>is_args<span style="color:#960050;background-color:#1e0010">$</span>args;
-</span></span><span style="display:flex;"><span>            <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        location <span style="color:#f92672">=</span> <span style="color:#f92672">/</span>robots.txt <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            allow <span style="color:#66d9ef">all</span>;
-</span></span><span style="display:flex;"><span>            log_not_found off;
-</span></span><span style="display:flex;"><span>            access_log off;
-</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>        
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Make a regex exception for `/.well-known` so that clients can still
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># access it despite the existence of the regex rule
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># `location ~ /(\.|autotest|...)` which would otherwise handle requests
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># for `/.well-known`.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        location <span style="color:#f92672">^~</span> <span style="color:#f92672">/</span>.well<span style="color:#f92672">-</span>known <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># The rules in this block are an adaptation of the rules
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e"># in `.htaccess` that concern `/.well-known`.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>            location <span style="color:#f92672">=</span> <span style="color:#f92672">/</span>.well<span style="color:#f92672">-</span>known<span style="color:#f92672">/</span>carddav <span style="color:#960050;background-color:#1e0010">{</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> <span style="color:#960050;background-color:#1e0010">$</span>scheme:<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">$</span>http_host<span style="color:#f92672">/</span>remote.php<span style="color:#f92672">/</span>dav<span style="color:#f92672">/</span>; <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>            location <span style="color:#f92672">=</span> <span style="color:#f92672">/</span>.well<span style="color:#f92672">-</span>known<span style="color:#f92672">/</span>caldav  <span style="color:#960050;background-color:#1e0010">{</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> <span style="color:#960050;background-color:#1e0010">$</span>scheme:<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">$</span>http_host<span style="color:#f92672">/</span>remote.php<span style="color:#f92672">/</span>dav<span style="color:#f92672">/</span>; <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            location <span style="color:#f92672">/</span>.well<span style="color:#f92672">-</span>known<span style="color:#f92672">/</span>acme<span style="color:#f92672">-</span>challenge    <span style="color:#960050;background-color:#1e0010">{</span> try_files <span style="color:#960050;background-color:#1e0010">$</span>uri <span style="color:#960050;background-color:#1e0010">$</span>uri<span style="color:#f92672">/</span> <span style="color:#f92672">=</span><span style="color:#ae81ff">404</span>; <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>            location <span style="color:#f92672">/</span>.well<span style="color:#f92672">-</span>known<span style="color:#f92672">/</span>pki<span style="color:#f92672">-</span>validation    <span style="color:#960050;background-color:#1e0010">{</span> try_files <span style="color:#960050;background-color:#1e0010">$</span>uri <span style="color:#960050;background-color:#1e0010">$</span>uri<span style="color:#f92672">/</span> <span style="color:#f92672">=</span><span style="color:#ae81ff">404</span>; <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e"># Let Nextcloud&#39;s API for `/.well-known` URIs handle all other
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e"># requests by passing them to the front-end controller.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> <span style="color:#960050;background-color:#1e0010">$</span>scheme:<span style="color:#f92672">//</span><span style="color:#960050;background-color:#1e0010">$</span>http_host<span style="color:#f92672">/</span><span style="color:#66d9ef">index</span>.php<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Rules borrowed from `.htaccess` to hide certain paths from clients
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        location <span style="color:#f92672">~</span> <span style="color:#f92672">^/</span>(<span style="color:#f92672">?</span>:build<span style="color:#f92672">|</span>tests<span style="color:#f92672">|</span>config<span style="color:#f92672">|</span>lib<span style="color:#f92672">|</span><span style="color:#ae81ff">3</span>rdparty<span style="color:#f92672">|</span>templates<span style="color:#f92672">|</span>data)(<span style="color:#f92672">?</span>:<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">|/</span>)  <span style="color:#960050;background-color:#1e0010">{</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">404</span>; <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>        location <span style="color:#f92672">~</span> <span style="color:#f92672">^/</span>(<span style="color:#f92672">?</span>:<span style="color:#960050;background-color:#1e0010">\</span>.<span style="color:#f92672">|</span>autotest<span style="color:#f92672">|</span>occ<span style="color:#f92672">|</span>issue<span style="color:#f92672">|</span>indie<span style="color:#f92672">|</span>db_<span style="color:#f92672">|</span>console)                <span style="color:#960050;background-color:#1e0010">{</span> <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">404</span>; <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Ensure this block, which passes PHP files to the PHP process, is above the blocks
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># which handle static assets (as seen below). If this block is not declared first,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># then Nginx will encounter an infinite rewriting loop when it prepends `/index.php`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e"># to the URI, resulting in a HTTP 500 error response.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        location <span style="color:#f92672">~</span> <span style="color:#960050;background-color:#1e0010">\</span>.<span style="color:#a6e22e">php</span>(<span style="color:#f92672">?</span>:<span style="color:#960050;background-color:#1e0010">$</span><span style="color:#f92672">|/</span>) <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            fastcgi_split_path_info <span style="color:#f92672">^</span>(.<span style="color:#f92672">+?</span><span style="color:#960050;background-color:#1e0010">\</span>.php)(<span style="color:#f92672">/</span>.<span style="color:#f92672">*</span>)<span style="color:#960050;background-color:#1e0010">$</span>;
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">set</span> <span style="color:#960050;background-color:#1e0010">$</span>path_info <span style="color:#960050;background-color:#1e0010">$</span>fastcgi_path_info;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            try_files <span style="color:#960050;background-color:#1e0010">$</span>fastcgi_script_name <span style="color:#f92672">=</span><span style="color:#ae81ff">404</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            include fastcgi_params;
-</span></span><span style="display:flex; background-color:#3c3d38"><span>            <span style="color:#75715e"># fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-</span></span></span><span style="display:flex; background-color:#3c3d38"><span><span style="color:#75715e"></span>            fastcgi_param SCRIPT_FILENAME <span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>www<span style="color:#f92672">/</span>html<span style="color:#960050;background-color:#1e0010">$</span>fastcgi_script_name;
-</span></span><span style="display:flex;"><span>            fastcgi_param PATH_INFO <span style="color:#960050;background-color:#1e0010">$</span>path_info;
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">#fastcgi_param HTTPS on;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>            fastcgi_param modHeadersAvailable <span style="color:#66d9ef">true</span>;         <span style="color:#75715e"># Avoid sending the security headers twice
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            fastcgi_param front_controller_active <span style="color:#66d9ef">true</span>;     <span style="color:#75715e"># Enable pretty urls
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            fastcgi_pass php<span style="color:#f92672">-</span>handler;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>            fastcgi_intercept_errors <span style="color:#66d9ef">on</span>;
-</span></span><span style="display:flex;"><span>            fastcgi_request_buffering off;
-</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        location <span style="color:#f92672">~</span> <span style="color:#960050;background-color:#1e0010">\</span>.(<span style="color:#f92672">?</span>:css<span style="color:#f92672">|</span>js<span style="color:#f92672">|</span>svg<span style="color:#f92672">|</span>gif)<span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            try_files <span style="color:#960050;background-color:#1e0010">$</span>uri <span style="color:#f92672">/</span><span style="color:#66d9ef">index</span>.php<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>            expires <span style="color:#ae81ff">6</span>M;         <span style="color:#75715e"># Cache-Control policy borrowed from `.htaccess`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            access_log off;     <span style="color:#75715e"># Optional: Don&#39;t log access to assets
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        location <span style="color:#f92672">~</span> <span style="color:#960050;background-color:#1e0010">\</span>.woff2<span style="color:#f92672">?</span><span style="color:#960050;background-color:#1e0010">$</span> <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            try_files <span style="color:#960050;background-color:#1e0010">$</span>uri <span style="color:#f92672">/</span><span style="color:#66d9ef">index</span>.php<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>            expires <span style="color:#ae81ff">7</span>d;         <span style="color:#75715e"># Cache-Control policy borrowed from `.htaccess`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            access_log off;     <span style="color:#75715e"># Optional: Don&#39;t log access to assets
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># Rule borrowed from `.htaccess`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        location <span style="color:#f92672">/</span>remote <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">301</span> <span style="color:#f92672">/</span>remote.php<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        location <span style="color:#f92672">/</span> <span style="color:#960050;background-color:#1e0010">{</span>
-</span></span><span style="display:flex;"><span>            try_files <span style="color:#960050;background-color:#1e0010">$</span>uri <span style="color:#960050;background-color:#1e0010">$</span>uri<span style="color:#f92672">/</span> <span style="color:#f92672">/</span><span style="color:#66d9ef">index</span>.php<span style="color:#960050;background-color:#1e0010">$</span>request_uri;
-</span></span><span style="display:flex;"><span>        <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">}</span>
-</span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">}</span>
-</span></span></code></pre></td></tr></table>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-mysql" data-lang="mysql"><span class="line"><span class="cl"><span class="n">worker_processes</span><span class="w">  </span><span class="n">auto</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">error_log</span><span class="w">  </span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">error</span><span class="p">.</span><span class="n">log</span><span class="w"> </span><span class="n">warn</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">pid</span><span class="w">        </span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">nginx</span><span class="p">.</span><span class="n">pid</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">events</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">worker_connections</span><span class="w">  </span><span class="mi">1024</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="n">http</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">include</span><span class="w">       </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">mime</span><span class="p">.</span><span class="n">types</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">default_type</span><span class="w">  </span><span class="n">application</span><span class="o">/</span><span class="n">octet</span><span class="o">-</span><span class="n">stream</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">log_format</span><span class="w">  </span><span class="n">main</span><span class="w">  </span><span class="s1">&#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                      </span><span class="s1">&#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                      </span><span class="s1">&#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">access_log</span><span class="w">  </span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">access</span><span class="p">.</span><span class="n">log</span><span class="w">  </span><span class="n">main</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">sendfile</span><span class="w">        </span><span class="k">on</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">#tcp_nopush     on;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">keepalive_timeout</span><span class="w">  </span><span class="mi">65</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">#gzip  on;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">upstream</span><span class="w"> </span><span class="n">php</span><span class="o">-</span><span class="n">handler</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">server</span><span class="w"> </span><span class="n">nextcloud</span><span class="p">:</span><span class="mi">9000</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">listen</span><span class="w"> </span><span class="mi">80</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">listen</span><span class="w"> </span><span class="p">[::]:</span><span class="mi">80</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">#server_name nextcloud.example.com;
+</span></span></span><span class="line hl"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">server_name</span><span class="w"> </span><span class="o">&lt;</span><span class="n">example</span><span class="p">.</span><span class="n">domain</span><span class="o">&gt;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="err">$</span><span class="n">server_name</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">server</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">listen</span><span class="w"> </span><span class="mi">443</span><span class="w"> </span><span class="k">ssl</span><span class="w"> </span><span class="n">http2</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">listen</span><span class="w"> </span><span class="p">[::]:</span><span class="mi">443</span><span class="w"> </span><span class="k">ssl</span><span class="w"> </span><span class="n">http2</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">#server_name nextcloud.example.com;
+</span></span></span><span class="line hl"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">server_name</span><span class="w"> </span><span class="o">&lt;</span><span class="n">example</span><span class="p">.</span><span class="n">domain</span><span class="o">&gt;</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">error_page</span><span class="w"> </span><span class="mi">497</span><span class="w"> </span><span class="o">=</span><span class="mi">301</span><span class="w"> </span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="err">$</span><span class="n">http_host</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ssl_certificate</span><span class="w">     </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="k">ssl</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">fullchain</span><span class="p">.</span><span class="n">pem</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ssl_certificate_key</span><span class="w"> </span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="k">ssl</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">privkey</span><span class="p">.</span><span class="n">pem</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ssl_protocols</span><span class="w">             </span><span class="n">TLSv1</span><span class="w"> </span><span class="n">TLSv1</span><span class="p">.</span><span class="mi">1</span><span class="w"> </span><span class="n">TLSv1</span><span class="p">.</span><span class="mi">2</span><span class="w"> </span><span class="n">TLSv1</span><span class="p">.</span><span class="mi">3</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ssl_ciphers</span><span class="w">               </span><span class="n">ECDHE</span><span class="o">-</span><span class="n">RSA</span><span class="o">-</span><span class="n">AES128</span><span class="o">-</span><span class="n">GCM</span><span class="o">-</span><span class="n">SHA256</span><span class="p">:</span><span class="n">ECDHE</span><span class="o">-</span><span class="n">ECDSA</span><span class="o">-</span><span class="n">AES128</span><span class="o">-</span><span class="n">GCM</span><span class="o">-</span><span class="n">SHA256</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ssl_prefer_server_ciphers</span><span class="w"> </span><span class="k">on</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">ssl_ecdh_curve</span><span class="w">            </span><span class="n">secp384r1</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># HSTS settings
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># WARNING: Only add the preload option once you read about
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># the consequences in https://hstspreload.org/. This option
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># will add the domain to a hardcoded list that is shipped
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># in all major browsers and getting removed from this list
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># could take several months.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">Strict</span><span class="o">-</span><span class="n">Transport</span><span class="o">-</span><span class="n">Security</span><span class="w"> </span><span class="s2">&#34;max-age=15768000; includeSubDomains; preload;&#34;</span><span class="w"> </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># set max upload size
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">client_max_body_size</span><span class="w"> </span><span class="mi">100</span><span class="n">G</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">fastcgi_buffers</span><span class="w"> </span><span class="mi">64</span><span class="w"> </span><span class="mi">4</span><span class="n">K</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">fastcgi_send_timeout</span><span class="w"> </span><span class="mi">300</span><span class="n">s</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">fastcgi_read_timeout</span><span class="w"> </span><span class="mi">300</span><span class="n">s</span><span class="p">;</span><span class="w"> 
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Enable gzip but do not remove ETag headers
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">gzip</span><span class="w"> </span><span class="k">on</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">gzip_vary</span><span class="w"> </span><span class="k">on</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">gzip_comp_level</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">gzip_min_length</span><span class="w"> </span><span class="mi">256</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">gzip_proxied</span><span class="w"> </span><span class="n">expired</span><span class="w"> </span><span class="n">no</span><span class="o">-</span><span class="n">cache</span><span class="w"> </span><span class="n">no</span><span class="o">-</span><span class="n">store</span><span class="w"> </span><span class="n">private</span><span class="w"> </span><span class="n">no_last_modified</span><span class="w"> </span><span class="n">no_etag</span><span class="w"> </span><span class="n">auth</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">gzip_types</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">atom</span><span class="o">+</span><span class="n">xml</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">javascript</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">json</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">ld</span><span class="o">+</span><span class="n">json</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">manifest</span><span class="o">+</span><span class="n">json</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">rss</span><span class="o">+</span><span class="n">xml</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">vnd</span><span class="p">.</span><span class="n">geo</span><span class="o">+</span><span class="n">json</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">vnd</span><span class="p">.</span><span class="n">ms</span><span class="o">-</span><span class="n">fontobject</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">font</span><span class="o">-</span><span class="n">ttf</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">web</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">manifest</span><span class="o">+</span><span class="n">json</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">xhtml</span><span class="o">+</span><span class="n">xml</span><span class="w"> </span><span class="n">application</span><span class="o">/</span><span class="n">xml</span><span class="w"> </span><span class="n">font</span><span class="o">/</span><span class="n">opentype</span><span class="w"> </span><span class="n">image</span><span class="o">/</span><span class="n">bmp</span><span class="w"> </span><span class="n">image</span><span class="o">/</span><span class="n">svg</span><span class="o">+</span><span class="n">xml</span><span class="w"> </span><span class="n">image</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">icon</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">cache</span><span class="o">-</span><span class="n">manifest</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">css</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">plain</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">vcard</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">vnd</span><span class="p">.</span><span class="n">rim</span><span class="p">.</span><span class="n">location</span><span class="p">.</span><span class="n">xloc</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">vtt</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="n">component</span><span class="w"> </span><span class="kt">text</span><span class="o">/</span><span class="n">x</span><span class="o">-</span><span class="k">cross</span><span class="o">-</span><span class="n">domain</span><span class="o">-</span><span class="n">policy</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Pagespeed is not supported by Nextcloud, so if your server is built
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># with the `ngx_pagespeed` module, uncomment this line to disable it.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1">#pagespeed off;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># HTTP response headers borrowed from Nextcloud `.htaccess`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">Referrer</span><span class="o">-</span><span class="n">Policy</span><span class="w">                      </span><span class="s2">&#34;no-referrer&#34;</span><span class="w">   </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">Content</span><span class="o">-</span><span class="n">Type</span><span class="o">-</span><span class="n">Options</span><span class="w">               </span><span class="s2">&#34;nosniff&#34;</span><span class="w">       </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">Download</span><span class="o">-</span><span class="n">Options</span><span class="w">                   </span><span class="s2">&#34;noopen&#34;</span><span class="w">        </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">Frame</span><span class="o">-</span><span class="n">Options</span><span class="w">                      </span><span class="s2">&#34;SAMEORIGIN&#34;</span><span class="w">    </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">Permitted</span><span class="o">-</span><span class="k">Cross</span><span class="o">-</span><span class="n">Domain</span><span class="o">-</span><span class="n">Policies</span><span class="w">    </span><span class="s2">&#34;none&#34;</span><span class="w">          </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">Robots</span><span class="o">-</span><span class="n">Tag</span><span class="w">                         </span><span class="s2">&#34;none&#34;</span><span class="w">          </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">add_header</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">XSS</span><span class="o">-</span><span class="n">Protection</span><span class="w">                     </span><span class="s2">&#34;1; mode=block&#34;</span><span class="w"> </span><span class="n">always</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Remove X-Powered-By, which is an information leak
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">fastcgi_hide_header</span><span class="w"> </span><span class="n">X</span><span class="o">-</span><span class="n">Powered</span><span class="o">-</span><span class="k">By</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Path to the root of your installation
+</span></span></span><span class="line hl"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">root</span><span class="w"> </span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">nextcloud</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Specify how to handle directories -- specifying `/index.php$request_uri`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># here as the fallback means that Nginx always exhibits the desired behaviour
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># when a client requests a path that corresponds to a directory that exists
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># on the server. In particular, if that directory contains an index.php file,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># that file is correctly served; if it doesn&#39;t, then the request is passed to
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># the front-end controller. This consistent behaviour means that we don&#39;t need
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># to specify custom rules for certain paths (e.g. images and other assets,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># `/updater`, `/ocm-provider`, `/ocs-provider`), and thus
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># `try_files $uri $uri/ /index.php$request_uri`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># always provides the desired behaviour.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="k">index</span><span class="w"> </span><span class="k">index</span><span class="p">.</span><span class="n">php</span><span class="w"> </span><span class="k">index</span><span class="p">.</span><span class="n">html</span><span class="w"> </span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">php</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Rule borrowed from `.htaccess` to handle Microsoft DAV clients
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="err">$</span><span class="n">http_user_agent</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">^</span><span class="n">DavClnt</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">return</span><span class="w"> </span><span class="mi">302</span><span class="w"> </span><span class="o">/</span><span class="n">remote</span><span class="p">.</span><span class="n">php</span><span class="o">/</span><span class="n">webdav</span><span class="o">/</span><span class="err">$</span><span class="n">is_args</span><span class="err">$</span><span class="n">args</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="n">robots</span><span class="p">.</span><span class="n">txt</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">allow</span><span class="w"> </span><span class="k">all</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">log_not_found</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">access_log</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Make a regex exception for `/.well-known` so that clients can still
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># access it despite the existence of the regex rule
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># `location ~ /(\.|autotest|...)` which would otherwise handle requests
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># for `/.well-known`.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">^~</span><span class="w"> </span><span class="o">/</span><span class="p">.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c1"># The rules in this block are an adaptation of the rules
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="c1"># in `.htaccess` that concern `/.well-known`.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="p">.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">carddav</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="err">$</span><span class="n">scheme</span><span class="p">:</span><span class="o">//</span><span class="err">$</span><span class="n">http_host</span><span class="o">/</span><span class="n">remote</span><span class="p">.</span><span class="n">php</span><span class="o">/</span><span class="n">dav</span><span class="o">/</span><span class="p">;</span><span class="w"> </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">location</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">/</span><span class="p">.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">caldav</span><span class="w">  </span><span class="err">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="err">$</span><span class="n">scheme</span><span class="p">:</span><span class="o">//</span><span class="err">$</span><span class="n">http_host</span><span class="o">/</span><span class="n">remote</span><span class="p">.</span><span class="n">php</span><span class="o">/</span><span class="n">dav</span><span class="o">/</span><span class="p">;</span><span class="w"> </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="p">.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">acme</span><span class="o">-</span><span class="n">challenge</span><span class="w">    </span><span class="err">{</span><span class="w"> </span><span class="n">try_files</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="o">/</span><span class="w"> </span><span class="o">=</span><span class="mi">404</span><span class="p">;</span><span class="w"> </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="p">.</span><span class="n">well</span><span class="o">-</span><span class="n">known</span><span class="o">/</span><span class="n">pki</span><span class="o">-</span><span class="n">validation</span><span class="w">    </span><span class="err">{</span><span class="w"> </span><span class="n">try_files</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="o">/</span><span class="w"> </span><span class="o">=</span><span class="mi">404</span><span class="p">;</span><span class="w"> </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c1"># Let Nextcloud&#39;s API for `/.well-known` URIs handle all other
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="c1"># requests by passing them to the front-end controller.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="err">$</span><span class="n">scheme</span><span class="p">:</span><span class="o">//</span><span class="err">$</span><span class="n">http_host</span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">php</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Rules borrowed from `.htaccess` to hide certain paths from clients
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">^/</span><span class="p">(</span><span class="o">?</span><span class="p">:</span><span class="n">build</span><span class="o">|</span><span class="n">tests</span><span class="o">|</span><span class="n">config</span><span class="o">|</span><span class="n">lib</span><span class="o">|</span><span class="mi">3</span><span class="n">rdparty</span><span class="o">|</span><span class="n">templates</span><span class="o">|</span><span class="n">data</span><span class="p">)(</span><span class="o">?</span><span class="p">:</span><span class="err">$</span><span class="o">|/</span><span class="p">)</span><span class="w">  </span><span class="err">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">404</span><span class="p">;</span><span class="w"> </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="o">^/</span><span class="p">(</span><span class="o">?</span><span class="p">:</span><span class="err">\</span><span class="p">.</span><span class="o">|</span><span class="n">autotest</span><span class="o">|</span><span class="n">occ</span><span class="o">|</span><span class="n">issue</span><span class="o">|</span><span class="n">indie</span><span class="o">|</span><span class="n">db_</span><span class="o">|</span><span class="n">console</span><span class="p">)</span><span class="w">                </span><span class="err">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">404</span><span class="p">;</span><span class="w"> </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Ensure this block, which passes PHP files to the PHP process, is above the blocks
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># which handle static assets (as seen below). If this block is not declared first,
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># then Nginx will encounter an infinite rewriting loop when it prepends `/index.php`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="c1"># to the URI, resulting in a HTTP 500 error response.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="err">\</span><span class="p">.</span><span class="nf">php</span><span class="p">(</span><span class="o">?</span><span class="p">:</span><span class="err">$</span><span class="o">|/</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">fastcgi_split_path_info</span><span class="w"> </span><span class="o">^</span><span class="p">(.</span><span class="o">+?</span><span class="err">\</span><span class="p">.</span><span class="n">php</span><span class="p">)(</span><span class="o">/</span><span class="p">.</span><span class="o">*</span><span class="p">)</span><span class="err">$</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="kt">set</span><span class="w"> </span><span class="err">$</span><span class="n">path_info</span><span class="w"> </span><span class="err">$</span><span class="n">fastcgi_path_info</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">try_files</span><span class="w"> </span><span class="err">$</span><span class="n">fastcgi_script_name</span><span class="w"> </span><span class="o">=</span><span class="mi">404</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">include</span><span class="w"> </span><span class="n">fastcgi_params</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line hl"><span class="cl"><span class="w">            </span><span class="c1"># fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+</span></span></span><span class="line hl"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="n">fastcgi_param</span><span class="w"> </span><span class="n">SCRIPT_FILENAME</span><span class="w"> </span><span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span><span class="o">/</span><span class="n">html</span><span class="err">$</span><span class="n">fastcgi_script_name</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">fastcgi_param</span><span class="w"> </span><span class="n">PATH_INFO</span><span class="w"> </span><span class="err">$</span><span class="n">path_info</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="c1">#fastcgi_param HTTPS on;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">fastcgi_param</span><span class="w"> </span><span class="n">modHeadersAvailable</span><span class="w"> </span><span class="no">true</span><span class="p">;</span><span class="w">         </span><span class="c1"># Avoid sending the security headers twice
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="n">fastcgi_param</span><span class="w"> </span><span class="n">front_controller_active</span><span class="w"> </span><span class="no">true</span><span class="p">;</span><span class="w">     </span><span class="c1"># Enable pretty urls
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="n">fastcgi_pass</span><span class="w"> </span><span class="n">php</span><span class="o">-</span><span class="n">handler</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">fastcgi_intercept_errors</span><span class="w"> </span><span class="k">on</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">fastcgi_request_buffering</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="err">\</span><span class="p">.(</span><span class="o">?</span><span class="p">:</span><span class="n">css</span><span class="o">|</span><span class="n">js</span><span class="o">|</span><span class="n">svg</span><span class="o">|</span><span class="n">gif</span><span class="p">)</span><span class="err">$</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">try_files</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="w"> </span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">php</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">expires</span><span class="w"> </span><span class="mi">6</span><span class="n">M</span><span class="p">;</span><span class="w">         </span><span class="c1"># Cache-Control policy borrowed from `.htaccess`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="n">access_log</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w">     </span><span class="c1"># Optional: Don&#39;t log access to assets
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="err">\</span><span class="p">.</span><span class="n">woff2</span><span class="o">?</span><span class="err">$</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">try_files</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="w"> </span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">php</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">expires</span><span class="w"> </span><span class="mi">7</span><span class="n">d</span><span class="p">;</span><span class="w">         </span><span class="c1"># Cache-Control policy borrowed from `.htaccess`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">            </span><span class="n">access_log</span><span class="w"> </span><span class="n">off</span><span class="p">;</span><span class="w">     </span><span class="c1"># Optional: Don&#39;t log access to assets
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1"># Rule borrowed from `.htaccess`
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="n">remote</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">301</span><span class="w"> </span><span class="o">/</span><span class="n">remote</span><span class="p">.</span><span class="n">php</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">location</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="err">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">try_files</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="w"> </span><span class="err">$</span><span class="n">uri</span><span class="o">/</span><span class="w"> </span><span class="o">/</span><span class="k">index</span><span class="p">.</span><span class="n">php</span><span class="err">$</span><span class="n">request_uri</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="err">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="err">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
 </div>
 </div><p>  <em><strong>root /usr/share/nginx/html/nextcloud;</strong></em> 设置了网站的根目录位置；需要通过docker-compose把nextcloud中的/var/www/html映射到 <em>root &hellip;</em> 设置的路径下。</p>
 <p>  <em><strong>fastcgi_param SCRIPT_FILENAME /var/www/html$fastcgi_script_name;</strong></em> 用来配置fastcgi传递nginx到php-fpm的信息，<em>/var/www/html</em> 需要设定为nextcloud容器中网站的路径；若nginx中的网站路径使用 <em>root &hellip;</em> 设定为与nextcloud中路径相同(<em>/var/www/html</em>)，则可以使用  <em>$document_root</em> 代替 <em>/var/www/html</em>。</p>
@@ -998,16 +998,16 @@
   nextcloud22和mariadb10.6有兼容性问题，对docker-compose文件中mariadb的command添加&ndash;innodb_read_only_compressed=OFF可暂时解决。</p>
 <p><a href="https://github.com/nextcloud/server/issues/25436">https://github.com/nextcloud/server/issues/25436</a></p>
 <h2 id="nextcloud-维护模式">nextcloud 维护模式<a hidden class="anchor" aria-hidden="true" href="#nextcloud-维护模式">#</a></h2>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /var/www/nextcloud
-</span></span><span style="display:flex;"><span>sudo -u www-data php occ maintenance:mode --on
-</span></span><span style="display:flex;"><span>sudo -u www-data php occ maintenance:mode --off
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">cd</span> /var/www/nextcloud
+</span></span><span class="line"><span class="cl">sudo -u www-data php occ maintenance:mode --on
+</span></span><span class="line"><span class="cl">sudo -u www-data php occ maintenance:mode --off
 </span></span></code></pre></td></tr></table>
 </div>
 </div>

@@ -297,14 +297,14 @@
 
   <div class="post-content"><p>  开启 Fiddler 抓包时，python 中的 requests.get()、requests.post() 数据包无法捕获，且在请求 https 时会产生 ssl.SSLError: [SSL: WRONG_VERSION_NUMBER] wrong version number (_ssl.c:1091) 错误。因此对于其请求应当做一定的修改。</p>
 <p>  该方法对 requests 的版本有要求，certifi 目前使用最新版（2021.10.8）没有问题。</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install requests<span style="color:#f92672">==</span>2.19.1
-</span></span><span style="display:flex;"><span>pip install certifi<span style="color:#f92672">==</span>2018.8.13
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">pip install <span class="nv">requests</span><span class="o">==</span>2.19.1
+</span></span><span class="line"><span class="cl">pip install <span class="nv">certifi</span><span class="o">==</span>2018.8.13
 </span></span></code></pre></td></tr></table>
 </div>
 </div><h2 id="fiddler-证书导出">Fiddler 证书导出<a hidden class="anchor" aria-hidden="true" href="#fiddler-证书导出">#</a></h2>
@@ -320,16 +320,16 @@
 </p>
 <h2 id="requests-参数设置">requests 参数设置<a hidden class="anchor" aria-hidden="true" href="#requests-参数设置">#</a></h2>
 <p>  将得到的 .cer 文件后缀改为 .crt，放到项目文件夹下，在 requests 请求前添加如下配置并添加请求参数即可。</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>proxies <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;http&#39;</span>:<span style="color:#e6db74">&#39;http://127.0.0.1:8888&#39;</span>,<span style="color:#e6db74">&#39;https&#39;</span>:<span style="color:#e6db74">&#39;https://127.0.0.1:8888&#39;</span>}
-</span></span><span style="display:flex;"><span>certFile <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.</span><span style="color:#ae81ff">\f</span><span style="color:#e6db74">iddlerCert.crt&#39;</span>)
-</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;https://exampleurl.example.com&#34;</span>, proxies<span style="color:#f92672">=</span>proxies, verify<span style="color:#f92672">=</span>certFile)
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-py" data-lang="py"><span class="line"><span class="cl"><span class="n">proxies</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;http&#39;</span><span class="p">:</span><span class="s1">&#39;http://127.0.0.1:8888&#39;</span><span class="p">,</span><span class="s1">&#39;https&#39;</span><span class="p">:</span><span class="s1">&#39;https://127.0.0.1:8888&#39;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="n">certFile</span> <span class="o">=</span> <span class="s1">&#39;.</span><span class="se">\f</span><span class="s1">iddlerCert.crt&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;https://exampleurl.example.com&#34;</span><span class="p">,</span> <span class="n">proxies</span><span class="o">=</span><span class="n">proxies</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="n">certFile</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  此后即可用 Fiddler 对 requests 请求于响应进行抓包。</p>

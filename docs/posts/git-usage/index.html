@@ -322,92 +322,92 @@
 <li>如果要删除的文件在受保护的commit中，BFG 不会删，不建议删。至于commit什么情况下会受保护，我还不太清楚。</li>
 </ul>
 <p>  首先将待清理的仓库克隆到本地，记得clone后备份一份xxx.git到其他位置，以免操作失误。</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git clone --mirror git://example.com/xxx.git
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone --mirror git://example.com/xxx.git
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  将下载的bfg.jar与xxx.git放到同一个同目录。</p>
 <h3 id="清理敏感信息">清理敏感信息<a hidden class="anchor" aria-hidden="true" href="#清理敏感信息">#</a></h3>
 <p>  准备一个文本文件passwords.txt，名称任意，里面包含要要替换的文本：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-txt" data-lang="txt"><span style="display:flex;"><span>PASSWORD1                       # Replace literal string &#39;PASSWORD1&#39; with &#39;***REMOVED***&#39; (default)
-</span></span><span style="display:flex;"><span>PASSWORD2==&gt;examplePass         # replace with &#39;examplePass&#39; instead
-</span></span><span style="display:flex;"><span>PASSWORD3==&gt;                    # replace with the empty string
-</span></span><span style="display:flex;"><span>regex:password=\w+==&gt;password=  # Replace, using a regex
-</span></span><span style="display:flex;"><span>regex:\r(\n)==&gt;$1               # Replace Windows newlines with Unix newlines
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-txt" data-lang="txt"><span class="line"><span class="cl">PASSWORD1                       # Replace literal string &#39;PASSWORD1&#39; with &#39;***REMOVED***&#39; (default)
+</span></span><span class="line"><span class="cl">PASSWORD2==&gt;examplePass         # replace with &#39;examplePass&#39; instead
+</span></span><span class="line"><span class="cl">PASSWORD3==&gt;                    # replace with the empty string
+</span></span><span class="line"><span class="cl">regex:password=\w+==&gt;password=  # Replace, using a regex
+</span></span><span class="line"><span class="cl">regex:\r(\n)==&gt;$1               # Replace Windows newlines with Unix newlines
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  执行敏感信息替换：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar bfg.jar --replace-text passwords.txt xxx.git
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java -jar bfg.jar --replace-text passwords.txt xxx.git
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  回收已经没有引用的旧提交，这可以减小本地仓库的大小：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git reflog expire --expire<span style="color:#f92672">=</span>now --all <span style="color:#f92672">&amp;&amp;</span> git gc --prune<span style="color:#f92672">=</span>now --aggressive
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git reflog expire --expire<span class="o">=</span>now --all <span class="o">&amp;&amp;</span> git gc --prune<span class="o">=</span>now --aggressive
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  推回远端仓库：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  更新本地代码推荐删除原有工程，重新clone仓库后配置工程，注意原有工程下.gitignore的重要文件（敏感信息等）。</p>
 <h3 id="清理大文件">清理大文件<a hidden class="anchor" aria-hidden="true" href="#清理大文件">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar bfg.jar --strip-blobs-bigger-than 500M xxx.git <span style="color:#75715e"># 将仓库历史中大于 500M 的文件都删除掉</span>
-</span></span><span style="display:flex;"><span>java -jar bfg.jar --delete-files walterlv.snk xxx.git    <span style="color:#75715e"># 删除特定文件 walterlv.snk</span>
-</span></span><span style="display:flex;"><span>java -jar bfg.jar --delete-files <span style="color:#f92672">{</span>walterlv,lindexi<span style="color:#f92672">}</span>.snk xxx.git <span style="color:#75715e"># 删除 walterlv.snk 或 lindexi.snk 文件</span>
-</span></span><span style="display:flex;"><span>java -jar bfg.jar --delete-folders walterlv xxx.git      <span style="color:#75715e"># 删除名字为 walterlv 的文件夹</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java -jar bfg.jar --strip-blobs-bigger-than 500M xxx.git <span class="c1"># 将仓库历史中大于 500M 的文件都删除掉</span>
+</span></span><span class="line"><span class="cl">java -jar bfg.jar --delete-files walterlv.snk xxx.git    <span class="c1"># 删除特定文件 walterlv.snk</span>
+</span></span><span class="line"><span class="cl">java -jar bfg.jar --delete-files <span class="o">{</span>walterlv,lindexi<span class="o">}</span>.snk xxx.git <span class="c1"># 删除 walterlv.snk 或 lindexi.snk 文件</span>
+</span></span><span class="line"><span class="cl">java -jar bfg.jar --delete-folders walterlv xxx.git      <span class="c1"># 删除名字为 walterlv 的文件夹</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  回收已经没有引用的旧提交，这可以减小本地仓库的大小：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git reflog expire --expire<span style="color:#f92672">=</span>now --all <span style="color:#f92672">&amp;&amp;</span> git gc --prune<span style="color:#f92672">=</span>now --aggressive
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git reflog expire --expire<span class="o">=</span>now --all <span class="o">&amp;&amp;</span> git gc --prune<span class="o">=</span>now --aggressive
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  推回远端仓库：</p>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git push
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>  更新本地代码推荐删除原有工程，重新clone仓库后配置工程，注意原有工程下.gitignore的重要文件（敏感信息等）。</p>
@@ -416,14 +416,14 @@
 <p>  <a href="https://blog.csdn.net/guotianqing/article/details/82391665">CSDN [guotianqing]：git中submodule子模块的添加、使用和删除</a></p>
 <p>  <a href="https://www.jianshu.com/p/ed0cb6c75e25">简书 [thinker_g]：[Git] 如何优雅的删除子模块(submodule)或修改Submodule URL</a></p>
 <h3 id="添加">添加<a hidden class="anchor" aria-hidden="true" href="#添加">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git submodule add &lt;url&gt; &lt;path&gt;
-</span></span><span style="display:flex;"><span>git commit <span style="color:#75715e"># 提交？</span>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule add &lt;url&gt; &lt;path&gt;
+</span></span><span class="line"><span class="cl">git commit <span class="c1"># 提交？</span>
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p>其中，url为子模块的路径，path为该子模块存储的目录路径。</p>
@@ -434,24 +434,24 @@
 <li>git commit -am &ldquo;Update submodule url.&rdquo; # 提交变更</li>
 </ol>
 <h3 id="删除">删除<a hidden class="anchor" aria-hidden="true" href="#删除">#</a></h3>
-<div class="highlight"><div style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">
-<table style="border-spacing:0;padding:0;margin:0;border:0;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
-</span><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
 </span></code></pre></td>
-<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
-<pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git submodule deinit &lt;MOD_NAME&gt; <span style="color:#75715e"># 逆初始化模块，其中{MOD_NAME}为模块目录，执行后可发现模块目录被清空</span>
-</span></span><span style="display:flex;"><span>git rm --cached &lt;MOD_NAME&gt;      <span style="color:#75715e"># 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># rm -rf &lt;子模块目录&gt; # 删除子模块目录及源码</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># vi .gitmodules # 删除项目目录下.gitmodules文件中子模块相关条目</span>
-</span></span><span style="display:flex;"><span>vi .git/config <span style="color:#75715e"># 删除配置项中子模块相关条目</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># rm .git/module/* # 删除模块下的子模块目录，每个子模块对应一个目录，注意只删除对应的子模块目录即可</span>
-</span></span><span style="display:flex;"><span>git commit -am <span style="color:#e6db74">&#34;Remove a submodule.&#34;</span> 
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git submodule deinit &lt;MOD_NAME&gt; <span class="c1"># 逆初始化模块，其中{MOD_NAME}为模块目录，执行后可发现模块目录被清空</span>
+</span></span><span class="line"><span class="cl">git rm --cached &lt;MOD_NAME&gt;      <span class="c1"># 删除.gitmodules中记录的模块信息（--cached选项清除.git/modules中的缓存）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rm -rf &lt;子模块目录&gt; # 删除子模块目录及源码</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># vi .gitmodules # 删除项目目录下.gitmodules文件中子模块相关条目</span>
+</span></span><span class="line"><span class="cl">vi .git/config <span class="c1"># 删除配置项中子模块相关条目</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rm .git/module/* # 删除模块下的子模块目录，每个子模块对应一个目录，注意只删除对应的子模块目录即可</span>
+</span></span><span class="line"><span class="cl">git commit -am <span class="s2">&#34;Remove a submodule.&#34;</span> 
 </span></span></code></pre></td></tr></table>
 </div>
 </div>
