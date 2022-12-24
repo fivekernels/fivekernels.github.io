@@ -371,6 +371,16 @@ lastmod: {{ .Date }}
     margin: 0 0 0 20px;
     padding: 0px 15px 15px 20px;
     font-size: 16px;
+
+    /*目录显示高度*/
+    max-height: 83vh;
+    overflow-y: auto;
+}
+
+.toc .inner::-webkit-scrollbar-thumb {  /*滚动条*/
+    background: var(--border);
+    border: 7px solid var(--theme);
+    border-radius: var(--radius);
 }
 
 .toc li ul {
@@ -379,7 +389,7 @@ lastmod: {{ .Date }}
 }
 
 .toc li {
-    list-style: none;
+    /* list-style: none; */ /* 不显示目录前的小圆圈 */
     font-size: 0.95rem;
     padding-bottom: 5px;
 }
