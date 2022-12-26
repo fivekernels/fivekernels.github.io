@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Categories | 胡写乱画</title>
+<title>OpenWrt | 胡写乱画</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta name="author" content="hey">
-<link rel="canonical" href="https://fivekernels.github.io/categories/">
+<link rel="canonical" href="https://fivekernels.github.io/tags/openwrt/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.193f5e1cb1ec7f5edeaea1140916a7023d6d6c087917077bf463fe5ee3727903.css" integrity="sha256-GT9eHLHsf17erqEUCRanAj1tbAh5Fwd79GP&#43;XuNyeQM=" rel="preload stylesheet" as="style">
 <link rel="icon" href="https://fivekernels.github.io/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
@@ -18,7 +18,7 @@
 <link rel="mask-icon" href="https://fivekernels.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://fivekernels.github.io/categories/index.xml">
+<link rel="alternate" type="application/rss+xml" href="https://fivekernels.github.io/tags/openwrt/index.xml">
 <noscript>
     <style>
         #theme-toggle,
@@ -55,13 +55,13 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="Categories" />
+</noscript><meta property="og:title" content="OpenWrt" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://fivekernels.github.io/categories/" />
+<meta property="og:url" content="https://fivekernels.github.io/tags/openwrt/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Categories"/>
+<meta name="twitter:title" content="OpenWrt"/>
 <meta name="twitter:description" content=""/>
 
 </head>
@@ -123,7 +123,7 @@
             </li>
             <li>
                 <a href="https://fivekernels.github.io/categories/" title="🧩分类">
-                    <span class="active">🧩分类</span>
+                    <span>🧩分类</span>
                 </a>
             </li>
             <li>
@@ -144,52 +144,28 @@
         </ul>
     </nav>
 </header>
-<main class="main">
-<header class="page-header">
-    <h1>Categories</h1>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://fivekernels.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/tags/">Tags</a></div>
+  <h1>
+    OpenWrt
+  </h1>
 </header>
 
-<ul class="terms-tags">
-    <li>
-        <a href="https://fivekernels.github.io/categories/fiddler/">Fiddler <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/fpga/">FPGA <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/git/">Git <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/github-pages/">GitHub Pages <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/hugo/">Hugo <sup><strong><sup>4</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/nextcloud/">nextcloud <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/nginx/">Nginx <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/openwrt/">OpenWrt <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/python/">Python <sup><strong><sup>2</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/ssl/">SSL <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/stm32/">STM32 <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB1/">测试分类1 <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-    <li>
-        <a href="https://fivekernels.github.io/categories/%E6%B5%8B%E8%AF%95%E5%88%86%E7%B1%BB2/">测试分类2 <sup><strong><sup>1</sup></strong></sup> </a>
-    </li>
-</ul>
+<article class="post-entry tag-entry"> 
+  <header class="entry-header">
+    <h2>OpenWrt Configuration<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>安装 sftp 如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 openssh-sftp-server。1 2 1 2 3 4 opkg update opkg install openssh-sftp-server /etc/init.d/vsftpd enable /etc/init.d/vsftpd start 启用 SSL OpenWrt 使用...</p>
+  </div>
+  <footer class="entry-footer">
+
+
+
+<span title='2022-12-26 11:09:16 +0800 CST'>2022/12/26</span>&nbsp;·&nbsp;Updated:&nbsp;2022/12/26&nbsp;·&nbsp;3 min&nbsp;·&nbsp;1039 words&nbsp;·&nbsp;hey</footer>
+  <a class="entry-link" aria-label="post link to OpenWrt Configuration" href="https://fivekernels.github.io/posts/openwrt-configuration/"></a>
+</article>
     </main>
     
 <footer class="footer">

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>OpenWrt Configuration | 胡写乱画</title>
+<meta name="keywords" content="OpenWrt">
+<meta name="description" content="安装 sftp 如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 openssh-sftp-server。1 2 1 2 3 4 opkg update opkg install openssh-sftp-server /etc/init.d/vsftpd enable /etc/init.d/vsftpd start 启用 SSL OpenWrt 使用">
+<meta name="author" content="hey">
+<link rel="canonical" href="https://fivekernels.github.io/posts/openwrt-configuration/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.193f5e1cb1ec7f5edeaea1140916a7023d6d6c087917077bf463fe5ee3727903.css" integrity="sha256-GT9eHLHsf17erqEUCRanAj1tbAh5Fwd79GP&#43;XuNyeQM=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://fivekernels.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://fivekernels.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://fivekernels.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://fivekernels.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="OpenWrt Configuration" />
+<meta property="og:description" content="安装 sftp 如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 openssh-sftp-server。1 2 1 2 3 4 opkg update opkg install openssh-sftp-server /etc/init.d/vsftpd enable /etc/init.d/vsftpd start 启用 SSL OpenWrt 使用" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fivekernels.github.io/posts/openwrt-configuration/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-12-26T11:09:16+08:00" />
+<meta property="article:modified_time" content="2022-12-26T11:09:16+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="OpenWrt Configuration"/>
+<meta name="twitter:description" content="安装 sftp 如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 openssh-sftp-server。1 2 1 2 3 4 opkg update opkg install openssh-sftp-server /etc/init.d/vsftpd enable /etc/init.d/vsftpd start 启用 SSL OpenWrt 使用"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://fivekernels.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "OpenWrt Configuration",
+      "item": "https://fivekernels.github.io/posts/openwrt-configuration/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "OpenWrt Configuration",
+  "name": "OpenWrt Configuration",
+  "description": "安装 sftp 如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 openssh-sftp-server。1 2 1 2 3 4 opkg update opkg install openssh-sftp-server /etc/init.d/vsftpd enable /etc/init.d/vsftpd start 启用 SSL OpenWrt 使用",
+  "keywords": [
+    "OpenWrt"
+  ],
+  "articleBody": "安装 sftp 如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 openssh-sftp-server。1 2\n1 2 3 4 opkg update opkg install openssh-sftp-server /etc/init.d/vsftpd enable /etc/init.d/vsftpd start 启用 SSL OpenWrt 使用 uhttpd 作为web服务器，配置文件为 /etc/config/uhttpd；可以使用vi修改其配置，并上传ssl证书到配置的路径下。\n此外，uhttpd 默认禁止通过外网访问路由器界面，如果要取消限制同样需要修改配置文件option rfc1918_filter ‘0’。\n1 2 3 4 5 6 7 8 config uhttpd 'main' # ... list listen_https '0.0.0.0:443' list listen_https '[::]:443' option rfc1918_filter '0' # disable rfc1918 filter option redirect_https '1' # redirect http to https option cert '/etc/ssl//.crt' # crt file option key '/etc/ssl//.key' # key file 重启 uhttpd 服务：\n1 /etc/init.d/uhttpd restart ipv6 to ipv4 端口转发 虽然 ipv6 时代每个设备都可以获得独立的公网 ipv6 地址，但是要直接解析到设备的 ip 需要对每个设备分别做 ddns ；且由于每个设备获取到的 ipv6 地址个数很多，机制也很复杂，我还没研究明白，所以直接只对路由器的ipv6做ddns再通过端口转发到局域网的设备是个比较容易的解决方案。\nOpenWrt 下使用 socat 可以实现从公网 ipv6 到 内网 ipv4 的转发。\n1 2 opkg update opkg install socat 编写配置文件 配置文件为 /etc/config/socat。例如下列的配置分别将 ipv6 的端口 1234 、5678 转发到 192.168.1.100:9012 和 192.168.1.200:1314。3\n1 2 3 4 5 6 7 config socat '1234' option enable '1' option SocatOptions '-d -d TCP6-LISTEN:1234,fork TCP4:192.168.1.100:9012' config socat '5678' option enable '1' option SocatOptions '-d -d TCP6-LISTEN:5678,fork TCP4:92.168.1.200:1314' 应该也可以使用命令行添加，没试过。\n1 2 3 4 uci set socat.1234='socat' uci set socat.1234.enabled='1' uci set socat.1234.SocatOptions='-d -d TCP6-LISTEN:1234,fork TCP4:192.168.1.100:9012' uci commit socat 启动 socat 服务：\n1 2 /etc/init.d/socat enabled /etc/init.d/socat start 防火墙放行对应端口 打开 OpenWrt -\u003e 网络 -\u003e 防火墙 -\u003e 通信规则，按照如下设置：\n其中，目标区域应选择设备（输入），目标端口输入上面配置的需要被转发的 ipv6 端口，高级设置中限制地址类型选择仅IPv6（IPv4的端口转发在防火墙的端口转发下设置）。设置完成后，如下图所示。\nDDNS 自启动 如果遇到 ddns 在系统启动或网络中断后进程没有启动，可以创建如下脚本进行定时检测：4\n编写进程监控脚本 在任意位置放置脚本文件 ddns_monitor.sh，并配置权限 0755 或 0777\n1 2 3 4 5 6 7 8 9 logger \"DDNS Checking Start !\" num=`ps | grep dynamic_dns_updater | grep -v grep | grep -v check | wc -l` # 计算进程数 if [ $num -lt 2 ] # 判断进程是否存在，根据创建的ddns个数修改 then /etc/init.d/ddns restart #echo \"------------ddns start------------\" logger \"ddns start\" fi #printf \"------------------------DDNS Checking Over !---------------------------\\n\" 1 chmod 777 ddns_monitor.sh 创建定时任务 在 OpenWrt 中的系统 -\u003e 计划任务中添加一行，实现每隔15分钟检查以下ddns进程还在不在\n1 */15 * * * * sh /ddns_monitor.sh References Openwrt SSH服务端支持Sftp | Daniel Sun’s Blog ↩︎\nOpenWrt开启sftp，方便传输文件 | CSDN | bytxl ↩︎\nopenwrt ipv6如何端口转发？| 恩山无线论坛 | 99010 ↩︎\n解决”动态DNS“开机不会自动更新和启动进程功能的失效问题 | 恩山无线论坛 | 野马joe ↩︎\n",
+  "wordCount" : "1039",
+  "inLanguage": "zh-cn",
+  "datePublished": "2022-12-26T11:09:16+08:00",
+  "dateModified": "2022-12-26T11:09:16+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "hey"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://fivekernels.github.io/posts/openwrt-configuration/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "胡写乱画",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fivekernels.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://fivekernels.github.io/" accesskey="h" title="胡写乱画 (Alt + H)">胡写乱画</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://fivekernels.github.io/" title="🏠首页">
+                    <span>🏠首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/posts/" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/categories/" title="🧩分类">
+                    <span>🧩分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/tags/" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/about/" title="🥣关于">
+                    <span>🥣关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/search/" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://fivekernels.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">📚文章</a></div>
+    <h1 class="post-title">
+      OpenWrt Configuration<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+    </h1>
+    <div class="post-meta">
+
+
+
+<span title='2022-12-26 11:09:16 +0800 CST'>2022/12/26</span>&nbsp;·&nbsp;Updated:&nbsp;2022/12/26&nbsp;·&nbsp;3 min&nbsp;·&nbsp;1039 words&nbsp;·&nbsp;hey
+
+</div>
+  </header> 
+  <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#%e5%ae%89%e8%a3%85-sftp" aria-label="安装 sftp">安装 sftp</a></li>
+                    <li>
+                        <a href="#%e5%90%af%e7%94%a8-ssl" aria-label="启用 SSL">启用 SSL</a></li>
+                    <li>
+                        <a href="#ipv6-to-ipv4-%e7%ab%af%e5%8f%a3%e8%bd%ac%e5%8f%91" aria-label="ipv6 to ipv4 端口转发">ipv6 to ipv4 端口转发</a><ul>
+                            
+                    <li>
+                        <a href="#%e7%bc%96%e5%86%99%e9%85%8d%e7%bd%ae%e6%96%87%e4%bb%b6" aria-label="编写配置文件">编写配置文件</a></li>
+                    <li>
+                        <a href="#%e9%98%b2%e7%81%ab%e5%a2%99%e6%94%be%e8%a1%8c%e5%af%b9%e5%ba%94%e7%ab%af%e5%8f%a3" aria-label="防火墙放行对应端口">防火墙放行对应端口</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#ddns-%e8%87%aa%e5%90%af%e5%8a%a8" aria-label="DDNS 自启动">DDNS 自启动</a><ul>
+                            
+                    <li>
+                        <a href="#%e7%bc%96%e5%86%99%e8%bf%9b%e7%a8%8b%e7%9b%91%e6%8e%a7%e8%84%9a%e6%9c%ac" aria-label="编写进程监控脚本">编写进程监控脚本</a></li>
+                    <li>
+                        <a href="#%e5%88%9b%e5%bb%ba%e5%ae%9a%e6%97%b6%e4%bb%bb%e5%8a%a1" aria-label="创建定时任务">创建定时任务</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#references" aria-label="References">References</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="安装-sftp">安装 sftp<a hidden class="anchor" aria-hidden="true" href="#安装-sftp">#</a></h2>
+<p>  如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 <em>openssh-sftp-server</em>。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">opkg update
+</span></span><span class="line"><span class="cl">opkg install openssh-sftp-server
+</span></span><span class="line"><span class="cl">/etc/init.d/vsftpd <span class="nb">enable</span>
+</span></span><span class="line"><span class="cl">/etc/init.d/vsftpd start
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="启用-ssl">启用 SSL<a hidden class="anchor" aria-hidden="true" href="#启用-ssl">#</a></h2>
+<p>  OpenWrt 使用 uhttpd 作为web服务器，配置文件为 /etc/config/<strong>uhttpd</strong>；可以使用vi修改其配置，并上传ssl证书到配置的路径下。<br>
+  此外，uhttpd 默认禁止通过外网访问路由器界面，如果要取消限制同样需要修改配置文件<em>option rfc1918_filter &lsquo;0&rsquo;</em>。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">config uhttpd &#39;main&#39;
+</span></span><span class="line"><span class="cl">    # ...
+</span></span><span class="line"><span class="cl">    list listen_https &#39;0.0.0.0:443&#39;
+</span></span><span class="line"><span class="cl">    list listen_https &#39;[::]:443&#39;
+</span></span><span class="line"><span class="cl">    option rfc1918_filter &#39;0&#39;                       # disable rfc1918 filter
+</span></span><span class="line"><span class="cl">    option redirect_https &#39;1&#39;                       # redirect http to https
+</span></span><span class="line"><span class="cl">    option cert &#39;/etc/ssl/&lt;domain&gt;/&lt;fullchain&gt;.crt&#39; # crt file
+</span></span><span class="line"><span class="cl">    option key &#39;/etc/ssl/&lt;domain&gt;/&lt;privkey&gt;.key&#39;    # key file
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>  重启 uhttpd 服务：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/init.d/uhttpd restart
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="ipv6-to-ipv4-端口转发">ipv6 to ipv4 端口转发<a hidden class="anchor" aria-hidden="true" href="#ipv6-to-ipv4-端口转发">#</a></h2>
+<p>  虽然 ipv6 时代每个设备都可以获得独立的公网 ipv6 地址，但是要直接解析到设备的 ip 需要对每个设备分别做 ddns ；且由于每个设备获取到的 ipv6 地址个数很多，机制也很复杂，我还没研究明白，所以直接只对路由器的ipv6做ddns再通过端口转发到局域网的设备是个比较容易的解决方案。</p>
+<p>  OpenWrt 下使用 socat 可以实现从公网 ipv6 到 内网 ipv4 的转发。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">opkg update
+</span></span><span class="line"><span class="cl">opkg install socat
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="编写配置文件">编写配置文件<a hidden class="anchor" aria-hidden="true" href="#编写配置文件">#</a></h3>
+<p>  配置文件为 /etc/config/<strong>socat</strong>。例如下列的配置分别将 ipv6 的端口 <em><strong>1234</strong></em> 、<em><strong>5678</strong></em> 转发到 192.168.1.<em><strong>100</strong></em>:<em><strong>9012</strong></em> 和 192.168.1.<em><strong>200</strong></em>:<em><strong>1314</strong></em>。<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">config socat &#39;1234&#39;
+</span></span><span class="line"><span class="cl">    option enable &#39;1&#39;
+</span></span><span class="line"><span class="cl">    option SocatOptions &#39;-d -d TCP6-LISTEN:1234,fork TCP4:192.168.1.100:9012&#39;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">config socat &#39;5678&#39;
+</span></span><span class="line"><span class="cl">    option enable &#39;1&#39;
+</span></span><span class="line"><span class="cl">    option SocatOptions &#39;-d -d TCP6-LISTEN:5678,fork TCP4:92.168.1.200:1314&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>  应该也可以使用命令行添加，没试过。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">uci <span class="nb">set</span> socat.1234<span class="o">=</span><span class="s1">&#39;socat&#39;</span>
+</span></span><span class="line"><span class="cl">uci <span class="nb">set</span> socat.1234.enabled<span class="o">=</span><span class="s1">&#39;1&#39;</span>
+</span></span><span class="line"><span class="cl">uci <span class="nb">set</span> socat.1234.SocatOptions<span class="o">=</span><span class="s1">&#39;-d -d TCP6-LISTEN:1234,fork TCP4:192.168.1.100:9012&#39;</span>
+</span></span><span class="line"><span class="cl">uci commit socat
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>  启动 socat 服务：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">/etc/init.d/socat enabled
+</span></span><span class="line"><span class="cl">/etc/init.d/socat start
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="防火墙放行对应端口">防火墙放行对应端口<a hidden class="anchor" aria-hidden="true" href="#防火墙放行对应端口">#</a></h3>
+<p>  打开 OpenWrt -&gt; 网络 -&gt; 防火墙 -&gt; 通信规则，按照如下设置：</p>
+<p><img loading="lazy" src="./images/allow-ipv6-1234.png" alt="allow-ipv6-1234"  />
+<br>
+<img loading="lazy" src="./images/allow_ipv6-1234_advanced.png" alt="allow_ipv6-1234_advanced"  />
+</p>
+<p>其中，目标区域应选择<em>设备（输入）</em>，目标端口输入上面配置的需要被转发的 ipv6 端口，高级设置中<em>限制地址类型</em>选择<em>仅IPv6</em>（IPv4的端口转发在防火墙的端口转发下设置）。设置完成后，如下图所示。</p>
+<p><img loading="lazy" src="./images/allow-ipv6-1234_result.png" alt="allow-ipv6-1234_result"  />
+</p>
+<h2 id="ddns-自启动">DDNS 自启动<a hidden class="anchor" aria-hidden="true" href="#ddns-自启动">#</a></h2>
+<p>  如果遇到 ddns 在系统启动或网络中断后进程没有启动，可以创建如下脚本进行定时检测：<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
+<h3 id="编写进程监控脚本">编写进程监控脚本<a hidden class="anchor" aria-hidden="true" href="#编写进程监控脚本">#</a></h3>
+<p>  在任意位置放置脚本文件 ddns_monitor.sh，并配置权限 0755 或 0777</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">logger <span class="s2">&#34;DDNS Checking Start !&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">num</span><span class="o">=</span><span class="sb">`</span>ps <span class="p">|</span> grep dynamic_dns_updater <span class="p">|</span> grep -v grep <span class="p">|</span> grep -v check <span class="p">|</span> wc -l<span class="sb">`</span>  <span class="c1"># 计算进程数</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="o">[</span> <span class="nv">$num</span> -lt <span class="m">2</span> <span class="o">]</span>                                              <span class="c1"># 判断进程是否存在，根据创建的ddns个数修改</span>
+</span></span><span class="line"><span class="cl"><span class="k">then</span>
+</span></span><span class="line"><span class="cl">/etc/init.d/ddns restart
+</span></span><span class="line"><span class="cl"><span class="c1">#echo &#34;------------ddns start------------&#34;               </span>
+</span></span><span class="line"><span class="cl">logger <span class="s2">&#34;ddns start&#34;</span>               
+</span></span><span class="line"><span class="cl"><span class="k">fi</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#printf &#34;------------------------DDNS Checking Over  !---------------------------\n&#34;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">chmod <span class="m">777</span> ddns_monitor.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="创建定时任务">创建定时任务<a hidden class="anchor" aria-hidden="true" href="#创建定时任务">#</a></h3>
+<p>  在 OpenWrt 中的<em>系统 -&gt; 计划任务</em>中添加一行，实现每隔15分钟检查以下ddns进程还在不在</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">*/15 * * * * sh &lt;path&gt;/ddns_monitor.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="https://onlyke.com/html/605.html">Openwrt SSH服务端支持Sftp | Daniel Sun&rsquo;s Blog</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://blog.csdn.net/bytxl/article/details/42146151">OpenWrt开启sftp，方便传输文件 | CSDN | bytxl</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://www.right.com.cn/forum/forum.php?mod=redirect&amp;goto=findpost&amp;ptid=4129434&amp;pid=11351439">openwrt ipv6如何端口转发？| 恩山无线论坛 | 99010</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://www.right.com.cn/forum/thread-182153-1-1.html">解决”动态DNS“开机不会自动更新和启动进程功能的失效问题 | 恩山无线论坛 | 野马joe</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://fivekernels.github.io/tags/openwrt/">OpenWrt</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://fivekernels.github.io/posts/nextcloud-with-docker/">
+    <span class="title"> »</span>
+    <br>
+    <span>Nextcloud With Docker</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://fivekernels.github.io/">胡写乱画</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -121,7 +121,9 @@ lastmod: {{ .Date }}
 
 ## 文章目录 TOC 侧边放置
 
-参考：[Sulv's Blog: Hugo博客目录放在侧边 | PaperMod主题](https://www.sulvblog.cn/posts/blog/hugo_toc_side/)
+参考：  
+[Toc on the side | Github Pull Requests | nielsbrakel](https://github.com/adityatelange/hugo-PaperMod/pull/675)  
+[Sulv's Blog: Hugo博客目录放在侧边 | PaperMod主题](https://www.sulvblog.cn/posts/blog/hugo_toc_side/)
 
 ### toc代码
 

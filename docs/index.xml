@@ -6,7 +6,16 @@
     <description>Recent content on 胡写乱画</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 20 Dec 2022 11:05:07 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 26 Dec 2022 11:09:16 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>OpenWrt Configuration</title>
+      <link>https://fivekernels.github.io/posts/openwrt-configuration/</link>
+      <pubDate>Mon, 26 Dec 2022 11:09:16 +0800</pubDate>
+      
+      <guid>https://fivekernels.github.io/posts/openwrt-configuration/</guid>
+      <description>安装 sftp 如果 OpenWrt 不支持使用 Xftp 等软件进行传输文件时，需要手动安装 openssh-sftp-server。1 2 1 2 3 4 opkg update opkg install openssh-sftp-server /etc/init.d/vsftpd enable /etc/init.d/vsftpd start 启用 SSL OpenWrt 使用</description>
+    </item>
+    
     <item>
       <title>Nextcloud With Docker</title>
       <link>https://fivekernels.github.io/posts/nextcloud-with-docker/</link>
