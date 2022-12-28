@@ -1,12 +1,12 @@
 ---
 title: OpenWrt Configuration
 date: 2022-12-26T11:09:16+08:00
-lastmod: 2022-12-26T11:09:16+08:00
+lastmod: 2022-12-28T14:14:18+08:00
 tags: 
 - OpenWrt
 categories: 
 - OpenWrt
-draft: true
+draft: false
 ---
 
 ## 安装 sftp
@@ -40,6 +40,34 @@ config uhttpd 'main'
 
 ```bash
 /etc/init.d/uhttpd restart
+```
+
+## web 登录页面不显示用户名
+
+&emsp;&emsp;OpenWrt 默认的登录页面会显示默认的用户名 root，如果更改了用户名或者为了安全考虑不想把他显示出来可以修改一下 luci 的 html 文件 */usr/lib/lua/luci/view/**sysauth.htm***
+
+```diff
+<!-- ... -->
+
+<div class="cbi-value-field">
+-    <input class="cbi-input-user" type="text" name="luci_username" value="<%=duser%>" />
++    <input class="cbi-input-user" type="text" name="luci_username" value="" />
+</div>
+
+<!-- ... -->
+
+<script type="text/javascript">//<![CDATA[
+-var input = document.getElementsByName('luci_password')[0];
++var input = document.getElementsByName('luci_username')[0];
+if (input)
+    input.focus();
+//]]></script>
+
+<!-- ... -->
+```
+
+```html
+
 ```
 
 ## ipv6 to ipv4 端口转发
