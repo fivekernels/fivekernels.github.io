@@ -1,6 +1,7 @@
 baseURL: https://fivekernels.github.io/
 languageCode: zh-CN # 只用于在rss模板中填充<language>标记
 title: 胡写乱画 # 站点名称
+copyright: "© 2021-2023 [胡写乱画](https://fivekernels.github.io/)"
 
 publishdir: "docs" # 生成静态网站存放目录，默认public
 
