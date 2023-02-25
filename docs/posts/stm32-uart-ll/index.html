@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>STM32 UART LL Library | 胡写乱画</title>
+<meta name="keywords" content="STM32, CubeMX, UART, L4">
+<meta name="description" content="UART 框图 查看芯片对应的 Reference Manual 的 USART/UART 章节可以找到其框图。以 F4 系列的参考手册为例，其框图如下1： 可以看出，对于发送的数据，依次经过 TDR 寄存器 -&gt; 发送移位寄">
+<meta name="author" content="hey">
+<link rel="canonical" href="https://fivekernels.github.io/posts/stm32-uart-ll/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.193f5e1cb1ec7f5edeaea1140916a7023d6d6c087917077bf463fe5ee3727903.css" integrity="sha256-GT9eHLHsf17erqEUCRanAj1tbAh5Fwd79GP&#43;XuNyeQM=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://fivekernels.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://fivekernels.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://fivekernels.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://fivekernels.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://fivekernels.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="STM32 UART LL Library" />
+<meta property="og:description" content="UART 框图 查看芯片对应的 Reference Manual 的 USART/UART 章节可以找到其框图。以 F4 系列的参考手册为例，其框图如下1： 可以看出，对于发送的数据，依次经过 TDR 寄存器 -&gt; 发送移位寄" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://fivekernels.github.io/posts/stm32-uart-ll/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-02-02T17:08:13+08:00" />
+<meta property="article:modified_time" content="2023-02-25T17:27:00+08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="STM32 UART LL Library"/>
+<meta name="twitter:description" content="UART 框图 查看芯片对应的 Reference Manual 的 USART/UART 章节可以找到其框图。以 F4 系列的参考手册为例，其框图如下1： 可以看出，对于发送的数据，依次经过 TDR 寄存器 -&gt; 发送移位寄"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "📚文章",
+      "item": "https://fivekernels.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "STM32 UART LL Library",
+      "item": "https://fivekernels.github.io/posts/stm32-uart-ll/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "STM32 UART LL Library",
+  "name": "STM32 UART LL Library",
+  "description": "UART 框图 查看芯片对应的 Reference Manual 的 USART/UART 章节可以找到其框图。以 F4 系列的参考手册为例，其框图如下1： 可以看出，对于发送的数据，依次经过 TDR 寄存器 -\u0026gt; 发送移位寄",
+  "keywords": [
+    "STM32", "CubeMX", "UART", "L4"
+  ],
+  "articleBody": "UART 框图 查看芯片对应的 Reference Manual 的 USART/UART 章节可以找到其框图。以 F4 系列的参考手册为例，其框图如下1：\n可以看出，对于发送的数据，依次经过 TDR 寄存器 -\u003e 发送移位寄存器 -\u003e TX 端口；对于接收的数据，从 RX 端口依次经过 接收移位寄存器 -\u003e RDR寄存器。\nUART 寄存器 RXNE(Read data register not empty)：当接收移位寄存器中的数据被传送到 RDR 寄存器时，该位被置1；若打开串口接收中断(RXNEIE)=1时，会产生中断。读取 RDR 寄存器该位自动清零。 TXE(Transmit data register empty)：当TDR 寄存器中的数据被传送到发送移位寄存器时（此时可以向 TDR 寄存器写入新数据发送），该位被置1；若打开串口发送中断(TXEIE=1)时，会产生中断。当向 TDR 寄存器中写入新数据时该位自动清零。 TC(Transmission complete)：当移位寄存器的数据发送完成且 TDR 寄存器为空（没有下一个要发送的数据了）时，该位被置1；若打开发送完成中断(TCIE=1)时，会产生中断。当向 TDR 寄存器中写入新数据时该位自动清零，也可以手动清零。 IDLE(Idle line detected)：空闲位针对接收过程；当串口接收到一个字节后的一个周期内都没有检测到起始位时（即检测到 Idle frame ）， IDLE 被置12 3。当 IDLE 被置1后，只有再次接收到数据后（ RXNE 置1）才会检测下一次空闲。 低功耗串口的时钟和波特率 对于LPUART，其波特率和其时钟源有需要满足一定关系4：\n即LPUART的时钟源频率必须在3倍波特率到4096倍波特率之间。\n对于CubeMX生成的工程，LPUART的时钟源默认为PCLK1（80M，STM32L4），因此其可以提供的最低频率为 80 * 10^6 / 4096 = 19532 bps。若要使用9600bps等低的波特率则应该首先修改 Clock Configuration 中的 LPUART 的时钟源为 HSI(16M)：\n此时，允许的波特率范围为3907bps~5.33Mbps。\n中断方式 CubeMX 配置 选中需要的 UART，Mode 选择 Asynchronous，即异步通信方式；NVIC Settings 中勾选 global interrupt 并设置优先级。选择好对应的 GPIO 引脚后就可以生成工程了。\n代码 参考 ST 固件库例程 USART_Communication_Rx_IT5、USART_Communication_Tx_IT6。\n定义结构体 UartITModel 1 2 3 4 5 6 7 8 9 10 11 12 typedef struct { volatile uint8_t rxFlag; // 接收完一帧数据标志位 uint8_t rxLen; // 当前数据帧长度 uint8_t rxData[10]; // 当前数据 uint8_t _rx_data_index; // 下一个要接收的字节存放的数组下标 volatile uint8_t txBusy; // 0: 串口没有数据帧正在发送; 1: 有数据帧正在发送 uint8_t txLen; // 待发送的数据总长度 uint8_t txData[10]; // 待发送的数据 uint8_t _tx_data_index; // 下一个要发送的字节的数组下标 } UartITModel_1010; 1 UartITModel_1010 Lpuart1ITModel = {0}; 1 extern UartITModel_1010 Lpuart1ITModel; 配置串口接收中断 生成的代码默认会使能串口中断，但并不会开启串口的发送或接收等中断：\n添加并调用以下函数使能RXNE中断：\n1 2 3 4 5 6 7 8 9 10 void LPUART1_ITConfig(void); void LPUART1_ITConfig(void) { // if (LL_LPUART_IsActiveFlag_RXNE(LPUART1) == 1) // sometimes rxne is set after initialization // { // LL_LPUART_ReceiveData8(LPUART1); // clear rxne // } LL_LPUART_EnableIT_RXNE(LPUART1); /* Enable RXNE interrupts */ } 串口中断函数（RXNE） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 /** * @brief This function handles LPUART1 global interrupt. */ void LPUART1_IRQHandler(void) { /* USER CODE BEGIN LPUART1_IRQn 0 */ if ((LL_USART_IsEnabledIT_RXNE(LPUART1) == 1) \u0026\u0026 (LL_USART_IsActiveFlag_RXNE(LPUART1) == 1)) // 接收到数据 { /* Read Received character. RXNE flag is cleared by reading of RDR register */ uint8_t rxdata = LL_USART_ReceiveData8(LPUART1); Lpuart1ITModel.rxData[Lpuart1ITModel._rx_data_index++] = rxdata; // data condition or rx array full if ((rxdata == 0xFF) || (Lpuart1ITModel._rx_data_index == sizeof(Lpuart1ITModel.rxData))) { Lpuart1ITModel.rxLen = Lpuart1ITModel._rx_data_index; Lpuart1ITModel._rx_data_index = 0; Lpuart1ITModel.rxFlag = 1; } } /* USER CODE END LPUART1_IRQn 0 */ /* USER CODE BEGIN LPUART1_IRQn 1 */ /* USER CODE END LPUART1_IRQn 1 */ } 发送数据 使用串口中断发送数据只需要开启 TXE 中断，在中断中依次将需要发送的数据写入 TDR 寄存器即可；写入最后一个字节后可以关闭 TXE 中断；但此时最后一个字节还没有被串口发送出去，需要开启 TC 中断以确保最后一字节数据被串口发送完成。\n1 2 3 4 5 6 7 8 9 10 11 12 void LPUART1_SendArrayIT(uint8_t *parr, uint8_t len); void LPUART1_SendArrayIT(uint8_t *parr, uint8_t len) { while (Lpuart1ITModel.txBusy == 1); // waiting last transmit Lpuart1ITModel.txBusy = 1; Lpuart1ITModel._tx_data_index = 0; Lpuart1ITModel.txLen = len; memcpy(Lpuart1ITModel.txData, parr, len); LL_LPUART_EnableIT_TXE(LPUART1); // enable tdr empty it } 串口中断函数（TX） 当 收到 0xff 或接收缓冲区满 时，产生数据帧接收完成标志：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 /** * @brief This function handles LPUART1 global interrupt. */ void LPUART1_IRQHandler(void) { /* USER CODE BEGIN LPUART1_IRQn 0 */ if ((LL_LPUART_IsEnabledIT_TXE(LPUART1) == 1) \u0026\u0026 (LL_LPUART_IsActiveFlag_TXE(LPUART1) == 1)) // TDR 发送寄存器空 可以放入数据发送 写DR寄存器即清空标志位 { if (Lpuart1ITModel._tx_data_index == Lpuart1ITModel.txLen - 1) { LL_LPUART_DisableIT_TXE(LPUART1); // 关闭发送寄存器空中断 LL_LPUART_EnableIT_TC(LPUART1); // 使能发送完成中断 } LL_LPUART_TransmitData8(LPUART1, Lpuart1ITModel.txData[Lpuart1ITModel._tx_data_index++]); // 写寄存器 } if ((LL_LPUART_IsEnabledIT_TC(LPUART1) == 1) \u0026\u0026 (LL_LPUART_IsActiveFlag_TC(LPUART1) == 1)) { LL_LPUART_ClearFlag_TC(LPUART1); /* Clear TC flag */ Lpuart1ITModel.txBusy = 0; } /* USER CODE END LPUART1_IRQn 0 */ /* USER CODE BEGIN LPUART1_IRQn 1 */ /* USER CODE END LPUART1_IRQn 1 */ } main 以回环应用为例，将串口接收缓冲区的数据发送出去：\n1 LPUART1_SendArrayIT(Lpuart1ITModel.rxData, Lpuart1ITModel.rxLen); DMA 方式 借助 DMA，可以使得串口进行连续通信。将串口寄存器的 DMAT 和 DMAR 位 置1可以使用 DMA 方式收发串口数据7。对应的库函数为：\n1 2 void LL_LPUART_EnableDMAReq_TX(USART_TypeDef *LPUARTx); /* Enable DMA Mode for transmission */ void LL_LPUART_EnableDMAReq_RX(USART_TypeDef *LPUARTx); /* Enable DMA Mode for reception */ DMA 寄存器 TCIFx: channle x 传输完成 HTIFx: channel x 传输一半 CNDTRx: 需要传输的数据数量；只有 DMA 通道 disabled 时才可以写入数据；当对应通道被启用时，该寄存器变成只读，表示待传输数据的剩余个数。每次 DMA 传输后，该寄存器值递减；当 DMA 工作于 Normal 模式时，传输完成后该寄存器保持为 0；Circular 模式时，该寄存器在传输完成后自动重置为上次设置的值。 发送流程 使用 DMA 发送串口数据的过程：当串口的 TXE 被置1时，DMA 将数据从 SRAM 加载到 TDR 寄存器。其具体配置过程如下7：\n配置 DMA 传输的目的地址为TDR寄存器地址（每次 TXE 置1时数据都会从存储区加载到 TDR 寄存器中）。 配置 DMA 传输的源地址为数据地址（每次 TXE 置1时数据都会从该地址加载到 TDR 寄存器中）。 配置 DMA 传输的总字节数（发送数据字节个数）。 配置 DMA 通道的优先级。 配置 DMA 传输完成/一半中断。 清除串口寄存器的 TC 标志位。（如果使能 DMA 传输之前就使能了 TC 中断，则会立刻进入中断；若等到 DMA 传输完成后再使能 TC 中断，则可以不在这一步清除标志位。） 激活 DMA 的对应通道。 当 DMA 传输的数据量到达设定的数据量时（数据被传送到 TDR 寄存器），产生中断 TCIF，但此时最后一个数据仍未被串口发送完成；若要禁止 UART 或进入停止模式前应监视串口的 TC 标志位以确保 UART 通信操作已经完成。\n接收流程 使用 DMA 接收串口数据的过程：当串口的 RXNE 被置1时，DMA 将数据从 RDR 寄存器加载到 SRAM。其具体配置与发送过程类似7。\nCubeMX 配置 DMA Settings 中添加 TX 和 RX；TX 的 Mode 选择 Normal，即发送一次自动停止，需要重新配置数据地址与长度；RX 的 Mode 选择 Circular，连续接收。\n勾选 NVIC Settings 中的 global interrupt。\n调整 Project Manager 中 Advanced Settings，移动初始化函数的调用顺序，确保 MX_DMA_Init 在 MX_xxx_UART_Init 之前，否则无法进入 DMA 传输过程8。\n代码 参考：USART_Communication_TxRx_DMA9、一个严谨的STM32串口DMA发送\u0026接收（1.5Mbps波特率）机制10、usart_rx_idle_line_irq_L411\n定长接收 若要在 DMA 不支持双缓冲的情况下实现数据双缓冲定长接收，可以结合 DMA 的 HT 中断实现，此时结构体中的 rxData （DMA 接收缓冲区）数组长度应为数据长度的一半，防止处理数据不及时一些数据被下一次 DMA 传输覆盖。\n定义结构体 UartDMAFixModel 1 2 3 4 5 6 7 8 9 10 typedef struct { volatile uint8_t rxFlag; // 接收完一帧数据标志位 1: 接收完成 uint8_t rxLen; // 定长数据帧长度, _rx_dma_data 的一半 uint8_t _rx_dma_data[20]; // DMA 接收数据缓冲区，定长接收每次只处理一半数据 uint8_t *rxDataPointer; // 指向当前可以处理的数据的首地址, 在 DMA 中断切换地址 volatile uint8_t txBusy; // 0: 串口没有数据帧正在发送; 1: 有数据帧正在发送 uint8_t txData[10]; // 需要发送的数据，同时也是 DMA 发送的缓冲区 } UartDMAFixModel_1010; 1 2 3 4 5 6 7 8 9 10 UartDMAFixModel_1010 Lpuart1DMAFixModel = { .rxFlag = 0, .rxLen = sizeof(Lpuart1DMAFixModel._rx_dma_data) / 2, ._rx_dma_data = {0}, .rxDataPointer = NULL, .txBusy = 0, .txData = {0} }; 1 extern UartDMAFixModel_1010 Lpuart1DMAFixModel; 配置串口 DMA 地址、长度、中断 CubeMX 生成的代码并不会配置 DMA 的外设和存储器地址、数据长度以及相应的传输中断；编写并调用下列代码以设定串口 TX 和 RX 的 DMA 相应配置。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 /** * @brief extra config LPUART1 TX RX Variable length data reception use DMA * @param None * @retval None */ void LPUART1_DMAFixConfig(void) { LL_DMA_SetPeriphAddress(DMA2, LL_DMA_CHANNEL_6, LL_LPUART_DMA_GetRegAddr(LPUART1, LL_LPUART_DMA_REG_DATA_TRANSMIT)); // tx dma dest address LL_DMA_EnableIT_TC(DMA2, LL_DMA_CHANNEL_6); // tx dma transfer complete interrupt // rx dma source address and dest address and length LL_DMA_SetPeriphAddress(DMA2, LL_DMA_CHANNEL_7, LL_LPUART_DMA_GetRegAddr(LPUART1, LL_LPUART_DMA_REG_DATA_RECEIVE)); LL_DMA_SetMemoryAddress(DMA2, LL_DMA_CHANNEL_7, (uint32_t)Lpuart1DMAFixModel._rx_dma_data); LL_DMA_SetDataLength(DMA2, LL_DMA_CHANNEL_7, sizeof(Lpuart1DMAFixModel._rx_dma_data)); LL_DMA_EnableIT_TC(DMA2, LL_DMA_CHANNEL_7); // rx dma transfer complete interrupt LL_DMA_EnableIT_HT(DMA2, LL_DMA_CHANNEL_7); // rx dma half transfer interrupt LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_7); // enable uart dma rx LL_LPUART_EnableDMAReq_TX(LPUART1); // enable dma to handle uart tdr LL_LPUART_EnableDMAReq_RX(LPUART1); // enable dma to handle uart rdr } DMA 中断函数（HT TC） 使用 DMA 的传输完成中断和传输半完成中断可以方便的进行串口数据的定长接收；根据不同的 DMA 标志位设定指向当前可以处理的数据的首地址。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 /** * @brief This function handles DMA2 channel7 global interrupt. */ void DMA2_Channel7_IRQHandler(void) { /* USER CODE BEGIN DMA2_Channel7_IRQn 0 */ // lpuart1 rx if (LL_DMA_IsEnabledIT_HT(DMA2, LL_DMA_CHANNEL_7) \u0026\u0026 LL_DMA_IsActiveFlag_HT7(DMA2)) { LL_DMA_ClearFlag_HT7(DMA2); // TODO: uart rx dma half transfer Lpuart1DMAFixModel.rxDataPointer = Lpuart1DMAFixModel._rx_dma_data + 0; Lpuart1DMAFixModel.rxFlag = 1; } if (LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_CHANNEL_7) \u0026\u0026 LL_DMA_IsActiveFlag_TC7(DMA2)) { LL_DMA_ClearFlag_TC7(DMA2); // TODO: uart rx dma transfer complete Lpuart1DMAFixModel.rxDataPointer = Lpuart1DMAFixModel._rx_dma_data + Lpuart1DMAFixModel.rxLen; Lpuart1DMAFixModel.rxFlag = 1; } /* USER CODE END DMA2_Channel7_IRQn 0 */ /* USER CODE BEGIN DMA2_Channel7_IRQn 1 */ /* USER CODE END DMA2_Channel7_IRQn 1 */ } 重置 DMA 接收长度 对于定长数据的接收，数据接收完成是靠 DMA 的传输一半或传输完成标志位判断的；若某次通信时，数据帧的一个字节丢失，则会导致后续的数据全部错位，从而无法正确解析。因此在数据处理之前需要通过校验帧头或者校验和等方式判断数据是否有效；当前数据帧错误时，对于下一帧数据应重新从 DMA 数组的第一个元素开始接收。\n下面假设数据帧头必须为 0x55，校验成功时，将收到的一帧数据通过串口发回；当数据帧校验失败时，关闭 DMA 接收通道并重置 DMA 接收数据长度，同时打开串口空闲中断，等待当前数据帧全部发送完成后重新打开 DMA 接收通道。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 /** * @brief Verify data frames and parse data * @param pdata pointer to the first data * @retval 1: verify success; 0: verify fail */ uint8_t Lpurat1DataProcess(uint8_t *pdata) { uint8_t dataValid = 0; // Verify data frame if (pdata[0] != 0x55) // example: frame header must be 0x55 { dataValid = 0; } else { dataValid = 1; } if (dataValid == 0) { // The data may be misaligned // reset dma rx length // 1st: disable dma rx channel LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_7); // 2nd: reset data length so that new transfer can be placed into the first array element LL_DMA_SetDataLength(DMA2, LL_DMA_CHANNEL_7, sizeof(Lpuart1DMAFixModel._rx_dma_data)); // 3rd: enable uart rx idle it, When the current full data frame transmission is complete, re-enable DMA reception. LL_LPUART_EnableIT_IDLE(LPUART1); // 4th: (in the function UART IRQHandler) return 0; } // TODO: data parsing LPUART1_SendArrayDMA(pdata, Lpuart1DMAFixModel.rxLen); // ... return 1; } 串口空闲中断处理过程：清除空闲标志位、关闭串口空闲中断、重新开启 DMA 接收通道。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 /** * @brief This function handles LPUART1 global interrupt. */ void LPUART1_IRQHandler(void) { /* USER CODE BEGIN LPUART1_IRQn 0 */ if ((LL_LPUART_IsEnabledIT_IDLE(LPUART1) == 1) \u0026\u0026 (LL_LPUART_IsActiveFlag_IDLE(LPUART1) == 1)) { LL_LPUART_ClearFlag_IDLE(LPUART1); // 1st-3rd: (in the function Lpurat1DataProcess()) // 4th: disable idle it and re-enable DMA reception. LL_LPUART_DisableIT_IDLE(LPUART1); LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_7); } /* USER CODE END LPUART1_IRQn 0 */ /* USER CODE BEGIN LPUART1_IRQn 1 */ /* USER CODE END LPUART1_IRQn 1 */ } main 收到数据后，调用数据处理函数。\n1 2 3 4 5 6 7 8 9 10 if (Lpuart1DMAFixModel.rxFlag == 1) // HT or TC { uint8_t verifyResult = Lpurat1DataProcess(Lpuart1DMAFixModel.rxDataPointer); if (verifyResult == 0) { // TODO: check verifyResult // ... } Lpuart1DMAFixModel.rxFlag = 0; } 不定长接收 定义结构体 UartDMAVarModel 结构体中的 rxData 最好比最长的数据帧多几个字节，防止处理数据不及时一些数据被下一次 DMA 传输覆盖。\n1 2 3 4 5 6 7 8 9 10 11 typedef struct { volatile uint8_t rxFlag; // 接收完一帧数据标志位 uint8_t rxLen; // 当前数据帧长度 uint8_t rxData[10]; // 当前数据 uint8_t _rx_dma_data[10]; // DMA 接收缓冲区 uint8_t _rx_dma_last_used; // 上一帧数据传输完成时DMA的使用量 volatile uint8_t txBusy; // 0: 串口没有数据帧正在发送; 1: 有数据帧正在发送 uint8_t txData[10]; // 需要发送的数据，同时也是 DMA 发送的缓冲区 } UartDMAVarModel_1010; 1 UartDMAVarModel_1010 Lpuart1DMAVarModel = {0}; 1 extern UartDMAVarModel_1010 Lpuart1DMAVarModel; 配置串口 DMA 地址、长度、中断 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 void LPUART1_DMAVarConfig(void); /** * @brief extra config LPUART1 TX RX use DMA * @param None * @retval None */ void LPUART1_DMAVarConfig(void) { // tx dma dest address LL_DMA_SetPeriphAddress(DMA2, LL_DMA_CHANNEL_6, LL_LPUART_DMA_GetRegAddr(LPUART1, LL_LPUART_DMA_REG_DATA_TRANSMIT)); // enable dma tx transfer complete interrupt LL_DMA_EnableIT_TC(DMA2, LL_DMA_CHANNEL_6); // rx dma source address and dest address and length LL_DMA_SetPeriphAddress(DMA2, LL_DMA_CHANNEL_7, LL_LPUART_DMA_GetRegAddr(LPUART1, LL_LPUART_DMA_REG_DATA_RECEIVE)); LL_DMA_SetMemoryAddress(DMA2, LL_DMA_CHANNEL_7, (uint32_t)Lpuart1DMAVarModel._rx_dma_data); LL_DMA_SetDataLength(DMA2, LL_DMA_CHANNEL_7, sizeof(Lpuart1DMAVarModel._rx_dma_data)); // no need to enable dma rx tc and ht interrupt // enable uart dma rx LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_7); // enable uart idle interrupt LL_LPUART_ClearFlag_IDLE(LPUART1); LL_LPUART_EnableIT_IDLE(LPUART1); LL_LPUART_EnableDMAReq_TX(LPUART1); // enable dma to handle uart tdr LL_LPUART_EnableDMAReq_RX(LPUART1); // enable dma to handle uart rdr } 串口中断函数（IDLE ） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 /** * @brief This function handles LPUART1 global interrupt. */ void LPUART1_IRQHandler(void) { /* USER CODE BEGIN LPUART1_IRQn 0 */ if ((LL_LPUART_IsEnabledIT_IDLE(LPUART1) == 1) \u0026\u0026 (LL_LPUART_IsActiveFlag_IDLE(LPUART1) == 1)) { LL_LPUART_ClearFlag_IDLE(LPUART1); uint8_t dmaTransedLen = sizeof(Lpuart1DMAVarModel._rx_dma_data) - LL_DMA_GetDataLength(DMA2, LL_DMA_CHANNEL_7); // 当前 DMA 已传输数量 if (dmaTransedLen \u003e Lpuart1DMAVarModel._rx_dma_last_used) // 本次数据帧传输跨过了 DMA 数组末尾 { /* * Processing is done in \"linear\" mode. * * Application processing is fast with single data block, * length is simply calculated by subtracting pointers * * [ 0 ] * [ 1 ] \u003c- _rx_dma_last_used |-----------------------------------------| * [ 2 ] | Single block | * [ 3 ] | len = dmaTransedLen - _rx_dma_last_used | * [ 4 ] | | * [ 5 ] |-----------------------------------------| * [ 6 ] \u003c- dmaTransedLen * [ 7 ] * [N - 1] */ // 本次传输量 = 当前DMA已传输量 - 上次传输后剩余的DMA数量 Lpuart1DMAVarModel.rxLen = dmaTransedLen - Lpuart1DMAVarModel._rx_dma_last_used; // 拷贝 DMA 数据 memcpy(Lpuart1DMAVarModel.rxData, Lpuart1DMAVarModel._rx_dma_data + Lpuart1DMAVarModel._rx_dma_last_used, Lpuart1DMAVarModel.rxLen); } else { /* * Processing is done in \"overflow\" mode.. * * Application must process data twice, * since there are 2 linear memory blocks to handle * * [ 0 ] |------------------------------------| * [ 1 ] | 2nd block (len = dmaTransedLen) | * [ 2 ] |------------------------------------| * [ 3 ] \u003c- dmaTransedLen * [ 4 ] \u003c- _rx_dma_last_used |------------------------------------| * [ 5 ] | 1st block | * [ 6 ] | len = N - _rx_dma_last_used | * [ 7 ] | | * [N - 1] |------------------------------------| */ // 本次传输量 = 上次传输后剩余的DMA数量 + 当前DMA已传输量 Lpuart1DMAVarModel.rxLen = (sizeof(Lpuart1DMAVarModel._rx_dma_data) - Lpuart1DMAVarModel._rx_dma_last_used) + dmaTransedLen; // 先拷贝上次传输后剩余的 DMA 数组 rxData \u003c- _rx_dma_data[_rx_dma_last_used] memcpy(Lpuart1DMAVarModel.rxData, Lpuart1DMAVarModel._rx_dma_data + Lpuart1DMAVarModel._rx_dma_last_used/* base */, sizeof(Lpuart1DMAVarModel._rx_dma_data) - Lpuart1DMAVarModel._rx_dma_last_used ); // 再拷贝本次 DMA 传输的用量 memcpy(Lpuart1DMAVarModel.rxData + (sizeof(Lpuart1DMAVarModel._rx_dma_data) - Lpuart1DMAVarModel._rx_dma_last_used), Lpuart1DMAVarModel._rx_dma_data, dmaTransedLen ); } Lpuart1DMAVarModel._rx_dma_last_used = dmaTransedLen; Lpuart1DMAVarModel.rxFlag = 1; } /* USER CODE END LPUART1_IRQn 0 */ /* USER CODE BEGIN LPUART1_IRQn 1 */ /* USER CODE END LPUART1_IRQn 1 */ } main 以回环应用为例，当接收到一帧数据后把数据发回。\n1 2 3 4 5 if (Lpuart1DMAVarModel.rxFlag == 1) { LPUART1_SendArrayDMA(Lpuart1DMAVarModel.rxData, Lpuart1DMAVarModel.rxLen); Lpuart1DMAVarModel.rxFlag = 0; } 发送 下面以定长接收的结构体为例，给出使用 DMA 进行串口数据发送的代码。DMA 的初始化过程已经在接收的配置中顺便配置过了。\n发送数据 1 2 3 4 5 6 7 8 9 10 11 12 13 void LPUART1_SendArrayDMA(uint8_t *parr, uint8_t len); void LPUART1_SendArrayDMA(uint8_t *parr, uint8_t len) { while (Lpuart1DMAVarModel.txBusy == 1); // wait last data transfer complete Lpuart1DMAVarModel.txBusy = 0; memcpy(Lpuart1DMAVarModel.txData, parr, len); LL_DMA_SetMemoryAddress(DMA2, LL_DMA_CHANNEL_6, (uint32_t)Lpuart1DMAVarModel.txData); // tx dma mem address LL_DMA_SetDataLength(DMA2, LL_DMA_CHANNEL_6, len); // tx dma length LL_DMA_EnableChannel(DMA2, LL_DMA_CHANNEL_6); } DMA 中断函数（TC） DMA 的传输完成中断 TC 只能代表把所有待发送的数据都传输到了串口的 TDR 寄存器中，但是此时最后一字节数据并没有被串口发送完成；应开启串口发送完成中断判断数据全部发送完成。\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 /** * @brief This function handles DMA2 channel6 global interrupt. */ void DMA2_Channel6_IRQHandler(void) { /* USER CODE BEGIN DMA2_Channel6_IRQn 0 */ // lpuart1 tx if(LL_DMA_IsEnabledIT_TC(DMA2, LL_DMA_CHANNEL_6) \u0026\u0026 LL_DMA_IsActiveFlag_TC6(DMA2)) { LL_DMA_ClearFlag_TC6(DMA2); LL_DMA_DisableChannel(DMA2, LL_DMA_CHANNEL_6); LL_LPUART_EnableIT_TC(LPUART1); } /* USER CODE END DMA2_Channel6_IRQn 0 */ /* USER CODE BEGIN DMA2_Channel6_IRQn 1 */ /* USER CODE END DMA2_Channel6_IRQn 1 */ } 串口中断函数（TC） 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 /** * @brief This function handles LPUART1 global interrupt. */ void LPUART1_IRQHandler(void) { /* USER CODE BEGIN LPUART1_IRQn 0 */ if ((LL_LPUART_IsEnabledIT_TC(LPUART1) == 1) \u0026\u0026 (LL_LPUART_IsActiveFlag_TC(LPUART1) == 1)) { LL_LPUART_ClearFlag_TC(LPUART1); /* Clear TC flag */ Lpuart1DMAVarModel.txBusy = 0; } /* USER CODE END LPUART1_IRQn 0 */ /* USER CODE BEGIN LPUART1_IRQn 1 */ /* USER CODE END LPUART1_IRQn 1 */ } References RM0090_STM32F405415,407417,427437,429439_ReferenceManual | 30.3 USART functional description | p.968 ↩︎\nRM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 40.5.1 USART character description | p.1344-1345 ↩︎\nRM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 40.5.3 USART receiver | p.1350 ↩︎\nRM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 41.4.4 LPUART baud rate generation | p.1419 ↩︎\nSTM32Cube_FW_L4_V1.17.0\\Projects\\NUCLEO-L496ZG\\Examples_LL\\USART\\USART_Communication_Rx_IT ↩︎\nSTM32Cube_FW_L4_V1.17.0\\Projects\\NUCLEO-L496ZG\\Examples_LL\\USART\\USART_Communication_Tx_IT ↩︎\nRM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 41.4.9 Continuous communication in DMA mode using LPUART | p.1425 ↩︎ ↩︎ ↩︎\nCUBEMX生成代码需要注意顺序，折腾STM32+ADC+DMA | CSDN | ricefat609 ↩︎\nSTM32Cube_FW_L4_V1.17.0\\Projects\\NUCLEO-L496ZG\\Examples_LL\\USART\\USART_Communication_TxRx_DMA ↩︎\n一个严谨的STM32串口DMA发送\u0026接收（1.5Mbps波特率）机制 | CSDN | Acuity. ↩︎\nusart_rx_idle_line_irq_L4 | Github | MaJerle ↩︎\n",
+  "wordCount" : "5256",
+  "inLanguage": "zh-cn",
+  "datePublished": "2023-02-02T17:08:13+08:00",
+  "dateModified": "2023-02-25T17:27:00+08:00",
+  "author":{
+    "@type": "Person",
+    "name": "hey"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://fivekernels.github.io/posts/stm32-uart-ll/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "胡写乱画",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://fivekernels.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://fivekernels.github.io/" accesskey="h" title="胡写乱画 (Alt + H)">胡写乱画</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://fivekernels.github.io/" title="🏠首页">
+                    <span>🏠首页</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/posts/" title="📚文章">
+                    <span>📚文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/archives/" title="⏱时间轴">
+                    <span>⏱时间轴</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/categories/" title="🧩分类">
+                    <span>🧩分类</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/tags/" title="🔖标签">
+                    <span>🔖标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/about/" title="🥣关于">
+                    <span>🥣关于</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fivekernels.github.io/search/" title="🔍搜索 (Alt &#43; /)" accesskey=/>
+                    <span>🔍搜索</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://fivekernels.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">📚文章</a></div>
+    <h1 class="post-title">
+      STM32 UART LL Library
+    </h1>
+    <div class="post-meta">
+
+
+
+<span title='2023-02-02 17:08:13 +0800 CST'>2023/02/02</span>&nbsp;·&nbsp;Updated:&nbsp;2023/02/25&nbsp;·&nbsp;11 min&nbsp;·&nbsp;5256 words&nbsp;·&nbsp;hey
+
+</div>
+  </header> 
+  <aside id="toc-container" class="toc-container wide">
+    <div class="toc">
+        <details  open>
+            <summary accesskey="c" title="(Alt + C)">
+                <span class="details">Table of Contents</span>
+            </summary>
+
+            <div class="inner"><ul>
+                    <li>
+                        <a href="#uart-%e6%a1%86%e5%9b%be" aria-label="UART 框图">UART 框图</a></li>
+                    <li>
+                        <a href="#uart-%e5%af%84%e5%ad%98%e5%99%a8" aria-label="UART 寄存器">UART 寄存器</a></li>
+                    <li>
+                        <a href="#%e4%bd%8e%e5%8a%9f%e8%80%97%e4%b8%b2%e5%8f%a3%e7%9a%84%e6%97%b6%e9%92%9f%e5%92%8c%e6%b3%a2%e7%89%b9%e7%8e%87" aria-label="低功耗串口的时钟和波特率">低功耗串口的时钟和波特率</a></li>
+                    <li>
+                        <a href="#%e4%b8%ad%e6%96%ad%e6%96%b9%e5%bc%8f" aria-label="中断方式">中断方式</a><ul>
+                            
+                    <li>
+                        <a href="#cubemx-%e9%85%8d%e7%bd%ae" aria-label="CubeMX 配置">CubeMX 配置</a></li>
+                    <li>
+                        <a href="#%e4%bb%a3%e7%a0%81" aria-label="代码">代码</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%ae%9a%e4%b9%89%e7%bb%93%e6%9e%84%e4%bd%93-uartitmodel" aria-label="定义结构体 UartITModel">定义结构体 UartITModel</a></li>
+                    <li>
+                        <a href="#%e9%85%8d%e7%bd%ae%e4%b8%b2%e5%8f%a3%e6%8e%a5%e6%94%b6%e4%b8%ad%e6%96%ad" aria-label="配置串口接收中断">配置串口接收中断</a></li>
+                    <li>
+                        <a href="#%e4%b8%b2%e5%8f%a3%e4%b8%ad%e6%96%ad%e5%87%bd%e6%95%b0rxne" aria-label="串口中断函数（RXNE）">串口中断函数（RXNE）</a></li>
+                    <li>
+                        <a href="#%e5%8f%91%e9%80%81%e6%95%b0%e6%8d%ae" aria-label="发送数据">发送数据</a></li>
+                    <li>
+                        <a href="#%e4%b8%b2%e5%8f%a3%e4%b8%ad%e6%96%ad%e5%87%bd%e6%95%b0tx" aria-label="串口中断函数（TX）">串口中断函数（TX）</a></li>
+                    <li>
+                        <a href="#main" aria-label="main">main</a></li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#dma-%e6%96%b9%e5%bc%8f" aria-label="DMA 方式">DMA 方式</a><ul>
+                            
+                    <li>
+                        <a href="#dma-%e5%af%84%e5%ad%98%e5%99%a8" aria-label="DMA 寄存器">DMA 寄存器</a></li>
+                    <li>
+                        <a href="#%e5%8f%91%e9%80%81%e6%b5%81%e7%a8%8b" aria-label="发送流程">发送流程</a></li>
+                    <li>
+                        <a href="#%e6%8e%a5%e6%94%b6%e6%b5%81%e7%a8%8b" aria-label="接收流程">接收流程</a></li>
+                    <li>
+                        <a href="#cubemx-%e9%85%8d%e7%bd%ae-1" aria-label="CubeMX 配置">CubeMX 配置</a></li>
+                    <li>
+                        <a href="#%e4%bb%a3%e7%a0%81-1" aria-label="代码">代码</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%ae%9a%e9%95%bf%e6%8e%a5%e6%94%b6" aria-label="定长接收">定长接收</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%ae%9a%e4%b9%89%e7%bb%93%e6%9e%84%e4%bd%93-uartdmafixmodel" aria-label="定义结构体 UartDMAFixModel">定义结构体 UartDMAFixModel</a></li>
+                    <li>
+                        <a href="#%e9%85%8d%e7%bd%ae%e4%b8%b2%e5%8f%a3-dma-%e5%9c%b0%e5%9d%80%e9%95%bf%e5%ba%a6%e4%b8%ad%e6%96%ad" aria-label="配置串口 DMA 地址、长度、中断">配置串口 DMA 地址、长度、中断</a></li>
+                    <li>
+                        <a href="#dma-%e4%b8%ad%e6%96%ad%e5%87%bd%e6%95%b0ht-tc" aria-label="DMA 中断函数（HT TC）">DMA 中断函数（HT TC）</a></li>
+                    <li>
+                        <a href="#%e9%87%8d%e7%bd%ae-dma-%e6%8e%a5%e6%94%b6%e9%95%bf%e5%ba%a6" aria-label="重置 DMA 接收长度">重置 DMA 接收长度</a></li>
+                    <li>
+                        <a href="#main-1" aria-label="main">main</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e4%b8%8d%e5%ae%9a%e9%95%bf%e6%8e%a5%e6%94%b6" aria-label="不定长接收">不定长接收</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%ae%9a%e4%b9%89%e7%bb%93%e6%9e%84%e4%bd%93-uartdmavarmodel" aria-label="定义结构体 UartDMAVarModel">定义结构体 UartDMAVarModel</a></li>
+                    <li>
+                        <a href="#%e9%85%8d%e7%bd%ae%e4%b8%b2%e5%8f%a3-dma-%e5%9c%b0%e5%9d%80%e9%95%bf%e5%ba%a6%e4%b8%ad%e6%96%ad-1" aria-label="配置串口 DMA 地址、长度、中断">配置串口 DMA 地址、长度、中断</a></li>
+                    <li>
+                        <a href="#%e4%b8%b2%e5%8f%a3%e4%b8%ad%e6%96%ad%e5%87%bd%e6%95%b0idle-" aria-label="串口中断函数（IDLE ）">串口中断函数（IDLE ）</a></li>
+                    <li>
+                        <a href="#main-2" aria-label="main">main</a></li></ul>
+                    </li>
+                    <li>
+                        <a href="#%e5%8f%91%e9%80%81" aria-label="发送">发送</a><ul>
+                            
+                    <li>
+                        <a href="#%e5%8f%91%e9%80%81%e6%95%b0%e6%8d%ae-1" aria-label="发送数据">发送数据</a></li>
+                    <li>
+                        <a href="#dma-%e4%b8%ad%e6%96%ad%e5%87%bd%e6%95%b0tc" aria-label="DMA 中断函数（TC）">DMA 中断函数（TC）</a></li>
+                    <li>
+                        <a href="#%e4%b8%b2%e5%8f%a3%e4%b8%ad%e6%96%ad%e5%87%bd%e6%95%b0tc" aria-label="串口中断函数（TC）">串口中断函数（TC）</a></li></ul>
+                    </li></ul>
+                    </li></ul>
+                    </li>
+                    <li>
+                        <a href="#references" aria-label="References">References</a>
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+</aside>
+<script>
+    let activeElement;
+    let elements;
+    window.addEventListener('DOMContentLoaded', function (event) {
+        checkTocPosition();
+
+        elements = document.querySelectorAll('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]');
+         
+         activeElement = elements[0];
+         const id = encodeURI(activeElement.getAttribute('id')).toLowerCase();
+         document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+     }, false);
+
+    window.addEventListener('resize', function(event) {
+        checkTocPosition();
+    }, false);
+
+    window.addEventListener('scroll', () => {
+        
+        activeElement = Array.from(elements).find((element) => {
+            if ((getOffsetTop(element) - window.pageYOffset) > 0 && 
+                (getOffsetTop(element) - window.pageYOffset) < window.innerHeight/2) {
+                return element;
+            }
+        }) || activeElement
+
+        elements.forEach(element => {
+             const id = encodeURI(element.getAttribute('id')).toLowerCase();
+             if (element === activeElement){
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.add('active');
+             } else {
+                 document.querySelector(`.inner ul li a[href="#${id}"]`).classList.remove('active');
+             }
+         })
+     }, false);
+
+    const main = parseInt(getComputedStyle(document.body).getPropertyValue('--article-width'), 10);
+    const toc = parseInt(getComputedStyle(document.body).getPropertyValue('--toc-width'), 10);
+    const gap = parseInt(getComputedStyle(document.body).getPropertyValue('--gap'), 10);
+
+    function checkTocPosition() {
+        const width = document.body.scrollWidth;
+
+        if (width - main - (toc * 2) - (gap * 4) > 0) {
+            document.getElementById("toc-container").classList.add("wide");
+        } else {
+            document.getElementById("toc-container").classList.remove("wide");
+        }
+    }
+
+    function getOffsetTop(element) {
+        if (!element.getClientRects().length) {
+            return 0;
+        }
+        let rect = element.getBoundingClientRect();
+        let win = element.ownerDocument.defaultView;
+        return rect.top + win.pageYOffset;   
+    }
+</script>
+
+  <div class="post-content"><h2 id="uart-框图">UART 框图<a hidden class="anchor" aria-hidden="true" href="#uart-框图">#</a></h2>
+<p>  查看芯片对应的 Reference Manual 的 USART/UART 章节可以找到其框图。以 F4 系列的参考手册为例，其框图如下<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup>：</p>
+<p><img loading="lazy" src="./images/f4_usart-bolck-diagrem.png" alt="f4_usart-bolck-diagrem.png"  />
+</p>
+<p>  可以看出，对于发送的数据，依次经过 <strong>TDR 寄存器 -&gt; 发送移位寄存器 -&gt; TX 端口</strong>；对于接收的数据，从 <strong>RX</strong> 端口依次经过 <strong>接收移位寄存器 -&gt; RDR寄存器</strong>。</p>
+<h2 id="uart-寄存器">UART 寄存器<a hidden class="anchor" aria-hidden="true" href="#uart-寄存器">#</a></h2>
+<ul>
+<li><strong>RXNE</strong>(Read data register not empty)：当接收移位寄存器中的<strong>数据被传送到 RDR 寄存器</strong>时，该位被置1；若打开串口接收中断(RXNEIE)=1时，会产生中断。<strong>读取 RDR 寄存器</strong>该位自动清零。</li>
+<li><strong>TXE</strong>(Transmit data register empty)：当<strong>TDR 寄存器中的数据被传送到发送移位寄存器</strong>时（此时可以向 TDR 寄存器写入新数据发送），该位被置1；若打开串口发送中断(TXEIE=1)时，会产生中断。当<strong>向 TDR 寄存器中写入新数据</strong>时该位自动清零。</li>
+<li><strong>TC</strong>(Transmission complete)：当<strong>移位寄存器的数据发送完成且 TDR 寄存器为空（没有下一个要发送的数据了）<strong>时，该位被置1；若打开发送完成中断(TCIE=1)时，会产生中断。当</strong>向 TDR 寄存器中写入新数据</strong>时该位自动清零，也可以手动清零。</li>
+<li><strong>IDLE</strong>(Idle line detected)：空闲位针对<strong>接收</strong>过程；当串口接收到一个字节后的<strong>一个周期</strong>内都没有检测到起始位时（即检测到 <strong>Idle frame</strong> ）， IDLE 被置1<sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>。当 IDLE 被置1后，只有再次接收到数据后（ RXNE 置1）才会检测下一次空闲。</li>
+</ul>
+<h2 id="低功耗串口的时钟和波特率">低功耗串口的时钟和波特率<a hidden class="anchor" aria-hidden="true" href="#低功耗串口的时钟和波特率">#</a></h2>
+<p>  对于LPUART，其波特率和其时钟源有需要满足一定关系<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup>：</p>
+<p><img loading="lazy" src="./images/LPUART-baud-rate-generation.png" alt="LPUART-baud-rate-generation"  />
+</p>
+<p>即LPUART的时钟源频率必须在3倍波特率到4096倍波特率之间。</p>
+<p>  对于CubeMX生成的工程，LPUART的时钟源默认为PCLK1（80M，STM32L4），因此其可以提供的最低频率为 80 * 10^6 / 4096 = 19532 bps。若要使用9600bps等低的波特率则应该首先修改 Clock Configuration 中的 LPUART 的时钟源为 HSI(16M)：</p>
+<p><img loading="lazy" src="./images/Lpuart_clk_hsi.png" alt="Lpuart_clk_hsi"  />
+</p>
+<p>  此时，允许的波特率范围为3907bps~5.33Mbps。</p>
+<h2 id="中断方式">中断方式<a hidden class="anchor" aria-hidden="true" href="#中断方式">#</a></h2>
+<h3 id="cubemx-配置">CubeMX 配置<a hidden class="anchor" aria-hidden="true" href="#cubemx-配置">#</a></h3>
+<p>  选中需要的 UART，Mode 选择 Asynchronous，即异步通信方式；NVIC Settings 中勾选 global interrupt 并设置优先级。选择好对应的 GPIO 引脚后就可以生成工程了。</p>
+<h3 id="代码">代码<a hidden class="anchor" aria-hidden="true" href="#代码">#</a></h3>
+<blockquote>
+<p>参考 ST 固件库例程 <em>USART_Communication_Rx_IT<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup></em>、<em>USART_Communication_Tx_IT<sup id="fnref:6"><a href="#fn:6" class="footnote-ref" role="doc-noteref">6</a></sup></em>。</p>
+</blockquote>
+<h4 id="定义结构体-uartitmodel">定义结构体 UartITModel<a hidden class="anchor" aria-hidden="true" href="#定义结构体-uartitmodel">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">rxFlag</span><span class="p">;</span>  <span class="c1">// 接收完一帧数据标志位
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">rxLen</span><span class="p">;</span>            <span class="c1">// 当前数据帧长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">rxData</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>       <span class="c1">// 当前数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">_rx_data_index</span><span class="p">;</span>   <span class="c1">// 下一个要接收的字节存放的数组下标
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">txBusy</span><span class="p">;</span>  <span class="c1">// 0: 串口没有数据帧正在发送; 1: 有数据帧正在发送
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">txLen</span><span class="p">;</span>            <span class="c1">// 待发送的数据总长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">txData</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>       <span class="c1">// 待发送的数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">_tx_data_index</span><span class="p">;</span>   <span class="c1">// 下一个要发送的字节的数组下标
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">UartITModel_1010</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">UartITModel_1010</span> <span class="n">Lpuart1ITModel</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">extern</span> <span class="n">UartITModel_1010</span> <span class="n">Lpuart1ITModel</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="配置串口接收中断">配置串口接收中断<a hidden class="anchor" aria-hidden="true" href="#配置串口接收中断">#</a></h4>
+<p>  生成的代码默认会使能串口中断，但并不会开启串口的发送或接收等中断：</p>
+<p><img loading="lazy" src="./images/uart_nvic.png" alt="uart_nvic"  />
+</p>
+<p>  添加并调用以下函数使能RXNE中断：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_ITConfig</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_ITConfig</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// if (LL_LPUART_IsActiveFlag_RXNE(LPUART1) == 1) // sometimes rxne is set after initialization
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// {
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">//     LL_LPUART_ReceiveData8(LPUART1); // clear rxne
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_LPUART_EnableIT_RXNE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="cm">/* Enable RXNE interrupts */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="串口中断函数rxne">串口中断函数（RXNE）<a hidden class="anchor" aria-hidden="true" href="#串口中断函数rxne">#</a></h4>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">  * @brief This function handles LPUART1 global interrupt.
+</span></span></span><span class="line"><span class="cl"><span class="cm">  */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="nf">LL_USART_IsEnabledIT_RXNE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nf">LL_USART_IsActiveFlag_RXNE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span> <span class="c1">// 接收到数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="cm">/* Read Received character. RXNE flag is cleared by reading of RDR register */</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint8_t</span> <span class="n">rxdata</span> <span class="o">=</span> <span class="nf">LL_USART_ReceiveData8</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">rxData</span><span class="p">[</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">_rx_data_index</span><span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">rxdata</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// data condition or rx array full
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">((</span><span class="n">rxdata</span> <span class="o">==</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">_rx_data_index</span> <span class="o">==</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">rxData</span><span class="p">)))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">rxLen</span> <span class="o">=</span> <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">_rx_data_index</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">_rx_data_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="发送数据">发送数据<a hidden class="anchor" aria-hidden="true" href="#发送数据">#</a></h4>
+<p>    使用串口中断发送数据只需要开启 TXE 中断，在中断中依次将需要发送的数据写入 TDR 寄存器即可；写入最后一个字节后可以关闭 TXE 中断；但此时最后一个字节还没有被串口发送出去，需要开启 TC 中断以确保最后一字节数据被串口发送完成。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_SendArrayIT</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">parr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_SendArrayIT</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">parr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">len</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">txBusy</span> <span class="o">==</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// waiting last transmit
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">txBusy</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">_tx_data_index</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">txLen</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">memcpy</span><span class="p">(</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">txData</span><span class="p">,</span> <span class="n">parr</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_LPUART_EnableIT_TXE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="c1">// enable tdr empty it
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="串口中断函数tx">串口中断函数（TX）<a hidden class="anchor" aria-hidden="true" href="#串口中断函数tx">#</a></h4>
+<p>  当 <em>收到 0xff 或接收缓冲区满</em> 时，产生数据帧接收完成标志：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">  * @brief This function handles LPUART1 global interrupt.
+</span></span></span><span class="line"><span class="cl"><span class="cm">  */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="nf">LL_LPUART_IsEnabledIT_TXE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nf">LL_LPUART_IsActiveFlag_TXE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span> <span class="c1">// TDR 发送寄存器空 可以放入数据发送 写DR寄存器即清空标志位
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">_tx_data_index</span> <span class="o">==</span> <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">txLen</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="nf">LL_LPUART_DisableIT_TXE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="c1">// 关闭发送寄存器空中断
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nf">LL_LPUART_EnableIT_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>   <span class="c1">// 使能发送完成中断
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_LPUART_TransmitData8</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">,</span> <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">txData</span><span class="p">[</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">_tx_data_index</span><span class="o">++</span><span class="p">]);</span> <span class="c1">// 写寄存器
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="nf">LL_LPUART_IsEnabledIT_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nf">LL_LPUART_IsActiveFlag_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_LPUART_ClearFlag_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="cm">/* Clear TC flag */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">txBusy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="main">main<a hidden class="anchor" aria-hidden="true" href="#main">#</a></h4>
+<p>  以回环应用为例，将串口接收缓冲区的数据发送出去：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="nf">LPUART1_SendArrayIT</span><span class="p">(</span><span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">rxData</span><span class="p">,</span> <span class="n">Lpuart1ITModel</span><span class="p">.</span><span class="n">rxLen</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="dma-方式">DMA 方式<a hidden class="anchor" aria-hidden="true" href="#dma-方式">#</a></h2>
+<p>  借助 DMA，可以使得串口进行连续通信。将串口寄存器的 DMAT 和 DMAR 位 置1可以使用 DMA 方式收发串口数据<sup id="fnref:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>。对应的库函数为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LL_LPUART_EnableDMAReq_TX</span><span class="p">(</span><span class="n">USART_TypeDef</span> <span class="o">*</span><span class="n">LPUARTx</span><span class="p">);</span> <span class="cm">/* Enable DMA Mode for transmission */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LL_LPUART_EnableDMAReq_RX</span><span class="p">(</span><span class="n">USART_TypeDef</span> <span class="o">*</span><span class="n">LPUARTx</span><span class="p">);</span> <span class="cm">/* Enable DMA Mode for reception */</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="dma-寄存器">DMA 寄存器<a hidden class="anchor" aria-hidden="true" href="#dma-寄存器">#</a></h3>
+<ul>
+<li><strong>TCIFx</strong>: channle x 传输完成</li>
+<li><strong>HTIFx</strong>: channel x 传输一半</li>
+<li><strong>CNDTRx</strong>: 需要传输的数据数量；只有 DMA 通道 disabled 时才可以写入数据；当对应通道被启用时，该寄存器变成只读，表示待传输数据的剩余个数。每次 DMA 传输后，该寄存器值递减；当 DMA 工作于 Normal 模式时，传输完成后该寄存器保持为 0；Circular 模式时，该寄存器在传输完成后自动重置为上次设置的值。</li>
+</ul>
+<h3 id="发送流程">发送流程<a hidden class="anchor" aria-hidden="true" href="#发送流程">#</a></h3>
+<p>  使用 DMA 发送串口数据的过程：当串口的 TXE 被置1时，DMA 将数据从 SRAM 加载到 TDR 寄存器。其具体配置过程如下<sup id="fnref1:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>：</p>
+<ol>
+<li>配置 DMA 传输的<strong>目的</strong>地址为<strong>TDR</strong>寄存器地址（每次 TXE 置1时数据都会从存储区加载到 TDR 寄存器中）。</li>
+<li>配置 DMA 传输的<strong>源</strong>地址为<strong>数据</strong>地址（每次 TXE 置1时数据都会从该地址加载到 TDR 寄存器中）。</li>
+<li>配置 DMA 传输的总字节数（发送数据字节个数）。</li>
+<li>配置 DMA 通道的优先级。</li>
+<li>配置 DMA 传输完成/一半中断。</li>
+<li>清除串口寄存器的 TC 标志位。（如果使能 DMA 传输之前就使能了 TC 中断，则会立刻进入中断；若等到 DMA 传输完成后再使能 TC 中断，则可以不在这一步清除标志位。）</li>
+<li>激活 DMA 的对应通道。</li>
+</ol>
+<p>  当 DMA 传输的数据量到达设定的数据量时（数据被传送到 TDR 寄存器），产生中断 TCIF，但此时最后一个数据仍未被串口发送完成；若要禁止 UART 或进入停止模式前应监视串口的 TC 标志位以确保 UART 通信操作已经完成。</p>
+<p><img loading="lazy" src="./images/uart_dma_tx.png" alt="uart_dma_tx"  />
+</p>
+<h3 id="接收流程">接收流程<a hidden class="anchor" aria-hidden="true" href="#接收流程">#</a></h3>
+<p>  使用 DMA 接收串口数据的过程：当串口的 RXNE 被置1时，DMA 将数据从 RDR 寄存器加载到 SRAM。其具体配置与发送过程类似<sup id="fnref2:7"><a href="#fn:7" class="footnote-ref" role="doc-noteref">7</a></sup>。</p>
+<p><img loading="lazy" src="./images/uart_dma_rx.png" alt="uart_dma_rx"  />
+</p>
+<h3 id="cubemx-配置-1">CubeMX 配置<a hidden class="anchor" aria-hidden="true" href="#cubemx-配置-1">#</a></h3>
+<p>  DMA Settings 中添加 TX 和 RX；TX 的 Mode 选择 Normal，即发送一次自动停止，需要重新配置数据地址与长度；RX 的 Mode 选择 Circular，连续接收。</p>
+<p><img loading="lazy" src="./images/cubemx_lpuart1_dma_tx.png" alt="cubemx_lpuart1_dma_tx"  />
+</p>
+<p><img loading="lazy" src="./images/cubemx_lpuart1_dma_rx.png" alt="cubemx_lpuart1_dma_rx"  />
+</p>
+<p>  勾选 NVIC Settings 中的 global interrupt。</p>
+<p><img loading="lazy" src="./images/cobemx_lpuart_dma_nvic.png" alt="cobemx_lpuart_dma_nvic"  />
+</p>
+<p>  调整 Project Manager 中 Advanced Settings，移动初始化函数的调用顺序，确保 MX_DMA_Init 在 MX_xxx_UART_Init 之前，否则无法进入 DMA 传输过程<sup id="fnref:8"><a href="#fn:8" class="footnote-ref" role="doc-noteref">8</a></sup>。</p>
+<p><img loading="lazy" src="./images/cubemx_functioncalls.png" alt="cubemx_functioncalls"  />
+</p>
+<h3 id="代码-1">代码<a hidden class="anchor" aria-hidden="true" href="#代码-1">#</a></h3>
+<blockquote>
+<p>参考：USART_Communication_TxRx_DMA<sup id="fnref:9"><a href="#fn:9" class="footnote-ref" role="doc-noteref">9</a></sup>、一个严谨的STM32串口DMA发送&amp;接收（1.5Mbps波特率）机制<sup id="fnref:10"><a href="#fn:10" class="footnote-ref" role="doc-noteref">10</a></sup>、usart_rx_idle_line_irq_L4<sup id="fnref:11"><a href="#fn:11" class="footnote-ref" role="doc-noteref">11</a></sup></p>
+</blockquote>
+<h4 id="定长接收">定长接收<a hidden class="anchor" aria-hidden="true" href="#定长接收">#</a></h4>
+<p>    若要在 DMA 不支持双缓冲的情况下实现数据双缓冲定长接收，可以结合 DMA 的 HT 中断实现，此时结构体中的 rxData （DMA 接收缓冲区）数组长度应为数据长度的一半，防止处理数据不及时一些数据被下一次 DMA 传输覆盖。</p>
+<h5 id="定义结构体-uartdmafixmodel">定义结构体 UartDMAFixModel<a hidden class="anchor" aria-hidden="true" href="#定义结构体-uartdmafixmodel">#</a></h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">rxFlag</span><span class="p">;</span>   <span class="c1">// 接收完一帧数据标志位 1: 接收完成
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">rxLen</span><span class="p">;</span>             <span class="c1">// 定长数据帧长度, _rx_dma_data 的一半
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">_rx_dma_data</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>  <span class="c1">// DMA 接收数据缓冲区，定长接收每次只处理一半数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="o">*</span><span class="n">rxDataPointer</span><span class="p">;</span>    <span class="c1">// 指向当前可以处理的数据的首地址, 在 DMA 中断切换地址
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">txBusy</span><span class="p">;</span>   <span class="c1">// 0: 串口没有数据帧正在发送; 1: 有数据帧正在发送
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">txData</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>        <span class="c1">// 需要发送的数据，同时也是 DMA 发送的缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">UartDMAFixModel_1010</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">UartDMAFixModel_1010</span> <span class="n">Lpuart1DMAFixModel</span> <span class="o">=</span> 
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">rxFlag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">rxLen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">_rx_dma_data</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">rxDataPointer</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">txBusy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">.</span><span class="n">txData</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">extern</span> <span class="n">UartDMAFixModel_1010</span> <span class="n">Lpuart1DMAFixModel</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="配置串口-dma-地址长度中断">配置串口 DMA 地址、长度、中断<a hidden class="anchor" aria-hidden="true" href="#配置串口-dma-地址长度中断">#</a></h5>
+<p>  CubeMX 生成的代码并不会配置 DMA 的外设和存储器地址、数据长度以及相应的传输中断；编写并调用下列代码以设定串口 TX 和 RX 的 DMA 相应配置。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @brief extra config LPUART1 TX RX Variable length data reception use DMA
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param None
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @retval None
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_DMAFixConfig</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_SetPeriphAddress</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">,</span> <span class="nf">LL_LPUART_DMA_GetRegAddr</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">,</span> <span class="n">LL_LPUART_DMA_REG_DATA_TRANSMIT</span><span class="p">));</span> <span class="c1">// tx dma dest address
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_EnableIT_TC</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">);</span> <span class="c1">// tx dma transfer complete interrupt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// rx dma source address and dest address and length
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_SetPeriphAddress</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">,</span> <span class="nf">LL_LPUART_DMA_GetRegAddr</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">,</span> <span class="n">LL_LPUART_DMA_REG_DATA_RECEIVE</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_SetMemoryAddress</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_SetDataLength</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_EnableIT_TC</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">);</span> <span class="c1">// rx dma transfer complete interrupt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_EnableIT_HT</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">);</span> <span class="c1">// rx dma half transfer interrupt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_EnableChannel</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">);</span> <span class="c1">// enable uart dma rx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_LPUART_EnableDMAReq_TX</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="c1">// enable dma to handle uart tdr
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_LPUART_EnableDMAReq_RX</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="c1">// enable dma to handle uart rdr
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="dma-中断函数ht-tc">DMA 中断函数（HT TC）<a hidden class="anchor" aria-hidden="true" href="#dma-中断函数ht-tc">#</a></h5>
+<p>    使用 DMA 的传输完成中断和传输半完成中断可以方便的进行串口数据的定长接收；根据不同的 DMA 标志位设定指向当前可以处理的数据的首地址。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @brief This function handles DMA2 channel7 global interrupt.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">DMA2_Channel7_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN DMA2_Channel7_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// lpuart1 rx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="nf">LL_DMA_IsEnabledIT_HT</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nf">LL_DMA_IsActiveFlag_HT7</span><span class="p">(</span><span class="n">DMA2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_DMA_ClearFlag_HT7</span><span class="p">(</span><span class="n">DMA2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// TODO: uart rx dma half transfer
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxDataPointer</span> <span class="o">=</span> <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">_rx_dma_data</span> <span class="o">+</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="nf">LL_DMA_IsEnabledIT_TC</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nf">LL_DMA_IsActiveFlag_TC7</span><span class="p">(</span><span class="n">DMA2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_DMA_ClearFlag_TC7</span><span class="p">(</span><span class="n">DMA2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// TODO: uart rx dma transfer complete
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxDataPointer</span> <span class="o">=</span> <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">_rx_dma_data</span> <span class="o">+</span> <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxLen</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END DMA2_Channel7_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN DMA2_Channel7_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END DMA2_Channel7_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="重置-dma-接收长度">重置 DMA 接收长度<a hidden class="anchor" aria-hidden="true" href="#重置-dma-接收长度">#</a></h5>
+<p>    对于定长数据的接收，数据接收完成是靠 DMA 的传输一半或传输完成标志位判断的；若某次通信时，数据帧的一个字节丢失，则会导致后续的数据全部错位，从而无法正确解析。因此在数据处理之前需要通过校验帧头或者校验和等方式判断数据是否有效；当前数据帧错误时，对于下一帧数据应重新从 DMA 数组的第一个元素开始接收。</p>
+<p>    下面假设数据帧头必须为 0x55，校验成功时，将收到的一帧数据通过串口发回；当数据帧校验失败时，关闭 DMA 接收通道并重置 DMA 接收数据长度，同时打开串口空闲中断，等待当前数据帧全部发送完成后重新打开 DMA 接收通道。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @brief Verify data frames and parse data
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param pdata pointer to the first data
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @retval 1: verify success; 0: verify fail
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">uint8_t</span> <span class="nf">Lpurat1DataProcess</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">pdata</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="n">dataValid</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// Verify data frame
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span> <span class="p">(</span><span class="n">pdata</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="mh">0x55</span><span class="p">)</span> <span class="c1">// example: frame header must be 0x55
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataValid</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dataValid</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">dataValid</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// The data may be misaligned
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// reset dma rx length
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 1st: disable dma rx channel
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nf">LL_DMA_DisableChannel</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 2nd: reset data length so that new transfer can be placed into the first array element
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nf">LL_DMA_SetDataLength</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 3rd: enable uart rx idle it, When the current full data frame transmission is complete, re-enable DMA reception.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nf">LL_LPUART_EnableIT_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 4th: (in the function UART IRQHandler)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// TODO: data parsing
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LPUART1_SendArrayDMA</span><span class="p">(</span><span class="n">pdata</span><span class="p">,</span> <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxLen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>    串口空闲中断处理过程：清除空闲标志位、关闭串口空闲中断、重新开启 DMA 接收通道。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @brief This function handles LPUART1 global interrupt.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="nf">LL_LPUART_IsEnabledIT_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nf">LL_LPUART_IsActiveFlag_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_LPUART_ClearFlag_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// 1st-3rd: (in the function Lpurat1DataProcess())
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// 4th: disable idle it and re-enable DMA reception.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="nf">LL_LPUART_DisableIT_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_DMA_EnableChannel</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="main-1">main<a hidden class="anchor" aria-hidden="true" href="#main-1">#</a></h5>
+<p>    收到数据后，调用数据处理函数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="c1">// HT or TC
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">uint8_t</span> <span class="n">verifyResult</span> <span class="o">=</span> <span class="nf">Lpurat1DataProcess</span><span class="p">(</span><span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxDataPointer</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">verifyResult</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">// TODO: check verifyResult
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="c1">// ...
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Lpuart1DMAFixModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="不定长接收">不定长接收<a hidden class="anchor" aria-hidden="true" href="#不定长接收">#</a></h4>
+<h5 id="定义结构体-uartdmavarmodel">定义结构体 UartDMAVarModel<a hidden class="anchor" aria-hidden="true" href="#定义结构体-uartdmavarmodel">#</a></h5>
+<p>    结构体中的 rxData 最好比最长的数据帧多几个字节，防止处理数据不及时一些数据被下一次 DMA 传输覆盖。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">typedef</span> <span class="k">struct</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">rxFlag</span><span class="p">;</span>   <span class="c1">// 接收完一帧数据标志位
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">rxLen</span><span class="p">;</span>             <span class="c1">// 当前数据帧长度
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">rxData</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>        <span class="c1">// 当前数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">_rx_dma_data</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>  <span class="c1">// DMA 接收缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">_rx_dma_last_used</span><span class="p">;</span> <span class="c1">// 上一帧数据传输完成时DMA的使用量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="k">volatile</span> <span class="kt">uint8_t</span> <span class="n">txBusy</span><span class="p">;</span>   <span class="c1">// 0: 串口没有数据帧正在发送; 1: 有数据帧正在发送
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">uint8_t</span> <span class="n">txData</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>        <span class="c1">// 需要发送的数据，同时也是 DMA 发送的缓冲区
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span> <span class="n">UartDMAVarModel_1010</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="n">UartDMAVarModel_1010</span> <span class="n">Lpuart1DMAVarModel</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">extern</span> <span class="n">UartDMAVarModel_1010</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="配置串口-dma-地址长度中断-1">配置串口 DMA 地址、长度、中断<a hidden class="anchor" aria-hidden="true" href="#配置串口-dma-地址长度中断-1">#</a></h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_DMAVarConfig</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @brief extra config LPUART1 TX RX use DMA
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @param None
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @retval None
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_DMAVarConfig</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// tx dma dest address
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_SetPeriphAddress</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">,</span> <span class="nf">LL_LPUART_DMA_GetRegAddr</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">,</span> <span class="n">LL_LPUART_DMA_REG_DATA_TRANSMIT</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// enable dma tx transfer complete interrupt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_EnableIT_TC</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// rx dma source address and dest address and length
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_SetPeriphAddress</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">,</span> <span class="nf">LL_LPUART_DMA_GetRegAddr</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">,</span> <span class="n">LL_LPUART_DMA_REG_DATA_RECEIVE</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_SetMemoryAddress</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_SetDataLength</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// no need to enable dma rx tc and ht interrupt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// enable uart dma rx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_EnableChannel</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">// enable uart idle interrupt
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_LPUART_ClearFlag_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_LPUART_EnableIT_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_LPUART_EnableDMAReq_TX</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="c1">// enable dma to handle uart tdr
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_LPUART_EnableDMAReq_RX</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="c1">// enable dma to handle uart rdr
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="串口中断函数idle-">串口中断函数（IDLE ）<a hidden class="anchor" aria-hidden="true" href="#串口中断函数idle-">#</a></h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm"> * @brief This function handles LPUART1 global interrupt.
+</span></span></span><span class="line"><span class="cl"><span class="cm"> */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="nf">LL_LPUART_IsEnabledIT_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nf">LL_LPUART_IsActiveFlag_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_LPUART_ClearFlag_IDLE</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">uint8_t</span> <span class="n">dmaTransedLen</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">)</span> <span class="o">-</span> <span class="nf">LL_DMA_GetDataLength</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_7</span><span class="p">);</span> <span class="c1">// 当前 DMA 已传输数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="k">if</span> <span class="p">(</span><span class="n">dmaTransedLen</span> <span class="o">&gt;</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span><span class="p">)</span> <span class="c1">// 本次数据帧传输跨过了 DMA 数组末尾
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * Processing is done in &#34;linear&#34; mode.
+</span></span></span><span class="line"><span class="cl"><span class="cm">            *
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * Application processing is fast with single data block,
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * length is simply calculated by subtracting pointers
+</span></span></span><span class="line"><span class="cl"><span class="cm">            *
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  0  ]
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  1  ] &lt;- _rx_dma_last_used |-----------------------------------------|
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  2  ]                      | Single block                            |
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  3  ]                      | len = dmaTransedLen - _rx_dma_last_used |
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  4  ]                      |                                         |
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  5  ]                      |-----------------------------------------|
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  6  ] &lt;- dmaTransedLen
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [  7  ]
+</span></span></span><span class="line"><span class="cl"><span class="cm">            * [N - 1]
+</span></span></span><span class="line"><span class="cl"><span class="cm">            */</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 本次传输量 = 当前DMA已传输量 - 上次传输后剩余的DMA数量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxLen</span> <span class="o">=</span> <span class="n">dmaTransedLen</span> <span class="o">-</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 拷贝 DMA 数据
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nf">memcpy</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxData</span><span class="p">,</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span> <span class="o">+</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span><span class="p">,</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxLen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">else</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="cm">/*
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * Processing is done in &#34;overflow&#34; mode..
+</span></span></span><span class="line"><span class="cl"><span class="cm">             *
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * Application must process data twice,
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * since there are 2 linear memory blocks to handle
+</span></span></span><span class="line"><span class="cl"><span class="cm">             *
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  0  ]                      |------------------------------------|
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  1  ]                      | 2nd block (len = dmaTransedLen)    |
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  2  ]                      |------------------------------------|
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  3  ] &lt;- dmaTransedLen
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  4  ] &lt;- _rx_dma_last_used |------------------------------------|
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  5  ]                      | 1st block                          |
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  6  ]                      | len = N - _rx_dma_last_used        |
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [  7  ]                      |                                    |
+</span></span></span><span class="line"><span class="cl"><span class="cm">             * [N - 1]                      |------------------------------------|
+</span></span></span><span class="line"><span class="cl"><span class="cm">             */</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 本次传输量 = 上次传输后剩余的DMA数量 + 当前DMA已传输量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxLen</span> <span class="o">=</span> <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">)</span> <span class="o">-</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span><span class="p">)</span> <span class="o">+</span> <span class="n">dmaTransedLen</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 先拷贝上次传输后剩余的 DMA 数组 rxData &lt;- _rx_dma_data[_rx_dma_last_used]
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nf">memcpy</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxData</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                   <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span> <span class="o">+</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span><span class="cm">/* base */</span><span class="p">,</span> 
+</span></span><span class="line"><span class="cl">                   <span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">)</span> <span class="o">-</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span>
+</span></span><span class="line"><span class="cl">            <span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="c1">// 再拷贝本次 DMA 传输的用量
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="nf">memcpy</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxData</span> <span class="o">+</span> <span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">)</span> <span class="o">-</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span><span class="p">),</span> 
+</span></span><span class="line"><span class="cl">                   <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_data</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                   <span class="n">dmaTransedLen</span>
+</span></span><span class="line"><span class="cl">            <span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">_rx_dma_last_used</span> <span class="o">=</span> <span class="n">dmaTransedLen</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="main-2">main<a hidden class="anchor" aria-hidden="true" href="#main-2">#</a></h5>
+<p>    以回环应用为例，当接收到一帧数据后把数据发回。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LPUART1_SendArrayDMA</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxData</span><span class="p">,</span> <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxLen</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">rxFlag</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="发送">发送<a hidden class="anchor" aria-hidden="true" href="#发送">#</a></h4>
+<p>    下面以定长接收的结构体为例，给出使用 DMA 进行串口数据发送的代码。DMA 的初始化过程已经在接收的配置中顺便配置过了。</p>
+<h5 id="发送数据-1">发送数据<a hidden class="anchor" aria-hidden="true" href="#发送数据-1">#</a></h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_SendArrayDMA</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">parr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_SendArrayDMA</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="n">parr</span><span class="p">,</span> <span class="kt">uint8_t</span> <span class="n">len</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">txBusy</span>  <span class="o">==</span> <span class="mi">1</span><span class="p">);</span> <span class="c1">// wait last data transfer complete
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">txBusy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="nf">memcpy</span><span class="p">(</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">txData</span><span class="p">,</span> <span class="n">parr</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_SetMemoryAddress</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">,</span> <span class="p">(</span><span class="kt">uint32_t</span><span class="p">)</span><span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">txData</span><span class="p">);</span> <span class="c1">// tx dma mem address
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="nf">LL_DMA_SetDataLength</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>                                    <span class="c1">// tx dma length
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl">    <span class="nf">LL_DMA_EnableChannel</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="dma-中断函数tc">DMA 中断函数（TC）<a hidden class="anchor" aria-hidden="true" href="#dma-中断函数tc">#</a></h5>
+<p>    DMA 的传输完成中断 TC 只能代表把所有待发送的数据都传输到了串口的 TDR 寄存器中，但是此时最后一字节数据并没有被串口发送完成；应开启串口发送完成中断判断数据全部发送完成。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">  * @brief This function handles DMA2 channel6 global interrupt.
+</span></span></span><span class="line"><span class="cl"><span class="cm">  */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">DMA2_Channel6_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN DMA2_Channel6_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// lpuart1 tx
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="nf">LL_DMA_IsEnabledIT_TC</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="nf">LL_DMA_IsActiveFlag_TC6</span><span class="p">(</span><span class="n">DMA2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_DMA_ClearFlag_TC6</span><span class="p">(</span><span class="n">DMA2</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_DMA_DisableChannel</span><span class="p">(</span><span class="n">DMA2</span><span class="p">,</span> <span class="n">LL_DMA_CHANNEL_6</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_LPUART_EnableIT_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END DMA2_Channel6_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN DMA2_Channel6_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END DMA2_Channel6_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="串口中断函数tc">串口中断函数（TC）<a hidden class="anchor" aria-hidden="true" href="#串口中断函数tc">#</a></h5>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-c" data-lang="c"><span class="line"><span class="cl"><span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">  * @brief This function handles LPUART1 global interrupt.
+</span></span></span><span class="line"><span class="cl"><span class="cm">  */</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">LPUART1_IRQHandler</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">((</span><span class="nf">LL_LPUART_IsEnabledIT_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nf">LL_LPUART_IsActiveFlag_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="nf">LL_LPUART_ClearFlag_TC</span><span class="p">(</span><span class="n">LPUART1</span><span class="p">);</span> <span class="cm">/* Clear TC flag */</span>
+</span></span><span class="line"><span class="cl">        <span class="n">Lpuart1DMAVarModel</span><span class="p">.</span><span class="n">txBusy</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 0 */</span>
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE BEGIN LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="cm">/* USER CODE END LPUART1_IRQn 1 */</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p>RM0090_STM32F405415,407417,427437,429439_ReferenceManual | 30.3 USART functional description | p.968&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p>RM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 40.5.1 USART character description | p.1344-1345&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p>RM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 40.5.3 USART receiver | p.1350&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p>RM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 41.4.4 LPUART baud rate generation | p.1419&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p>STM32Cube_FW_L4_V1.17.0\Projects\NUCLEO-L496ZG\Examples_LL\USART\USART_Communication_Rx_IT&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:6">
+<p>STM32Cube_FW_L4_V1.17.0\Projects\NUCLEO-L496ZG\Examples_LL\USART\USART_Communication_Tx_IT&#160;<a href="#fnref:6" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:7">
+<p>RM0351 Reference manual STM32L47xxx, STM32L48xxx, STM32L49xxx and STM32L4Axxx advanced Arm®-based 32-bit MCUs | 41.4.9 Continuous communication in DMA mode using LPUART | p.1425&#160;<a href="#fnref:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref1:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a>&#160;<a href="#fnref2:7" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:8">
+<p><a href="https://blog.csdn.net/ricefat609/article/details/119620557">CUBEMX生成代码需要注意顺序，折腾STM32+ADC+DMA | CSDN | ricefat609</a>&#160;<a href="#fnref:8" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:9">
+<p>STM32Cube_FW_L4_V1.17.0\Projects\NUCLEO-L496ZG\Examples_LL\USART\USART_Communication_TxRx_DMA&#160;<a href="#fnref:9" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:10">
+<p><a href="https://acuity.blog.csdn.net/article/details/108367512">一个严谨的STM32串口DMA发送&amp;接收（1.5Mbps波特率）机制 | CSDN | Acuity.</a>&#160;<a href="#fnref:10" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:11">
+<p><a href="https://github.com/MaJerle/stm32-usart-uart-dma-rx-tx/tree/main/projects/usart_rx_idle_line_irq_L4">usart_rx_idle_line_irq_L4 | Github | MaJerle</a>&#160;<a href="#fnref:11" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://fivekernels.github.io/tags/stm32/">STM32</a></li>
+      <li><a href="https://fivekernels.github.io/tags/cubemx/">CubeMX</a></li>
+      <li><a href="https://fivekernels.github.io/tags/uart/">UART</a></li>
+      <li><a href="https://fivekernels.github.io/tags/l4/">L4</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://fivekernels.github.io/posts/openwrt-configuration/">
+    <span class="title"> »</span>
+    <br>
+    <span>OpenWrt Configuration</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>© 2021-2023 <a href="https://fivekernels.github.io/">胡写乱画</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -107,6 +107,7 @@ void Delay_us(uint32_t n) //延时多少微秒，n 就输入多少
 
 ## 其他问题（未验证）
 
+&emsp;&emsp;时钟源设置[^systick_4]  
 &emsp;&emsp;[生成代码中默认是以 HCLK 时钟 为 SysTick 时钟源](https://blog.csdn.net/Brendon_Tan/article/details/108102254)
 
 ## References
@@ -114,4 +115,5 @@ void Delay_us(uint32_t n) //延时多少微秒，n 就输入多少
 [^ArmCortexM3_1]:[《ARM Cortex-M3与Cortex-M4权威指南（第3版）》 | ISBN：9787302402923](http://www.tup.tsinghua.edu.cn/booksCenter/book_05443401.html)  
 [^systick_1]:[STM32 的系统滴答定时器( Systick) 彻底研究解读 | cnblogs | 王健](https://www.cnblogs.com/nevel/p/6357349.html)  
 [^systick_2]:[LL_Init1msTick disables SysTick interrupt | ST community | Bogdan Golab](https://st.force.com/community/s/question/0D50X00009XkfuLSAR/llinit1mstick-disables-systick-interrupt)  
-[^systick_3]:[STM32CubeMX 实战教程：SysTick 实验（LL 库） | CSDN | Brendon_Tan](https://blog.csdn.net/Brendon_Tan/article/details/108102254)
+[^systick_3]:[STM32CubeMX 实战教程：SysTick 实验（LL 库） | CSDN | Brendon_Tan](https://blog.csdn.net/Brendon_Tan/article/details/108102254)  
+[^systick_4]:[【经验分享】填坑-关于SysTick定时器 | ST中文论坛 | STMCU小助手](https://shequ.stmicroelectronics.cn/thread-631424-1-1.html)

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>L4 on 胡写乱画</title>
-    <link>https://fivekernels.github.io/tags/l4/</link>
-    <description>Recent content in L4 on 胡写乱画</description>
+    <title>UART on 胡写乱画</title>
+    <link>https://fivekernels.github.io/tags/uart/</link>
+    <description>Recent content in UART on 胡写乱画</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-CN</language>
     <copyright>© 2021-2023 [胡写乱画](https://fivekernels.github.io/)</copyright>
-    <lastBuildDate>Thu, 02 Feb 2023 17:08:13 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/l4/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 02 Feb 2023 17:08:13 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/uart/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>STM32 UART LL Library</title>
       <link>https://fivekernels.github.io/posts/stm32-uart-ll/</link>
@@ -15,15 +15,6 @@
       
       <guid>https://fivekernels.github.io/posts/stm32-uart-ll/</guid>
       <description>UART 框图 查看芯片对应的 Reference Manual 的 USART/UART 章节可以找到其框图。以 F4 系列的参考手册为例，其框图如下1： 可以看出，对于发送的数据，依次经过 TDR 寄存器 -&amp;gt; 发送移位寄</description>
-    </item>
-    
-    <item>
-      <title>STM32 SysTick LL Library</title>
-      <link>https://fivekernels.github.io/posts/stm32-systick-ll/</link>
-      <pubDate>Sun, 24 Jul 2022 13:03:43 +0800</pubDate>
-      
-      <guid>https://fivekernels.github.io/posts/stm32-systick-ll/</guid>
-      <description>SysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在</description>
     </item>
     
   </channel>

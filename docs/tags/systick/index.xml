@@ -9,12 +9,12 @@
     <copyright>© 2021-2023 [胡写乱画](https://fivekernels.github.io/)</copyright>
     <lastBuildDate>Sun, 24 Jul 2022 13:03:43 +0800</lastBuildDate><atom:link href="https://fivekernels.github.io/tags/systick/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>STM32 SysTick LL</title>
+      <title>STM32 SysTick LL Library</title>
       <link>https://fivekernels.github.io/posts/stm32-systick-ll/</link>
       <pubDate>Sun, 24 Jul 2022 13:03:43 +0800</pubDate>
       
       <guid>https://fivekernels.github.io/posts/stm32-systick-ll/</guid>
-      <description>STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]</description>
+      <description>SysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在</description>
     </item>
     
   </channel>

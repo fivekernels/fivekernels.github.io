@@ -5,9 +5,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>STM32 SysTick LL | 胡写乱画</title>
+<title>STM32 SysTick LL Library | 胡写乱画</title>
 <meta name="keywords" content="STM32, CubeMX, SysTick, L4">
-<meta name="description" content="STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]">
+<meta name="description" content="SysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在">
 <meta name="author" content="hey">
 <link rel="canonical" href="https://fivekernels.github.io/posts/stm32-systick-ll/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.193f5e1cb1ec7f5edeaea1140916a7023d6d6c087917077bf463fe5ee3727903.css" integrity="sha256-GT9eHLHsf17erqEUCRanAj1tbAh5Fwd79GP&#43;XuNyeQM=" rel="preload stylesheet" as="style">
@@ -54,16 +54,16 @@
         }
 
     </style>
-</noscript><meta property="og:title" content="STM32 SysTick LL" />
-<meta property="og:description" content="STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]" />
+</noscript><meta property="og:title" content="STM32 SysTick LL Library" />
+<meta property="og:description" content="SysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://fivekernels.github.io/posts/stm32-systick-ll/" /><meta property="article:section" content="posts" />
 <meta property="article:published_time" content="2022-07-24T13:03:43+08:00" />
-<meta property="article:modified_time" content="2022-07-24T13:03:43+08:00" />
+<meta property="article:modified_time" content="2023-02-02T17:32:00+08:00" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="STM32 SysTick LL"/>
-<meta name="twitter:description" content="STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]"/>
+<meta name="twitter:title" content="STM32 SysTick LL Library"/>
+<meta name="twitter:description" content="SysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在"/>
 
 
 <script type="application/ld+json">
@@ -80,7 +80,7 @@
     {
       "@type": "ListItem",
       "position":  2 ,
-      "name": "STM32 SysTick LL",
+      "name": "STM32 SysTick LL Library",
       "item": "https://fivekernels.github.io/posts/stm32-systick-ll/"
     }
   ]
@@ -90,17 +90,17 @@
 {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
-  "headline": "STM32 SysTick LL",
-  "name": "STM32 SysTick LL",
-  "description": "STM32 SysTick LL库 参考： 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923 cnblogs[王健]",
+  "headline": "STM32 SysTick LL Library",
+  "name": "STM32 SysTick LL Library",
+  "description": "SysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在",
   "keywords": [
     "STM32", "CubeMX", "SysTick", "L4"
   ],
-  "articleBody": "STM32 SysTick LL库 参考：\n《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923\ncnblogs[王健]-STM32 的系统滴答定时器( Systick) 彻底研究解读\nST community[Bogdan Golab]-LL_Init1msTick disables SysTick interrupt\nCSDN[Brendon_Tan]-STM32CubeMX 实战教程：SysTick 实验（LL 库）\nSysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在使用操作系统时通常用作周期性中断来定期触发OS内核，用于处理任务管理和上下文切换等；当不使用操作系统时，SysTick可以当作简单定时器外设来使用（《ARM Cortex-M3与Cortex-M4权威指南（第3版）》，p215）。下图为SysTick定时器的简单框图\nSysTick定时器中存在4个寄存器，CMSIS-Core头文件中定义了一个名为SysTick的结构体，例如在STM32L4的库函数中core_cm4.h定义了如下结构体\nCubeMX配置 点击 SYS，将 Timebase Source 选择为 SysTick（项目默认为 SysTick） 点击NVIC，配置Time base的中断优先级 在Project Manager–\u003eAdvanced Setting中选择LL库 点击Generate Code生成代码\n代码编写与测试 在main()函数中调用的函数SystemClock_Config()中对SysTick进行初始化：\n1 2 3 4 5 6 7 8 9 ... LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1); LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1); LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1); LL_Init1msTick(80000000); LL_SetSystemCoreClock(80000000); ... 其默认提供1ms的时基：\n1 2 3 4 5 void LL_Init1msTick(uint32_t HCLKFrequency) { /* Use frequency provided in argument */ LL_InitTick(HCLKFrequency, 1000U); } 但LL库的初始化过程默认并不会开启SysTick-\u003eVAL向下计数器溢出中断（SysTick_Handler）：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 /** * @brief This function configures the Cortex-M SysTick source of the time base. * @param HCLKFrequency HCLK frequency in Hz (can be calculated thanks to RCC helper macro) * @note When a RTOS is used, it is recommended to avoid changing the SysTick * configuration by calling this function, for a delay use rather osDelay RTOS service. * @param Ticks Number of ticks * @retval None */ __STATIC_INLINE void LL_InitTick(uint32_t HCLKFrequency, uint32_t Ticks) { /* Configure the SysTick to have interrupt in 1ms time base */ SysTick-\u003eLOAD = (uint32_t)((HCLKFrequency / Ticks) - 1UL); /* set reload register */ SysTick-\u003eVAL = 0UL; /* Load the SysTick Counter Value */ SysTick-\u003eCTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; /* Enable the Systick Timer */ } 所以若要在中断函数SysTick_Handler()中进行程序处理，需要手动在main()函数内初始化代码后添加相关代码（Ref：You need LL_SYSTICK_EnableIT();because for LL the IT is not enabled (HAL enables it automatically)）：\n1 2 3 /* USER CODE BEGIN SysInit */ LL_SYSTICK_EnableIT(); /* USER CODE END SysInit */ 之后便可在计数器减至0时进入中断函数：\n微秒级精确延时 未验证，仅思路展示，需要重写考虑恢复原有延时\n1 2 3 4 5 6 7 void Delay_us(uint32_t n) //延时多少微秒，n 就输入多少 { SysTick-\u003eLOAD = 72 * n; //装载计数值，因为时钟 72M，72 次在 1μs SysTick-\u003eCTRL = 0x00000005; //时钟来源设为为 HCLK(72M)，打开定时器 while((SysTick-\u003eCTRL \u0026 0x00010000) != 0); //等待计数到 0 SysTick-\u003eCTRL = 0x00000004; //关闭定时器 } 其他问题（未验证） 生成代码中默认是以 HCLK 时钟 为 SysTick 时钟源\n",
-  "wordCount" : "1100",
+  "articleBody": "SysTick 介绍 Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在使用操作系统时通常用作周期性中断来定期触发OS内核，用于处理任务管理和上下文切换等；当不使用操作系统时，SysTick可以当作简单定时器外设来使用（《ARM Cortex-M3与Cortex-M4权威指南（第3版）》，p215）。下图为SysTick定时器的简单框图：1 2\nSysTick定时器中存在4个寄存器，CMSIS-Core头文件中定义了一个名为SysTick的结构体，例如在STM32L4的库函数中core_cm4.h定义了如下结构体\nCubeMX 配置 点击 SYS，将 Timebase Source 选择为 SysTick（项目默认为 SysTick） 点击NVIC，配置Time base的中断优先级 在Project Manager–\u003eAdvanced Setting中选择LL库 点击Generate Code生成代码\n代码编写与测试 在main()函数中调用的函数SystemClock_Config()中对SysTick进行初始化：\n1 2 3 4 5 6 7 8 9 ... LL_RCC_SetAHBPrescaler(LL_RCC_SYSCLK_DIV_1); LL_RCC_SetAPB1Prescaler(LL_RCC_APB1_DIV_1); LL_RCC_SetAPB2Prescaler(LL_RCC_APB2_DIV_1); LL_Init1msTick(80000000); LL_SetSystemCoreClock(80000000); ... 其默认提供1ms的时基：\n1 2 3 4 5 void LL_Init1msTick(uint32_t HCLKFrequency) { /* Use frequency provided in argument */ LL_InitTick(HCLKFrequency, 1000U); } 但LL库的初始化过程默认并不会开启SysTick-\u003eVAL向下计数器溢出中断3（SysTick_Handler）：\n1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 /** * @brief This function configures the Cortex-M SysTick source of the time base. * @param HCLKFrequency HCLK frequency in Hz (can be calculated thanks to RCC helper macro) * @note When a RTOS is used, it is recommended to avoid changing the SysTick * configuration by calling this function, for a delay use rather osDelay RTOS service. * @param Ticks Number of ticks * @retval None */ __STATIC_INLINE void LL_InitTick(uint32_t HCLKFrequency, uint32_t Ticks) { /* Configure the SysTick to have interrupt in 1ms time base */ SysTick-\u003eLOAD = (uint32_t)((HCLKFrequency / Ticks) - 1UL); /* set reload register */ SysTick-\u003eVAL = 0UL; /* Load the SysTick Counter Value */ SysTick-\u003eCTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk; /* Enable the Systick Timer */ } 所以若要在中断函数SysTick_Handler()中进行程序处理，需要手动在main()函数内初始化代码后添加相关代码：4\n1 2 3 /* USER CODE BEGIN SysInit */ LL_SYSTICK_EnableIT(); /* USER CODE END SysInit */ 之后便可在计数器减至0时进入中断函数：\n微秒级精确延时 未验证，仅思路展示，需要重写考虑恢复原有延时\n1 2 3 4 5 6 7 void Delay_us(uint32_t n) //延时多少微秒，n 就输入多少 { SysTick-\u003eLOAD = 72 * n; //装载计数值，因为时钟 72M，72 次在 1μs SysTick-\u003eCTRL = 0x00000005; //时钟来源设为为 HCLK(72M)，打开定时器 while((SysTick-\u003eCTRL \u0026 0x00010000) != 0); //等待计数到 0 SysTick-\u003eCTRL = 0x00000004; //关闭定时器 } 其他问题（未验证） 时钟源设置5\n生成代码中默认是以 HCLK 时钟 为 SysTick 时钟源\nReferences 《ARM Cortex-M3与Cortex-M4权威指南（第3版）》 | ISBN：9787302402923 ↩︎\nSTM32 的系统滴答定时器( Systick) 彻底研究解读 | cnblogs | 王健 ↩︎\nSTM32CubeMX 实战教程：SysTick 实验（LL 库） | CSDN | Brendon_Tan ↩︎\nLL_Init1msTick disables SysTick interrupt | ST community | Bogdan Golab ↩︎\n【经验分享】填坑-关于SysTick定时器 | ST中文论坛 | STMCU小助手 ↩︎\n",
+  "wordCount" : "1165",
   "inLanguage": "zh-cn",
   "datePublished": "2022-07-24T13:03:43+08:00",
-  "dateModified": "2022-07-24T13:03:43+08:00",
+  "dateModified": "2023-02-02T17:32:00+08:00",
   "author":{
     "@type": "Person",
     "name": "hey"
@@ -205,13 +205,13 @@
   <header class="post-header">
     <div class="breadcrumbs"><a href="https://fivekernels.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://fivekernels.github.io/posts/">📚文章</a></div>
     <h1 class="post-title">
-      STM32 SysTick LL<sup><span class="entry-isdraft">&nbsp;&nbsp;[draft]</span></sup>
+      STM32 SysTick LL Library
     </h1>
     <div class="post-meta">
 
 
 
-<span title='2022-07-24 13:03:43 +0800 CST'>2022/07/24</span>&nbsp;·&nbsp;Updated:&nbsp;2022/07/24&nbsp;·&nbsp;3 min&nbsp;·&nbsp;1100 words&nbsp;·&nbsp;hey
+<span title='2022-07-24 13:03:43 +0800 CST'>2022/07/24</span>&nbsp;·&nbsp;Updated:&nbsp;2023/02/02&nbsp;·&nbsp;3 min&nbsp;·&nbsp;1165 words&nbsp;·&nbsp;hey
 
 </div>
   </header> 
@@ -224,21 +224,18 @@
 
             <div class="inner"><ul>
                     <li>
-                        <a href="#stm32-systick-ll%e5%ba%93" aria-label="STM32 SysTick LL库">STM32 SysTick LL库</a><ul>
-                            
-                    <li>
                         <a href="#systick-%e4%bb%8b%e7%bb%8d" aria-label="SysTick 介绍">SysTick 介绍</a></li>
                     <li>
-                        <a href="#cubemx%e9%85%8d%e7%bd%ae" aria-label="CubeMX配置">CubeMX配置</a></li>
+                        <a href="#cubemx-%e9%85%8d%e7%bd%ae" aria-label="CubeMX 配置">CubeMX 配置</a></li>
                     <li>
                         <a href="#%e4%bb%a3%e7%a0%81%e7%bc%96%e5%86%99%e4%b8%8e%e6%b5%8b%e8%af%95" aria-label="代码编写与测试">代码编写与测试</a></li>
                     <li>
                         <a href="#%e5%be%ae%e7%a7%92%e7%ba%a7%e7%b2%be%e7%a1%ae%e5%bb%b6%e6%97%b6" aria-label="微秒级精确延时">微秒级精确延时</a></li>
                     <li>
-                        <a href="#%e5%85%b6%e4%bb%96%e9%97%ae%e9%a2%98%e6%9c%aa%e9%aa%8c%e8%af%81" aria-label="其他问题（未验证）">其他问题（未验证）</a>
+                        <a href="#%e5%85%b6%e4%bb%96%e9%97%ae%e9%a2%98%e6%9c%aa%e9%aa%8c%e8%af%81" aria-label="其他问题（未验证）">其他问题（未验证）</a></li>
+                    <li>
+                        <a href="#references" aria-label="References">References</a>
                     </li>
-                </ul>
-                </li>
                 </ul>
             </div>
         </details>
@@ -304,20 +301,14 @@
     }
 </script>
 
-  <div class="post-content"><h2 id="stm32-systick-ll库">STM32 SysTick LL库<a hidden class="anchor" aria-hidden="true" href="#stm32-systick-ll库">#</a></h2>
-<p>参考：<br>
-  <a href="http://www.tup.tsinghua.edu.cn/booksCenter/book_05443401.html">《ARM Cortex-M3与Cortex-M4权威指南（第3版）》ISBN：9787302402923</a><br>
-  <a href="https://www.cnblogs.com/nevel/p/6357349.html">cnblogs[王健]-STM32 的系统滴答定时器( Systick) 彻底研究解读</a><br>
-  <a href="https://st.force.com/community/s/question/0D50X00009XkfuLSAR/llinit1mstick-disables-systick-interrupt">ST community[Bogdan Golab]-LL_Init1msTick disables SysTick interrupt</a><br>
-  <a href="https://blog.csdn.net/Brendon_Tan/article/details/108102254">CSDN[Brendon_Tan]-STM32CubeMX 实战教程：SysTick 实验（LL 库）</a></p>
-<h3 id="systick-介绍">SysTick 介绍<a hidden class="anchor" aria-hidden="true" href="#systick-介绍">#</a></h3>
-<p>  Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在使用操作系统时通常用作周期性中断来定期触发OS内核，用于处理任务管理和上下文切换等；当不使用操作系统时，SysTick可以当作简单定时器外设来使用（《ARM Cortex-M3与Cortex-M4权威指南（第3版）》，p215）。下图为SysTick定时器的简单框图<br>
+  <div class="post-content"><h2 id="systick-介绍">SysTick 介绍<a hidden class="anchor" aria-hidden="true" href="#systick-介绍">#</a></h2>
+<p>  Cortex-M处理器内集成了一个小型的名为SysTick的定时器，它属于NVIC的一部分；SysTick为简单的24位向下计数器，在使用操作系统时通常用作周期性中断来定期触发OS内核，用于处理任务管理和上下文切换等；当不使用操作系统时，SysTick可以当作简单定时器外设来使用（《ARM Cortex-M3与Cortex-M4权威指南（第3版）》，p215）。下图为SysTick定时器的简单框图：<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup><br>
 <img loading="lazy" src="./images/A-simplified-block-diagram-of-SysTick-timer.png" alt="SysTick定时器简单框图"  />
 </p>
 <p>  SysTick定时器中存在4个寄存器，CMSIS-Core头文件中定义了一个名为SysTick的结构体，例如在STM32L4的库函数中core_cm4.h定义了如下结构体<br>
 <img loading="lazy" src="./images/SysTick_Type.png" alt="SysTick结构体"  />
 </p>
-<h3 id="cubemx配置">CubeMX配置<a hidden class="anchor" aria-hidden="true" href="#cubemx配置">#</a></h3>
+<h2 id="cubemx-配置">CubeMX 配置<a hidden class="anchor" aria-hidden="true" href="#cubemx-配置">#</a></h2>
 <ol>
 <li>
 <p>点击 SYS，将 Timebase Source 选择为 SysTick（项目默认为 SysTick）
@@ -338,7 +329,7 @@
 <p>点击Generate Code生成代码</p>
 </li>
 </ol>
-<h3 id="代码编写与测试">代码编写与测试<a hidden class="anchor" aria-hidden="true" href="#代码编写与测试">#</a></h3>
+<h2 id="代码编写与测试">代码编写与测试<a hidden class="anchor" aria-hidden="true" href="#代码编写与测试">#</a></h2>
 <p>  在main()函数中调用的函数SystemClock_Config()中对SysTick进行初始化：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -381,7 +372,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>  但LL库的初始化过程默认并不会开启SysTick-&gt;VAL向下计数器溢出中断（SysTick_Handler）：</p>
+</div><p>  但LL库的初始化过程默认并不会开启SysTick-&gt;VAL向下计数器溢出中断<sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup>（SysTick_Handler）：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -420,7 +411,7 @@
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>所以若要在中断函数SysTick_Handler()中进行程序处理，需要手动在main()函数内初始化代码后添加相关代码（<a href="https://st.force.com/community/s/question/0D50X00009XkfuLSAR/llinit1mstick-disables-systick-interrupt">Ref：You need LL_SYSTICK_EnableIT();because for LL the IT is not enabled (HAL enables it automatically)</a>）：</p>
+</div><p>所以若要在中断函数SysTick_Handler()中进行程序处理，需要手动在main()函数内初始化代码后添加相关代码：<sup id="fnref:4"><a href="#fn:4" class="footnote-ref" role="doc-noteref">4</a></sup></p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
@@ -436,7 +427,7 @@
 </div><p>之后便可在计数器减至0时进入中断函数：<br>
 <img loading="lazy" src="./images/SysTick_Handler.png" alt="IAR进入SysTick_Handler()"  />
 </p>
-<h3 id="微秒级精确延时">微秒级精确延时<a hidden class="anchor" aria-hidden="true" href="#微秒级精确延时">#</a></h3>
+<h2 id="微秒级精确延时">微秒级精确延时<a hidden class="anchor" aria-hidden="true" href="#微秒级精确延时">#</a></h2>
 <p>  未验证，仅思路展示，需要重写考虑恢复原有延时</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -458,8 +449,30 @@
 </span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><h3 id="其他问题未验证">其他问题（未验证）<a hidden class="anchor" aria-hidden="true" href="#其他问题未验证">#</a></h3>
-<p>  <a href="https://blog.csdn.net/Brendon_Tan/article/details/108102254">生成代码中默认是以 HCLK 时钟 为 SysTick 时钟源</a></p>
+</div><h2 id="其他问题未验证">其他问题（未验证）<a hidden class="anchor" aria-hidden="true" href="#其他问题未验证">#</a></h2>
+<p>  时钟源设置<sup id="fnref:5"><a href="#fn:5" class="footnote-ref" role="doc-noteref">5</a></sup><br>
+  <a href="https://blog.csdn.net/Brendon_Tan/article/details/108102254">生成代码中默认是以 HCLK 时钟 为 SysTick 时钟源</a></p>
+<h2 id="references">References<a hidden class="anchor" aria-hidden="true" href="#references">#</a></h2>
+<div class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1">
+<p><a href="http://www.tup.tsinghua.edu.cn/booksCenter/book_05443401.html">《ARM Cortex-M3与Cortex-M4权威指南（第3版）》 | ISBN：9787302402923</a>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2">
+<p><a href="https://www.cnblogs.com/nevel/p/6357349.html">STM32 的系统滴答定时器( Systick) 彻底研究解读 | cnblogs | 王健</a>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3">
+<p><a href="https://blog.csdn.net/Brendon_Tan/article/details/108102254">STM32CubeMX 实战教程：SysTick 实验（LL 库） | CSDN | Brendon_Tan</a>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:4">
+<p><a href="https://st.force.com/community/s/question/0D50X00009XkfuLSAR/llinit1mstick-disables-systick-interrupt">LL_Init1msTick disables SysTick interrupt | ST community | Bogdan Golab</a>&#160;<a href="#fnref:4" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:5">
+<p><a href="https://shequ.stmicroelectronics.cn/thread-631424-1-1.html">【经验分享】填坑-关于SysTick定时器 | ST中文论坛 | STMCU小助手</a>&#160;<a href="#fnref:5" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</div>
 
 
   </div>
